@@ -17,7 +17,7 @@ enum
 	MW_MENU_ABOUT ='mw00',
 	MW_BUTTON_CHOOSEMESSAGEFILE,
 	MW_REF_MESSAGEFILE,
-	MW_BUTTON_ANALYZEMESSAGEFILE,
+	MW_BUTTON_INSPECTMESSAGEFILE,
 
 };
 
@@ -28,11 +28,14 @@ public:
 	bool QuitRequested();
 
 private:
+	
+	BString get_type(type_code typecode);
+	
 	BMenuBar	*fTopMenuBar;
 	
 	BTextControl	*fMessageFileTextControl;
 	BButton			*fChooseMessageFileButton;
-	BButton			*fAnalyzeMessageFileButton;
+	BButton			*fInspectMessageFileButton;
 
 };
 
