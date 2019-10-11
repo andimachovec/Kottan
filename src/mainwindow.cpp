@@ -6,6 +6,7 @@
 #include <Application.h>
 #include <FilePanel.h>
 
+#include <iostream>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MainWindow"
@@ -51,6 +52,10 @@ void
 MainWindow::MessageReceived(BMessage *msg)
 {
 
+	if(msg->WasDropped()) {
+		msg->what = MW_REF_MESSAGEFILE;
+	}
+
 	switch(msg->what)
 	{
 
@@ -87,8 +92,7 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
-
-
+		
 		default:
 		{
 			BWindow::MessageReceived(msg);
