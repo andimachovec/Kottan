@@ -19,7 +19,7 @@ RSRC = \
 # @<-src@ 
 #%}
 
-LIBS = $(STDCPPLIBS) be root localestub
+LIBS = $(STDCPPLIBS) be root localestub tracker
 LIBPATHS = 
 SYSTEM_INCLUDE_PATHS = /boot/system/develop/headers/private/interface
 LOCAL_INCLUDE_PATHS =

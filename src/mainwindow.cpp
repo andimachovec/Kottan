@@ -4,6 +4,7 @@
 #include <LayoutBuilder.h>
 #include <Catalog.h>
 #include <Application.h>
+#include <FilePanel.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -17,7 +18,11 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 
 	//initialize GUI objects
 	fTopMenuBar = new BMenuBar("topmenubar");
+	fMessageFileTextControl = new BTextControl(B_TRANSLATE("Message File"), "", NULL);
+	fChooseMessageFileButton = new BButton(B_TRANSLATE("Choose Message File"),
+											new BMessage(MW_BUTTON_CHOOSEMESSAGEFILE));
 
+	
 	//define menu layout
 	BLayoutBuilder::Menu<>(fTopMenuBar)
 		.AddMenu(B_TRANSLATE("File"))
@@ -33,7 +38,10 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 		.SetInsets(0)
 		.Add(fTopMenuBar)
 		.AddGroup(B_HORIZONTAL)
+			.Add(fMessageFileTextControl)
+			.Add(fChooseMessageFileButton)
 		.End()
+		.AddGlue()
 	.Layout();
 
 }
@@ -51,6 +59,35 @@ MainWindow::MessageReceived(BMessage *msg)
 			be_app->PostMessage(B_ABOUT_REQUESTED);
 			break;
 		}
+
+		
+		case MW_BUTTON_CHOOSEMESSAGEFILE:
+		{
+		
+			BFilePanel *messagefile_filepanel = new BFilePanel(B_OPEN_PANEL, 
+																new BMessenger(this), 
+																NULL,
+																B_FILE_NODE,
+																false,
+																new BMessage(MW_REF_MESSAGEFILE));
+			messagefile_filepanel->Show();
+			break;
+		}
+
+		
+		case MW_REF_MESSAGEFILE:
+		{
+			
+			entry_ref ref;
+			msg->FindRef("refs", &ref);
+			BEntry target_dir(&ref, true);
+			BPath target_path(&target_dir);
+			fMessageFileTextControl->SetText(target_path.Path());
+			 
+			break;
+		}
+
+
 
 		default:
 		{
