@@ -7,6 +7,7 @@
 #include <FilePanel.h>
 
 #include <iostream>
+#include <sstream>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MainWindow"
@@ -26,7 +27,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	fInspectMessageFileButton = new BButton(B_TRANSLATE("Inspect Message File"),
 											new BMessage(MW_BUTTON_INSPECTMESSAGEFILE));
 											
-
+	fDataOutputTextView = new BTextView("dataoutput");
 	
 	//define menu layout
 	BLayoutBuilder::Menu<>(fTopMenuBar)
@@ -47,6 +48,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 			.Add(fChooseMessageFileButton)
 		.End()
 		.Add(fInspectMessageFileButton)
+		.Add(fDataOutputTextView)
 		.AddGlue()
 	.Layout();
 
@@ -88,6 +90,11 @@ MainWindow::MessageReceived(BMessage *msg)
 		case MW_BUTTON_INSPECTMESSAGEFILE:
 		{
 
+
+			fDataOutputTextView->SelectAll();
+			fDataOutputTextView->Delete();
+
+
 			BString messagefile_name(fMessageFileTextControl->Text());
 			messagefile_name.Trim();
 			
@@ -113,8 +120,9 @@ MainWindow::MessageReceived(BMessage *msg)
 						
 						for (int32 i=0; message->GetInfo(B_ANY_TYPE, i, &name, &type, &count) == B_OK; ++i)
 						{	
-							std::cout << i << ": " << name << " " << get_type(type).String() << " " << count << std::endl;
-			
+							std::stringstream line;
+							line << i << ": " << name << " " << get_type(type).String() << " " << count << std::endl;
+							fDataOutputTextView->Insert(line.str().c_str());	
 						}
 						
 					}
