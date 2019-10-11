@@ -22,6 +22,10 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	fMessageFileTextControl = new BTextControl(B_TRANSLATE("Message File"), "", NULL);
 	fChooseMessageFileButton = new BButton(B_TRANSLATE("Choose Message File"),
 											new BMessage(MW_BUTTON_CHOOSEMESSAGEFILE));
+											
+	fAnalyzeMessageFileButton = new BButton(B_TRANSLATE("Analyze Message File"),
+											new BMessage(MW_BUTTON_ANALYZEMESSAGEFILE));
+											
 
 	
 	//define menu layout
@@ -42,6 +46,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 			.Add(fMessageFileTextControl)
 			.Add(fChooseMessageFileButton)
 		.End()
+		.Add(fAnalyzeMessageFileButton)
 		.AddGlue()
 	.Layout();
 
@@ -79,6 +84,75 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
+		
+		case MW_BUTTON_ANALYZEMESSAGEFILE:
+		{
+
+			BString messagefile_name(fMessageFileTextControl->Text());
+			messagefile_name.Trim();
+			
+			if (messagefile_name != "")
+			{
+				
+				BFile *message_file = new BFile();
+				BMessage *message = new BMessage();
+					
+				status_t fileopen_result = message_file->SetTo(messagefile_name.String(), B_READ_ONLY);
+					
+				if (fileopen_result == B_OK)
+				{
+				
+					status_t unflatten_result = message->Unflatten(message_file);
+					
+					if (unflatten_result == B_OK)
+					{
+				
+					
+						message->PrintToStream();
+				
+				
+				
+				
+				
+					}
+					else
+					{
+					
+						BAlert *errorunflatten_alert = new BAlert("Kottan",
+													B_TRANSLATE("Error reading the message from the file!"), 
+													"OK");
+					errorunflatten_alert->Go();
+					
+					
+					}
+				
+				}
+				else 
+				{
+					BAlert *erroropen_alert = new BAlert("Kottan",
+													B_TRANSLATE("Error opening the message file!"), 
+													"OK");
+					erroropen_alert->Go();
+				}
+
+
+				delete message_file;
+				delete message;
+				
+			}
+			else
+			{
+				BAlert *nomessagefile_alert = new BAlert("Kottan",
+													B_TRANSLATE("Please specify a file to analyze!"), 
+													"OK");
+			
+				nomessagefile_alert->Go();
+			
+			}
+			
+			break;
+		}
+		
 		
 		case MW_REF_MESSAGEFILE:
 		{

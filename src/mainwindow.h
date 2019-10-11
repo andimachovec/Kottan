@@ -16,7 +16,8 @@ enum
 {
 	MW_MENU_ABOUT ='mw00',
 	MW_BUTTON_CHOOSEMESSAGEFILE,
-	MW_REF_MESSAGEFILE
+	MW_REF_MESSAGEFILE,
+	MW_BUTTON_ANALYZEMESSAGEFILE,
 
 };
 
@@ -31,6 +32,7 @@ private:
 	
 	BTextControl	*fMessageFileTextControl;
 	BButton			*fChooseMessageFileButton;
+	BButton			*fAnalyzeMessageFileButton;
 
 };
 
