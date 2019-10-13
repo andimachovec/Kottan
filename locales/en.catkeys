@@ -1,0 +1,16 @@
+1	English	application/x-vnd.BlueSky-Kottan	3076211258
+Help	MainWindow		Help
+a BMessage inspector	App		a BMessage inspector
+Inspect Message File	MainWindow		Inspect Message File
+About	MainWindow		About
+Error reading the message from the file!	MainWindow		Error reading the message from the file!
+File	MainWindow		File
+Message File	MainWindow		Message File
+Type	MainWindow		Type
+Index	MainWindow		Index
+Please specify a file to analyze!	MainWindow		Please specify a file to analyze!
+Quit	MainWindow		Quit
+Name	MainWindow		Name
+Number of Items	MainWindow		Number of Items
+Error opening the message file!	MainWindow		Error opening the message file!
+Choose Message File	MainWindow		Choose Message File

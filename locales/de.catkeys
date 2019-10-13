@@ -1,0 +1,16 @@
+1	English	application/x-vnd.BlueSky-Kottan	3076211258
+Help	MainWindow		Hilfe
+a BMessage inspector	App		ein Inspektor für BMessages
+Inspect Message File	MainWindow		Message-Datei inspizieren
+About	MainWindow		Über
+Error reading the message from the file!	MainWindow		Beim Laden der Message aus der Datei ist ein Fehler aufgetreten
+File	MainWindow		Datei
+Message File	MainWindow		Message-Datei
+Type	MainWindow		Typ
+Index	MainWindow		Index
+Please specify a file to analyze!	MainWindow		Bitte einen Dateinamen zum Inspizieren angeben!
+Quit	MainWindow		Beenden
+Name	MainWindow		Name
+Number of Items	MainWindow		Anzahl Items
+Error opening the message file!	MainWindow		Beim Öffnen der Datei ist ein Fehler aufgetreten!
+Choose Message File	MainWindow		Message-Datei auswählen
