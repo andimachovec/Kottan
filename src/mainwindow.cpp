@@ -44,12 +44,15 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 		.SetInsets(0)
 		.Add(fTopMenuBar)
 		.AddGroup(B_HORIZONTAL)
+			.SetInsets(5,5,5,5)
 			.Add(fMessageFileTextControl)
 			.Add(fChooseMessageFileButton)
 		.End()
 		.Add(fInspectMessageFileButton)
-		.Add(fDataOutputTextView)
-		.AddGlue()
+		.AddGroup(B_HORIZONTAL)
+			.SetInsets(5,3,3,3)
+			.Add(fDataOutputTextView,20)
+		//.AddGlue()
 	.Layout();
 
 }
