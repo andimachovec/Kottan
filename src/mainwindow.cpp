@@ -104,7 +104,6 @@ MainWindow::MessageReceived(BMessage *msg)
 		case MW_BUTTON_INSPECTMESSAGEFILE:
 		{
 
-
 			fDataOutputView->Clear();
 			
 			
@@ -197,7 +196,8 @@ MainWindow::MessageReceived(BMessage *msg)
 			BEntry target_dir(&ref, true);
 			BPath target_path(&target_dir);
 			fMessageFileTextControl->SetText(target_path.Path());
-			 
+			
+			Activate(true);
 			break;
 		}
 
