@@ -5,6 +5,7 @@
 #include <Catalog.h>
 #include <Application.h>
 #include <FilePanel.h>
+#include <ColumnTypes.h>
 
 #include <iostream>
 #include <sstream>
@@ -27,7 +28,17 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	fInspectMessageFileButton = new BButton(B_TRANSLATE("Inspect Message File"),
 											new BMessage(MW_BUTTON_INSPECTMESSAGEFILE));
 											
-	fDataOutputTextView = new BTextView("dataoutput");
+	fDataOutputView = new BColumnListView("dataoutput",0);
+	BIntegerColumn *index_column = new BIntegerColumn(B_TRANSLATE("Index"),70,10,100);
+	BStringColumn *name_column = new BStringColumn(B_TRANSLATE("Name"),200,50,1000,0);
+	BStringColumn *type_column = new BStringColumn(B_TRANSLATE("Type"),200,50,1000,0);
+	BIntegerColumn *count_column = new BIntegerColumn(B_TRANSLATE("Number of Items"),120,10,150);
+	
+	fDataOutputView->AddColumn(index_column,0);
+	fDataOutputView->AddColumn(name_column,1);
+	fDataOutputView->AddColumn(type_column,2);
+	fDataOutputView->AddColumn(count_column,3);
+	
 	
 	//define menu layout
 	BLayoutBuilder::Menu<>(fTopMenuBar)
@@ -51,7 +62,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 		.Add(fInspectMessageFileButton)
 		.AddGroup(B_HORIZONTAL)
 			.SetInsets(5,3,3,3)
-			.Add(fDataOutputTextView,20)
+			.Add(fDataOutputView,20)
 		//.AddGlue()
 	.Layout();
 
@@ -94,10 +105,9 @@ MainWindow::MessageReceived(BMessage *msg)
 		{
 
 
-			fDataOutputTextView->SelectAll();
-			fDataOutputTextView->Delete();
-
-
+			fDataOutputView->Clear();
+			
+			
 			BString messagefile_name(fMessageFileTextControl->Text());
 			messagefile_name.Trim();
 			
@@ -122,10 +132,23 @@ MainWindow::MessageReceived(BMessage *msg)
 						int32 count;
 						
 						for (int32 i=0; message->GetInfo(B_ANY_TYPE, i, &name, &type, &count) == B_OK; ++i)
-						{	
-							std::stringstream line;
-							line << i << ": " << name << " " << get_type(type).String() << " " << count << std::endl;
-							fDataOutputTextView->Insert(line.str().c_str());	
+						{
+		
+							BRow *row = new BRow();
+							
+							BIntegerField *index_field = new BIntegerField(i);
+							BStringField *name_field = new BStringField(name);
+							BStringField *type_field = new BStringField(get_type(type).String());
+							BIntegerField *count_field = new BIntegerField(count);
+							
+						
+							row->SetField(index_field,0);
+							row->SetField(name_field,1);
+							row->SetField(type_field,2);
+							row->SetField(count_field,3);
+							
+							fDataOutputView->AddRow(row);
+					
 						}
 						
 					}

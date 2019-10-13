@@ -9,7 +9,7 @@
 #include <Path.h>
 #include <Message.h>
 #include <File.h>
-#include <TextView.h>
+#include <ColumnListView.h>
 
 
 enum
@@ -33,10 +33,10 @@ private:
 	
 	BMenuBar	*fTopMenuBar;
 	
-	BTextControl	*fMessageFileTextControl;
-	BButton			*fChooseMessageFileButton;
-	BButton			*fInspectMessageFileButton;
-	BTextView		*fDataOutputTextView;
+	BTextControl		*fMessageFileTextControl;
+	BButton				*fChooseMessageFileButton;
+	BButton				*fInspectMessageFileButton;
+	BColumnListView		*fDataOutputView;
 
 };
 

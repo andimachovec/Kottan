@@ -53,7 +53,7 @@ App::AboutRequested()
 
 	aboutwindow->AddCopyright(2019, "Andi Machovec");
 	aboutwindow->AddAuthors(authors);
-	aboutwindow->SetVersion("0.1.0");
+	aboutwindow->SetVersion("0.2.1");
 	aboutwindow->AddDescription(B_TRANSLATE("a BMessage inspector"));
 	aboutwindow->AddExtraInfo("");
 	aboutwindow->Show();
@@ -74,7 +74,7 @@ void
 App::ReadyToRun()
 {
 
-	fMainWindow = new MainWindow(100,100,500,400);
+	fMainWindow = new MainWindow(100,100,750,400);
 	fMainWindow->CenterOnScreen();
 	fMainWindow->Show();
 	
