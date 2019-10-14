@@ -243,10 +243,54 @@ MainWindow::MessageReceived(BMessage *msg)
 						message_data=BString(fCurrentMessage->GetString(name, i, ""));
 						break;
 						
-					case B_INT32_TYPE:
-						message_data<<fCurrentMessage->GetInt32(name, i, 0);
+					case B_INT8_TYPE:
+					{
+						message_data<<fCurrentMessage->GetInt8(name,i,0);
 						break;
-						
+					}
+
+					case B_INT16_TYPE:
+					{
+						message_data<<fCurrentMessage->GetInt16(name,i,0);
+						break;
+					}
+
+					case B_INT32_TYPE:
+					{
+						message_data<<fCurrentMessage->GetInt32(name,i,0);
+						break;
+					}
+
+					case B_INT64_TYPE:
+					{
+						message_data<<fCurrentMessage->GetInt64(name,i,0);
+						break;
+					}
+
+					case B_UINT8_TYPE:
+					{
+						message_data<<fCurrentMessage->GetUInt8(name,i,0);
+						break;
+					}
+
+					case B_UINT16_TYPE:
+					{
+						message_data<<fCurrentMessage->GetUInt16(name,i,0);
+						break;
+					}
+
+					case B_UINT32_TYPE:
+					{
+						message_data<<fCurrentMessage->GetUInt32(name,i,0);
+						break;
+					}
+
+					case B_UINT64_TYPE:
+					{
+						message_data<<fCurrentMessage->GetUInt64(name,i,0);
+						break;
+					}
+	
 					case B_BOOL_TYPE:
 						message_data=bool2bstring(fCurrentMessage->GetBool(name, i, false));
 						break;
