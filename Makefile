@@ -8,9 +8,10 @@ APP_MIME_SIG = application/x-vnd.BlueSky-Kottan
 #%{
 # @src->@ 
 SRCS = \
-	 src/messageinfoview.cpp  \
+	 src/datawindow.cpp  \
 	 src/app.cpp  \
 	 src/mainwindow.cpp  \
+	 src/messageinfoview.cpp  \
 
 RDEFS = \
 	 Kottan.rdef  \
@@ -19,6 +20,8 @@ RDEFS = \
 RSRC = \
 
 # @<-src@ 
+#%}
+
 #%}
 
 #%}
