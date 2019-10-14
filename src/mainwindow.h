@@ -25,12 +25,15 @@ enum
 class MainWindow : public BWindow {
 public:
 	MainWindow(float left, float top, float right, float bottom);
+	~MainWindow();
 	void MessageReceived(BMessage *msg);
 	bool QuitRequested();
 
 private:
 	
 	BString get_type(type_code typecode);
+	BString bool2bstring(bool value);
+	
 	
 	BMenuBar	*fTopMenuBar;
 	
@@ -38,6 +41,8 @@ private:
 	BButton				*fChooseMessageFileButton;
 	BButton				*fInspectMessageFileButton;
 	MessageInfoView		*fMessageInfoView;
+	BMessage			*fCurrentMessage;
+	
 
 };
 

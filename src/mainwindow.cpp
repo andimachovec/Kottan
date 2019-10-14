@@ -67,6 +67,18 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 		//.AddGlue()
 	.Layout();
 
+
+	fCurrentMessage = new BMessage();
+
+
+}
+
+
+MainWindow::~MainWindow()
+{
+
+	delete fCurrentMessage;
+
 }
 
 
@@ -115,14 +127,13 @@ MainWindow::MessageReceived(BMessage *msg)
 			{
 				
 				BFile *message_file = new BFile();
-				BMessage *message = new BMessage();
 					
 				status_t fileopen_result = message_file->SetTo(messagefile_name.String(), B_READ_ONLY);
 					
 				if (fileopen_result == B_OK)
 				{
 				
-					status_t unflatten_result = message->Unflatten(message_file);
+					status_t unflatten_result = fCurrentMessage->Unflatten(message_file);
 					
 					if (unflatten_result == B_OK)
 					{
@@ -131,7 +142,7 @@ MainWindow::MessageReceived(BMessage *msg)
 						type_code type;
 						int32 count;
 						
-						for (int32 i=0; message->GetInfo(B_ANY_TYPE, i, &name, &type, &count) == B_OK; ++i)
+						for (int32 i=0; fCurrentMessage->GetInfo(B_ANY_TYPE, i, &name, &type, &count) == B_OK; ++i)
 						{
 		
 							BRow *row = new BRow();
@@ -141,7 +152,6 @@ MainWindow::MessageReceived(BMessage *msg)
 							BStringField *type_field = new BStringField(get_type(type).String());
 							BIntegerField *count_field = new BIntegerField(count);
 							
-						
 							row->SetField(index_field,0);
 							row->SetField(name_field,1);
 							row->SetField(type_field,2);
@@ -172,7 +182,6 @@ MainWindow::MessageReceived(BMessage *msg)
 
 
 				delete message_file;
-				delete message;
 				
 			}
 			else
@@ -210,7 +219,50 @@ MainWindow::MessageReceived(BMessage *msg)
 			BIntegerField* index_field = (BIntegerField*)fMessageInfoView->CurrentSelection()->GetField(0);
 			int32 msg_index=index_field->Value();
 			
+			char *name;
+			int32 items_count;
+			type_code type;
+			
+			fCurrentMessage->GetInfo(B_ANY_TYPE, msg_index, &name, &type, &items_count);
+			
 			std::cout << "Message data for index " << msg_index << " requested..." << std::endl;
+			std::cout << "Data type: " << get_type(type) << std::endl;
+			
+			
+			BString message_data;
+			
+			
+			for (int32 i=0; i < items_count; ++i)
+			{
+			
+				message_data="";
+				switch (type)
+				{
+				
+					case B_STRING_TYPE:
+						message_data=BString(fCurrentMessage->GetString(name, i, ""));
+						break;
+						
+					case B_INT32_TYPE:
+						message_data<<fCurrentMessage->GetInt32(name, i, 0);
+						break;
+						
+					case B_BOOL_TYPE:
+						message_data=bool2bstring(fCurrentMessage->GetBool(name, i, false));
+						break;
+						
+					default:
+						message_data="data not printable";
+						break;
+				}
+				
+			
+				std::cout << "	" << message_data << std::endl;
+			
+			}
+			
+			std::cout << std::endl;
+		
 			
 			break;
 		}
@@ -554,5 +606,22 @@ MainWindow::get_type(type_code typecode)
 	}
 
 	return typecode_name;
+
+}
+
+
+BString 
+MainWindow::bool2bstring(bool value)
+{
+
+	if (value)
+	{
+		return BString("true");
+	}
+	else
+	{
+		return BString("false");
+	}
+
 
 }
