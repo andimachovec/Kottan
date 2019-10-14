@@ -6,7 +6,6 @@
 class MessageInfoView : public BColumnListView {
 public:
 	MessageInfoView(const char *name);
-	virtual void MouseDown(BPoint point);
 	
 private:
 

@@ -29,6 +29,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 											new BMessage(MW_BUTTON_INSPECTMESSAGEFILE));
 											
 	fMessageInfoView = new MessageInfoView("messageinfo");
+	fMessageInfoView->SetInvocationMessage(new BMessage(MW_MSGINFO_CLICKED));
 	BIntegerColumn *index_column = new BIntegerColumn(B_TRANSLATE("Index"),70,10,100);
 	BStringColumn *name_column = new BStringColumn(B_TRANSLATE("Name"),200,50,1000,0);
 	BStringColumn *type_column = new BStringColumn(B_TRANSLATE("Type"),200,50,1000,0);
@@ -201,6 +202,18 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
+
+		case MW_MSGINFO_CLICKED:
+		{
+		
+			
+			BIntegerField* index_field = (BIntegerField*)fMessageInfoView->CurrentSelection()->GetField(0);
+			int32 msg_index=index_field->Value();
+			
+			std::cout << "Message data for index " << msg_index << " requested..." << std::endl;
+			
+			break;
+		}
 		
 		default:
 		{
