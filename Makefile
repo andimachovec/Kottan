@@ -8,15 +8,19 @@ APP_MIME_SIG = application/x-vnd.BlueSky-Kottan
 #%{
 # @src->@ 
 SRCS = \
+	 src/messageinfoview.cpp  \
 	 src/app.cpp  \
 	 src/mainwindow.cpp  \
 
 RDEFS = \
-	Kottan.rdef
+	 Kottan.rdef  \
+
 
 RSRC = \
 
 # @<-src@ 
+#%}
+
 #%}
 
 LIBS = $(STDCPPLIBS) be root localestub tracker

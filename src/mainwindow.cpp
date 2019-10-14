@@ -28,16 +28,16 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	fInspectMessageFileButton = new BButton(B_TRANSLATE("Inspect Message File"),
 											new BMessage(MW_BUTTON_INSPECTMESSAGEFILE));
 											
-	fDataOutputView = new BColumnListView("dataoutput",0);
+	fMessageInfoView = new MessageInfoView("messageinfo");
 	BIntegerColumn *index_column = new BIntegerColumn(B_TRANSLATE("Index"),70,10,100);
 	BStringColumn *name_column = new BStringColumn(B_TRANSLATE("Name"),200,50,1000,0);
 	BStringColumn *type_column = new BStringColumn(B_TRANSLATE("Type"),200,50,1000,0);
 	BIntegerColumn *count_column = new BIntegerColumn(B_TRANSLATE("Number of Items"),120,10,150);
 	
-	fDataOutputView->AddColumn(index_column,0);
-	fDataOutputView->AddColumn(name_column,1);
-	fDataOutputView->AddColumn(type_column,2);
-	fDataOutputView->AddColumn(count_column,3);
+	fMessageInfoView->AddColumn(index_column,0);
+	fMessageInfoView->AddColumn(name_column,1);
+	fMessageInfoView->AddColumn(type_column,2);
+	fMessageInfoView->AddColumn(count_column,3);
 	
 	
 	//define menu layout
@@ -62,7 +62,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 		.Add(fInspectMessageFileButton)
 		.AddGroup(B_HORIZONTAL)
 			.SetInsets(5,3,3,3)
-			.Add(fDataOutputView,20)
+			.Add(fMessageInfoView,20)
 		//.AddGlue()
 	.Layout();
 
@@ -104,7 +104,7 @@ MainWindow::MessageReceived(BMessage *msg)
 		case MW_BUTTON_INSPECTMESSAGEFILE:
 		{
 
-			fDataOutputView->Clear();
+			fMessageInfoView->Clear();
 			
 			
 			BString messagefile_name(fMessageFileTextControl->Text());
@@ -146,7 +146,7 @@ MainWindow::MessageReceived(BMessage *msg)
 							row->SetField(type_field,2);
 							row->SetField(count_field,3);
 							
-							fDataOutputView->AddRow(row);
+							fMessageInfoView->AddRow(row);
 					
 						}
 						
