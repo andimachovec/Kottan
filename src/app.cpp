@@ -53,7 +53,7 @@ App::AboutRequested()
 
 	aboutwindow->AddCopyright(2019, "Andi Machovec");
 	aboutwindow->AddAuthors(authors);
-	aboutwindow->SetVersion("0.3.1");
+	aboutwindow->SetVersion("0.3.2");
 	aboutwindow->AddDescription(B_TRANSLATE("a BMessage inspector"));
 	aboutwindow->AddExtraInfo("");
 	aboutwindow->Show();
