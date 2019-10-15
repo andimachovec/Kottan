@@ -22,12 +22,12 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 
 	//initialize GUI objects
 	fTopMenuBar = new BMenuBar("topmenubar");
-	fMessageFileTextControl = new BTextControl(B_TRANSLATE("Message File"), "", NULL);
+
+	fMessageFileTextControl = new BTextControl(B_TRANSLATE("Message File"), "", 
+											new BMessage(MW_INSPECTMESSAGEFILE));
+
 	fChooseMessageFileButton = new BButton(B_TRANSLATE("Choose Message File"),
 											new BMessage(MW_BUTTON_CHOOSEMESSAGEFILE));
-											
-	fInspectMessageFileButton = new BButton(B_TRANSLATE("Inspect Message File"),
-											new BMessage(MW_BUTTON_INSPECTMESSAGEFILE));
 											
 	fMessageInfoView = new MessageInfoView("messageinfo");
 	fMessageInfoView->SetInvocationMessage(new BMessage(MW_MSGINFO_CLICKED));
@@ -61,7 +61,6 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 			.Add(fMessageFileTextControl)
 			.Add(fChooseMessageFileButton)
 		.End()
-		.Add(fInspectMessageFileButton)
 		.AddGroup(B_HORIZONTAL)
 			.SetInsets(5,3,3,3)
 			.Add(fMessageInfoView,20)
@@ -103,7 +102,6 @@ MainWindow::MessageReceived(BMessage *msg)
 		
 		case MW_BUTTON_CHOOSEMESSAGEFILE:
 		{
-		
 			BFilePanel *messagefile_filepanel = new BFilePanel(B_OPEN_PANEL, 
 																new BMessenger(this), 
 																NULL,
@@ -115,7 +113,7 @@ MainWindow::MessageReceived(BMessage *msg)
 		}
 
 		
-		case MW_BUTTON_INSPECTMESSAGEFILE:
+		case MW_INSPECTMESSAGEFILE:
 		{
 
 			fMessageInfoView->Clear();
@@ -204,10 +202,11 @@ MainWindow::MessageReceived(BMessage *msg)
 			
 			entry_ref ref;
 			msg->FindRef("refs", &ref);
-			BEntry target_dir(&ref, true);
-			BPath target_path(&target_dir);
+			BEntry target_file(&ref, true);
+			BPath target_path(&target_file);
 			fMessageFileTextControl->SetText(target_path.Path());
 			
+			PostMessage(new BMessage(MW_INSPECTMESSAGEFILE));
 			Activate(true);
 			break;
 		}

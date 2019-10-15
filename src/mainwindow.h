@@ -18,8 +18,8 @@ enum
 	MW_MENU_ABOUT ='mw00',
 	MW_BUTTON_CHOOSEMESSAGEFILE,
 	MW_REF_MESSAGEFILE,
-	MW_BUTTON_INSPECTMESSAGEFILE,
-	MW_MSGINFO_CLICKED
+	MW_MSGINFO_CLICKED,
+	MW_INSPECTMESSAGEFILE
 };
 
 class MainWindow : public BWindow {
@@ -39,10 +39,8 @@ private:
 	
 	BTextControl		*fMessageFileTextControl;
 	BButton				*fChooseMessageFileButton;
-	BButton				*fInspectMessageFileButton;
 	MessageInfoView		*fMessageInfoView;
 	BMessage			*fCurrentMessage;
-	
 
 };
 
