@@ -1,7 +1,8 @@
-1	English	application/x-vnd.BlueSky-Kottan	3516699909
+1	English	application/x-vnd.BlueSky-Kottan	2988538224
 Help	MainWindow		Hilfe
 a BMessage inspector	App		ein Inspektor für BMessages
 About	MainWindow		Über
+data cannot be displayed	MainWindow		Daten können nicht angezeigt werden
 Error reading the message from the file!	MainWindow		Beim Laden der Message aus der Datei ist ein Fehler aufgetreten
 File	MainWindow		Datei
 Message File	MainWindow		Message-Datei
