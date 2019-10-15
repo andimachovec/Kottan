@@ -1,8 +1,7 @@
-1	English	application/x-vnd.BlueSky-Kottan	3825179692
+1	English	application/x-vnd.BlueSky-Kottan	3516699909
 Help	MainWindow		Hilfe
 a BMessage inspector	App		ein Inspektor für BMessages
 About	MainWindow		Über
-Inspect Message File	MainWindow		Message-Datei inspizieren
 Error reading the message from the file!	MainWindow		Beim Laden der Message aus der Datei ist ein Fehler aufgetreten
 File	MainWindow		Datei
 Message File	MainWindow		Message-Datei

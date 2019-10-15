@@ -1,8 +1,7 @@
-1	English	application/x-vnd.BlueSky-Kottan	3825179692
+1	English	application/x-vnd.BlueSky-Kottan	3516699909
 Help	MainWindow		Help
 a BMessage inspector	App		a BMessage inspector
 About	MainWindow		About
-Inspect Message File	MainWindow		Inspect Message File
 Error reading the message from the file!	MainWindow		Error reading the message from the file!
 File	MainWindow		File
 Message File	MainWindow		Message File
