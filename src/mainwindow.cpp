@@ -317,12 +317,79 @@ MainWindow::show_message_data()
 				break;
 			}
 	
+			case B_DOUBLE_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetDouble(name,i,0);
+				break;
+			}
+
+			case B_FLOAT_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetFloat(name,i,0);
+				break;
+			}
+	
 			case B_BOOL_TYPE:
+			{
 				message_item_data=bool2bstring(fCurrentMessage->GetBool(name, i, false));
 				break;
-						
+			}
+
+			case B_RGB_COLOR_TYPE:
+			{
+				rgb_color default_color;
+				rgb_color color = fCurrentMessage->GetColor(name,i,default_color);
+				message_item_data<<color.red;
+				message_item_data+=", ";
+				message_item_data<<color.green;
+				message_item_data+=", ";
+				message_item_data<<color.blue;
+				message_item_data+=", ";
+				message_item_data<<color.alpha;
+			
+				break;
+			}
+			
+			case B_RECT_TYPE:
+			{
+				BRect default_rect;
+				BRect rect = fCurrentMessage->GetRect(name,i, default_rect);
+				message_item_data<<rect.left;
+				message_item_data+=", ";
+				message_item_data<<rect.top;
+				message_item_data+=", ";
+				message_item_data<<rect.right;
+				message_item_data+=", ";
+				message_item_data<<rect.bottom;
+				
+				break;
+			}
+			
+			case B_SIZE_TYPE:
+			{
+				BSize default_size;
+				BSize size = fCurrentMessage->GetSize(name,i, default_size);
+				message_item_data<<size.width;
+				message_item_data+=", ";
+				message_item_data<<size.height;
+				
+				break;
+			}
+			
+			case B_POINT_TYPE:
+			{
+				BPoint default_point;
+				BPoint point = fCurrentMessage->GetPoint(name,i, default_point);
+				message_item_data<<point.x;
+				message_item_data+=", ";
+				message_item_data<<point.y;
+				
+				break;
+			}
+			
+			
 			default:
-				message_item_data="data not printable";
+				message_item_data=B_TRANSLATE("data cannot be displayed");
 				break;
 		}
 				
