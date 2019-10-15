@@ -2,8 +2,10 @@
 
 #include <AboutWindow.h>
 #include <Catalog.h>
+#include <Resources.h>
+#include <AppFileInfo.h>
 
-
+#include <iostream>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "App"
@@ -51,9 +53,20 @@ App::AboutRequested()
 		NULL
 	};
 
+	BResources *appresource = BApplication::AppResources();
+	size_t size;
+	version_info *appversion = (version_info *)appresource->LoadResource('APPV',1,&size);
+	BString version_string;
+	version_string<<appversion->major;
+	version_string+=".";
+	version_string<<appversion->middle;
+	version_string+=".";
+	version_string<<appversion->minor;
+	
+
 	aboutwindow->AddCopyright(2019, "Andi Machovec");
 	aboutwindow->AddAuthors(authors);
-	aboutwindow->SetVersion("0.3.2");
+	aboutwindow->SetVersion(version_string.String());
 	aboutwindow->AddDescription(B_TRANSLATE("a BMessage inspector"));
 	aboutwindow->AddExtraInfo("");
 	aboutwindow->Show();
