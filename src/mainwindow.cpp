@@ -98,7 +98,6 @@ MainWindow::MessageReceived(BMessage *msg)
 			be_app->PostMessage(B_ABOUT_REQUESTED);
 			break;
 		}
-
 		
 		case MW_BUTTON_CHOOSEMESSAGEFILE:
 		{
@@ -112,94 +111,14 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
-		
 		case MW_INSPECTMESSAGEFILE:
 		{
-
-			fMessageInfoView->Clear();
-			
-			
-			BString messagefile_name(fMessageFileTextControl->Text());
-			messagefile_name.Trim();
-			
-			if (messagefile_name != "")
-			{
-				
-				BFile *message_file = new BFile();
-					
-				status_t fileopen_result = message_file->SetTo(messagefile_name.String(), B_READ_ONLY);
-					
-				if (fileopen_result == B_OK)
-				{
-				
-					status_t unflatten_result = fCurrentMessage->Unflatten(message_file);
-					
-					if (unflatten_result == B_OK)
-					{
-				
-						char *name;
-						type_code type;
-						int32 count;
-						
-						for (int32 i=0; fCurrentMessage->GetInfo(B_ANY_TYPE, i, &name, &type, &count) == B_OK; ++i)
-						{
-		
-							BRow *row = new BRow();
-							
-							BIntegerField *index_field = new BIntegerField(i);
-							BStringField *name_field = new BStringField(name);
-							BStringField *type_field = new BStringField(get_type(type).String());
-							BIntegerField *count_field = new BIntegerField(count);
-							
-							row->SetField(index_field,0);
-							row->SetField(name_field,1);
-							row->SetField(type_field,2);
-							row->SetField(count_field,3);
-							
-							fMessageInfoView->AddRow(row);
-					
-						}
-						
-					}
-					else
-					{	
-						BAlert *errorunflatten_alert = new BAlert("Kottan",
-													B_TRANSLATE("Error reading the message from the file!"), 
-													"OK");
-						errorunflatten_alert->Go();
-				
-					}
-				
-				}
-				else 
-				{
-					BAlert *erroropen_alert = new BAlert("Kottan",
-													B_TRANSLATE("Error opening the message file!"), 
-													"OK");
-					erroropen_alert->Go();
-				}
-
-
-				delete message_file;
-				
-			}
-			else
-			{
-				BAlert *nomessagefile_alert = new BAlert("Kottan",
-													B_TRANSLATE("Please specify a file to analyze!"), 
-													"OK");
-			
-				nomessagefile_alert->Go();
-			
-			}
-			
+			inspect_message_file();
 			break;
 		}
-		
-		
+				
 		case MW_REF_MESSAGEFILE:
 		{
-			
 			entry_ref ref;
 			msg->FindRef("refs", &ref);
 			BEntry target_file(&ref, true);
@@ -211,109 +130,12 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
-
 		case MW_MSGINFO_CLICKED:
 		{
-		
-			
-			BIntegerField* index_field = (BIntegerField*)fMessageInfoView->CurrentSelection()->GetField(0);
-			int32 msg_index=index_field->Value();
-			
-			char *name;
-			int32 items_count;
-			type_code type;
-			
-			fCurrentMessage->GetInfo(B_ANY_TYPE, msg_index, &name, &type, &items_count);
-			
-			//std::cout << "Message data for index " << msg_index << " requested..." << std::endl;
-			//std::cout << "Data type: " << get_type(type) << std::endl;
-			
-			
-			BString message_item_data;
-			std::vector<BString> message_data;
-			
-			for (int32 i=0; i < items_count; ++i)
-			{
-			
-				message_item_data="";
-				
-				switch (type)
-				{
-				
-					case B_STRING_TYPE:
-						message_item_data=BString(fCurrentMessage->GetString(name, i, ""));
-						break;
-						
-					case B_INT8_TYPE:
-					{
-						message_item_data<<fCurrentMessage->GetInt8(name,i,0);
-						break;
-					}
-
-					case B_INT16_TYPE:
-					{
-						message_item_data<<fCurrentMessage->GetInt16(name,i,0);
-						break;
-					}
-
-					case B_INT32_TYPE:
-					{
-						message_item_data<<fCurrentMessage->GetInt32(name,i,0);
-						break;
-					}
-
-					case B_INT64_TYPE:
-					{
-						message_item_data<<fCurrentMessage->GetInt64(name,i,0);
-						break;
-					}
-
-					case B_UINT8_TYPE:
-					{
-						message_item_data<<fCurrentMessage->GetUInt8(name,i,0);
-						break;
-					}
-
-					case B_UINT16_TYPE:
-					{
-						message_item_data<<fCurrentMessage->GetUInt16(name,i,0);
-						break;
-					}
-
-					case B_UINT32_TYPE:
-					{
-						message_item_data<<fCurrentMessage->GetUInt32(name,i,0);
-						break;
-					}
-
-					case B_UINT64_TYPE:
-					{
-						message_item_data<<fCurrentMessage->GetUInt64(name,i,0);
-						break;
-					}
-	
-					case B_BOOL_TYPE:
-						message_item_data=bool2bstring(fCurrentMessage->GetBool(name, i, false));
-						break;
-						
-					default:
-						message_item_data="data not printable";
-						break;
-				}
-				
-				
-				message_data.push_back(message_item_data);
-				
-			}
-			
-			DataWindow *data_window = new DataWindow(BRect(0, 0, 400,300), name, get_type(type), message_data);
-			data_window->CenterOnScreen();
-			data_window->Show();
-			
+			show_message_data();
 			break;
 		}
-		
-		
+				
 		default:
 		{
 			BWindow::MessageReceived(msg);
@@ -330,6 +152,188 @@ MainWindow::QuitRequested()
 
 	be_app->PostMessage(B_QUIT_REQUESTED);
 	return true;
+
+}
+
+
+void
+MainWindow::inspect_message_file()
+{
+
+	fMessageInfoView->Clear();
+			
+			
+	BString messagefile_name(fMessageFileTextControl->Text());
+	messagefile_name.Trim();
+			
+	if (messagefile_name != "")
+	{
+				
+		BFile *message_file = new BFile();
+					
+		status_t fileopen_result = message_file->SetTo(messagefile_name.String(), B_READ_ONLY);
+					
+		if (fileopen_result == B_OK)
+		{
+				
+			status_t unflatten_result = fCurrentMessage->Unflatten(message_file);
+					
+			if (unflatten_result == B_OK)
+			{
+				
+				char *name;
+				type_code type;
+				int32 count;
+						
+				for (int32 i=0; fCurrentMessage->GetInfo(B_ANY_TYPE, i, &name, &type, &count) == B_OK; ++i)
+				{
+		
+					BRow *row = new BRow();
+						
+					BIntegerField *index_field = new BIntegerField(i);
+					BStringField *name_field = new BStringField(name);
+					BStringField *type_field = new BStringField(get_type(type).String());
+					BIntegerField *count_field = new BIntegerField(count);
+							
+					row->SetField(index_field,0);
+					row->SetField(name_field,1);
+					row->SetField(type_field,2);
+					row->SetField(count_field,3);
+							
+					fMessageInfoView->AddRow(row);
+					
+				}
+						
+			}
+			else
+			{	
+				BAlert *errorunflatten_alert = new BAlert("Kottan",
+											B_TRANSLATE("Error reading the message from the file!"), 
+											"OK");
+				errorunflatten_alert->Go();
+				
+			}
+				
+		}
+		else 
+		{
+			BAlert *erroropen_alert = new BAlert("Kottan",
+											B_TRANSLATE("Error opening the message file!"), 
+											"OK");
+			erroropen_alert->Go();
+		}
+
+
+		delete message_file;
+				
+	}
+
+	else
+	{
+		BAlert *nomessagefile_alert = new BAlert("Kottan",
+											B_TRANSLATE("Please specify a file to analyze!"), 
+											"OK");
+			
+		nomessagefile_alert->Go();
+			
+	}
+
+}
+
+
+void
+MainWindow::show_message_data()
+{
+
+	BIntegerField* index_field = (BIntegerField*)fMessageInfoView->CurrentSelection()->GetField(0);
+	int32 msg_index=index_field->Value();
+			
+	char *name;
+	int32 items_count;
+	type_code type;
+			
+	fCurrentMessage->GetInfo(B_ANY_TYPE, msg_index, &name, &type, &items_count);
+			
+	BString message_item_data;
+	std::vector<BString> message_data;
+			
+	for (int32 i=0; i < items_count; ++i)
+	{
+			
+		message_item_data="";
+				
+		switch (type)
+		{
+				
+			case B_STRING_TYPE:
+				message_item_data=BString(fCurrentMessage->GetString(name, i, ""));
+				break;
+						
+			case B_INT8_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetInt8(name,i,0);
+				break;
+			}
+
+			case B_INT16_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetInt16(name,i,0);
+				break;
+			}
+
+			case B_INT32_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetInt32(name,i,0);
+				break;
+			}
+
+			case B_INT64_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetInt64(name,i,0);
+				break;
+			}
+
+			case B_UINT8_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetUInt8(name,i,0);
+				break;
+			}
+
+			case B_UINT16_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetUInt16(name,i,0);
+				break;
+			}
+
+			case B_UINT32_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetUInt32(name,i,0);
+				break;
+			}
+
+			case B_UINT64_TYPE:
+			{
+				message_item_data<<fCurrentMessage->GetUInt64(name,i,0);
+				break;
+			}
+	
+			case B_BOOL_TYPE:
+				message_item_data=bool2bstring(fCurrentMessage->GetBool(name, i, false));
+				break;
+						
+			default:
+				message_item_data="data not printable";
+				break;
+		}
+				
+				
+		message_data.push_back(message_item_data);
+				
+	}
+			
+	DataWindow *data_window = new DataWindow(BRect(0, 0, 400,300), name, get_type(type), message_data);
+	data_window->CenterOnScreen();
+	data_window->Show();
 
 }
 

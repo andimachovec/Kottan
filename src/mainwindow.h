@@ -30,9 +30,14 @@ public:
 	bool QuitRequested();
 
 private:
+
+
+	void inspect_message_file();
+	void show_message_data();
 	
 	BString get_type(type_code typecode);
 	BString bool2bstring(bool value);
+	
 	
 	
 	BMenuBar	*fTopMenuBar;
