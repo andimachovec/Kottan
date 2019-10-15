@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "datawindow.h"
 
 #include <Alert.h>
 #include <LayoutBuilder.h>
@@ -225,91 +226,94 @@ MainWindow::MessageReceived(BMessage *msg)
 			
 			fCurrentMessage->GetInfo(B_ANY_TYPE, msg_index, &name, &type, &items_count);
 			
-			std::cout << "Message data for index " << msg_index << " requested..." << std::endl;
-			std::cout << "Data type: " << get_type(type) << std::endl;
+			//std::cout << "Message data for index " << msg_index << " requested..." << std::endl;
+			//std::cout << "Data type: " << get_type(type) << std::endl;
 			
 			
-			BString message_data;
-			
+			BString message_item_data;
+			std::vector<BString> message_data;
 			
 			for (int32 i=0; i < items_count; ++i)
 			{
 			
-				message_data="";
+				message_item_data="";
+				
 				switch (type)
 				{
 				
 					case B_STRING_TYPE:
-						message_data=BString(fCurrentMessage->GetString(name, i, ""));
+						message_item_data=BString(fCurrentMessage->GetString(name, i, ""));
 						break;
 						
 					case B_INT8_TYPE:
 					{
-						message_data<<fCurrentMessage->GetInt8(name,i,0);
+						message_item_data<<fCurrentMessage->GetInt8(name,i,0);
 						break;
 					}
 
 					case B_INT16_TYPE:
 					{
-						message_data<<fCurrentMessage->GetInt16(name,i,0);
+						message_item_data<<fCurrentMessage->GetInt16(name,i,0);
 						break;
 					}
 
 					case B_INT32_TYPE:
 					{
-						message_data<<fCurrentMessage->GetInt32(name,i,0);
+						message_item_data<<fCurrentMessage->GetInt32(name,i,0);
 						break;
 					}
 
 					case B_INT64_TYPE:
 					{
-						message_data<<fCurrentMessage->GetInt64(name,i,0);
+						message_item_data<<fCurrentMessage->GetInt64(name,i,0);
 						break;
 					}
 
 					case B_UINT8_TYPE:
 					{
-						message_data<<fCurrentMessage->GetUInt8(name,i,0);
+						message_item_data<<fCurrentMessage->GetUInt8(name,i,0);
 						break;
 					}
 
 					case B_UINT16_TYPE:
 					{
-						message_data<<fCurrentMessage->GetUInt16(name,i,0);
+						message_item_data<<fCurrentMessage->GetUInt16(name,i,0);
 						break;
 					}
 
 					case B_UINT32_TYPE:
 					{
-						message_data<<fCurrentMessage->GetUInt32(name,i,0);
+						message_item_data<<fCurrentMessage->GetUInt32(name,i,0);
 						break;
 					}
 
 					case B_UINT64_TYPE:
 					{
-						message_data<<fCurrentMessage->GetUInt64(name,i,0);
+						message_item_data<<fCurrentMessage->GetUInt64(name,i,0);
 						break;
 					}
 	
 					case B_BOOL_TYPE:
-						message_data=bool2bstring(fCurrentMessage->GetBool(name, i, false));
+						message_item_data=bool2bstring(fCurrentMessage->GetBool(name, i, false));
 						break;
 						
 					default:
-						message_data="data not printable";
+						message_item_data="data not printable";
 						break;
 				}
 				
-			
-				std::cout << "	" << message_data << std::endl;
-			
+				
+				message_data.push_back(message_item_data);
+				
 			}
 			
-			std::cout << std::endl;
-		
+			DataWindow *data_window = new DataWindow(BRect(0, 0, 400,300), name, get_type(type), message_data);
+			data_window->CenterOnScreen();
+			data_window->Show();
 			
 			break;
 		}
+		
 		
 		default:
 		{
