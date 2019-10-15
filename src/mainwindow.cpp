@@ -29,7 +29,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	fChooseMessageFileButton = new BButton(B_TRANSLATE("Choose Message File"),
 											new BMessage(MW_BUTTON_CHOOSEMESSAGEFILE));
 											
-	fMessageInfoView = new MessageInfoView("messageinfo");
+	fMessageInfoView = new BColumnListView("messageinfo",0);
 	fMessageInfoView->SetInvocationMessage(new BMessage(MW_MSGINFO_CLICKED));
 	BIntegerColumn *index_column = new BIntegerColumn(B_TRANSLATE("Index"),70,10,100);
 	BStringColumn *name_column = new BStringColumn(B_TRANSLATE("Name"),200,50,1000,0);
