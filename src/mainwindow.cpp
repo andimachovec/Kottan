@@ -5,7 +5,6 @@
 #include <LayoutBuilder.h>
 #include <Catalog.h>
 #include <Application.h>
-#include <FilePanel.h>
 #include <ColumnTypes.h>
 
 #include <iostream>
@@ -40,6 +39,14 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	fMessageInfoView->AddColumn(name_column,1);
 	fMessageInfoView->AddColumn(type_column,2);
 	fMessageInfoView->AddColumn(count_column,3);
+	
+	fOpenFilePanel = new BFilePanel(B_OPEN_PANEL, 
+									new BMessenger(this), 
+									NULL,
+									B_FILE_NODE,
+									false,
+									new BMessage(MW_REF_MESSAGEFILE));
+	
 	
 	
 	//define menu layout
@@ -78,7 +85,8 @@ MainWindow::~MainWindow()
 {
 
 	delete fCurrentMessage;
-
+	delete fOpenFilePanel;
+	
 }
 
 
@@ -101,13 +109,8 @@ MainWindow::MessageReceived(BMessage *msg)
 		
 		case MW_BUTTON_CHOOSEMESSAGEFILE:
 		{
-			BFilePanel *messagefile_filepanel = new BFilePanel(B_OPEN_PANEL, 
-																new BMessenger(this), 
-																NULL,
-																B_FILE_NODE,
-																false,
-																new BMessage(MW_REF_MESSAGEFILE));
-			messagefile_filepanel->Show();
+			
+			fOpenFilePanel->Show();
 			break;
 		}
 

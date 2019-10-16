@@ -10,6 +10,7 @@
 #include <Message.h>
 #include <File.h>
 #include <ColumnListView.h>
+#include <FilePanel.h>
 
 enum
 {
@@ -44,7 +45,8 @@ private:
 	BButton				*fChooseMessageFileButton;
 	BColumnListView		*fMessageInfoView;
 	BMessage			*fCurrentMessage;
-
+	BFilePanel			*fOpenFilePanel;
+	
 };
 
 #endif
