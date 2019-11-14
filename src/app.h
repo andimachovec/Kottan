@@ -1,3 +1,9 @@
+/*
+ * Copyright 2019 Andi Machovec <andi.machovec@gmail.com>
+ * All rights reserved. Distributed under the terms of the MIT license.
+ *
+ */
+
 #ifndef APP_H
 #define APP_H
 
