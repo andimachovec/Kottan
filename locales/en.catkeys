@@ -1,6 +1,5 @@
-1	English	application/x-vnd.BlueSky-Kottan	2988538224
+1	English	application/x-vnd.BlueSky-Kottan	182081698
 Help	MainWindow		Help
-a BMessage inspector	App		a BMessage inspector
 About	MainWindow		About
 data cannot be displayed	MainWindow		data cannot be displayed
 Error reading the message from the file!	MainWindow		Error reading the message from the file!
@@ -12,6 +11,7 @@ Type	MainWindow		Type
 Index	MainWindow		Index
 Please specify a file to analyze!	MainWindow		Please specify a file to analyze!
 Quit	MainWindow		Quit
+An inspector for archived BMessages	App		An inspector for archived BMessages
 Name	MainWindow		Name
 Message Data	MainWindow		Message Data
 Number of Items	MainWindow		Number of Items

@@ -67,7 +67,7 @@ App::AboutRequested()
 	aboutwindow->AddCopyright(2019, "Andi Machovec");
 	aboutwindow->AddAuthors(authors);
 	aboutwindow->SetVersion(version_string.String());
-	aboutwindow->AddDescription(B_TRANSLATE("a BMessage inspector"));
+	aboutwindow->AddDescription(B_TRANSLATE("An inspector for archived BMessages"));
 	aboutwindow->AddExtraInfo("");
 	aboutwindow->Show();
 
