@@ -1,0 +1,19 @@
+1	English	application/x-vnd.BlueSky-Kottan	182081698
+Help	MainWindow		Help
+About	MainWindow		Over
+data cannot be displayed	MainWindow		data kan niet getoond worden
+Error reading the message from the file!	MainWindow		Fout bij het lezen van Message uit bestand!
+File	MainWindow		Bestand
+Message File	MainWindow		Message bestand
+Value	MainWindow		Waarde
+Close	MainWindow		Sluiten
+Type	MainWindow		Type
+Index	MainWindow		Index
+Please specify a file to analyze!	MainWindow		Kies een bestand om te analyseren!
+Quit	MainWindow		Sluiten
+An inspector for archived BMessages	App		Een inspecteur voor gearchiveerde BMessages
+Name	MainWindow		Naam
+Message Data	MainWindow		Message Data
+Number of Items	MainWindow		Aantal Items
+Error opening the message file!	MainWindow		Fout bij het openen van het bestand!
+Choose Message File	MainWindow		Kies Message bestand
