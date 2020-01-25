@@ -397,6 +397,23 @@ MainWindow::show_message_data()
 			}
 			
 			
+			case B_REF_TYPE:
+			{
+				entry_ref file_ref; 
+				status_t result = fCurrentMessage->FindRef(name, &file_ref);
+				
+				if (result == B_OK)
+				{	
+					
+					BEntry file_entry(&file_ref);
+					BPath file_path(&file_entry);
+					message_item_data << file_path.Path();
+					
+				}
+			
+				break;
+			}
+			
 			default:
 				message_item_data=B_TRANSLATE("data cannot be displayed");
 				break;
