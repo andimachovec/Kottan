@@ -40,7 +40,7 @@ private:
 
 
 	void inspect_message_file();
-	void show_message_data(int32 msg_index);
+	void show_message_data(const char *name, type_code type, int32 number_of_items);
 	
 	BString bool2bstring(bool value);
 	

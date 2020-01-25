@@ -137,8 +137,26 @@ MainWindow::MessageReceived(BMessage *msg)
 		case MW_MSGINFO_CLICKED:
 		{
 			BIntegerField* index_field = (BIntegerField*)fMessageInfoView->CurrentSelection()->GetField(0);
-			show_message_data(index_field->Value());
-			break;
+			
+			int32 field_index = index_field->Value();
+			char *field_name;
+			int32 items_count;
+			type_code field_type;
+			
+			
+			fCurrentMessage->GetInfo(B_ANY_TYPE, field_index, &field_name, &field_type, &items_count); 
+			
+			if (field_type == B_MESSAGE_TYPE)
+			{
+				std::cout << "message field clicked" << std::endl;
+			}
+			
+			else
+			{
+				show_message_data(field_name, field_type,items_count);
+				break;
+			}
+			
 		}
 				
 		default:
@@ -224,21 +242,14 @@ MainWindow::inspect_message_file()
 
 
 void
-MainWindow::show_message_data(int32 msg_index)
+MainWindow::show_message_data(const char *name, type_code type, int32 number_of_items)
 {
 
-	
-			
-	char *name;
-	int32 items_count;
-	type_code type;
-			
-	fCurrentMessage->GetInfo(B_ANY_TYPE, msg_index, &name, &type, &items_count);
-			
+				
 	BString message_item_data;
 	std::vector<BString> message_data;
 			
-	for (int32 i=0; i < items_count; ++i)
+	for (int32 i=0; i < number_of_items; ++i)
 	{
 			
 		message_item_data="";
