@@ -15,8 +15,10 @@
 #include <Path.h>
 #include <Message.h>
 #include <File.h>
-#include <ColumnListView.h>
 #include <FilePanel.h>
+#include <ColumnTypes.h>
+
+#include "messageview.h"
 
 enum
 {
@@ -40,7 +42,6 @@ private:
 	void inspect_message_file();
 	void show_message_data();
 	
-	BString get_type(type_code typecode);
 	BString bool2bstring(bool value);
 	
 	
@@ -49,7 +50,7 @@ private:
 	
 	BTextControl		*fMessageFileTextControl;
 	BButton				*fChooseMessageFileButton;
-	BColumnListView		*fMessageInfoView;
+	MessageView			*fMessageInfoView;
 	BMessage			*fCurrentMessage;
 	BFilePanel			*fOpenFilePanel;
 	
