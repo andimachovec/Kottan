@@ -28,7 +28,7 @@ MessageView::MessageView()
 
 
 void
-MessageView::ShowMessageData(BMessage *message)
+MessageView::ShowMessageInfo(BMessage *message)
 {
 
 	Clear();

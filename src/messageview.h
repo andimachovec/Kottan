@@ -8,7 +8,7 @@
 class MessageView : public BColumnListView {
 public:
 	MessageView();
-	void ShowMessageData(BMessage *message);
+	void ShowMessageInfo(BMessage *message);
 
 private:
 	

@@ -40,7 +40,7 @@ private:
 
 
 	void inspect_message_file();
-	void show_message_data();
+	void show_message_data(int32 msg_index);
 	
 	BString bool2bstring(bool value);
 	

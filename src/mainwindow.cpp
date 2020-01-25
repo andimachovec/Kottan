@@ -136,7 +136,8 @@ MainWindow::MessageReceived(BMessage *msg)
 
 		case MW_MSGINFO_CLICKED:
 		{
-			show_message_data();
+			BIntegerField* index_field = (BIntegerField*)fMessageInfoView->CurrentSelection()->GetField(0);
+			show_message_data(index_field->Value());
 			break;
 		}
 				
@@ -182,7 +183,7 @@ MainWindow::inspect_message_file()
 			if (unflatten_result == B_OK)
 			{
 				
-				fMessageInfoView->ShowMessageData(fCurrentMessage);
+				fMessageInfoView->ShowMessageInfo(fCurrentMessage);
 						
 			}
 			
@@ -223,11 +224,10 @@ MainWindow::inspect_message_file()
 
 
 void
-MainWindow::show_message_data()
+MainWindow::show_message_data(int32 msg_index)
 {
 
-	BIntegerField* index_field = (BIntegerField*)fMessageInfoView->CurrentSelection()->GetField(0);
-	int32 msg_index=index_field->Value();
+	
 			
 	char *name;
 	int32 items_count;
