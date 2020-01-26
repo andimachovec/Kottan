@@ -36,7 +36,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 											new BMessage(MW_BUTTON_CHOOSEMESSAGEFILE));
 											
 	fMessageInfoView = new MessageView();
-	fMessageInfoView->SetInvocationMessage(new BMessage(MW_MSGINFO_CLICKED));
+	
 	
 	
 	
@@ -134,7 +134,7 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
-		case MW_MSGINFO_CLICKED:
+		/*case MW_MSGINFO_CLICKED:
 		{
 			BIntegerField* index_field = (BIntegerField*)fMessageInfoView->CurrentSelection()->GetField(0);
 			
@@ -157,7 +157,7 @@ MainWindow::MessageReceived(BMessage *msg)
 				break;
 			}
 			
-		}
+		}*/
 				
 		default:
 		{

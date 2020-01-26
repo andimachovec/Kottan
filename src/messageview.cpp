@@ -3,6 +3,8 @@
 
 #include <ColumnTypes.h>
 #include <Catalog.h>
+#include <iostream>
+
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MessageWindow"
@@ -13,6 +15,10 @@ MessageView::MessageView()
 	BColumnListView("messageview",0)
 {
 
+
+	SetInvocationMessage(new BMessage(MV_ROW_CLICKED));
+	SetTarget(this);
+
 	BIntegerColumn *index_column = new BIntegerColumn(B_TRANSLATE("Index"),70,10,100);
 	BStringColumn *name_column = new BStringColumn(B_TRANSLATE("Name"),200,50,1000,0);
 	BStringColumn *type_column = new BStringColumn(B_TRANSLATE("Type"),200,50,1000,0);
@@ -22,6 +28,34 @@ MessageView::MessageView()
 	AddColumn(name_column,1);
 	AddColumn(type_column,2);
 	AddColumn(count_column,3);
+
+
+}
+
+
+void
+MessageView::MessageReceived(BMessage *msg)
+{
+
+
+	switch(msg->what)
+	{
+
+		case MV_ROW_CLICKED:
+		{
+		
+			std::cout << "row clicked" << std::endl;
+			break;
+		}
+				
+		default:
+		{
+			BView::MessageReceived(msg);
+			break;
+		}
+
+	}
+
 
 
 }
