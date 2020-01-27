@@ -1,6 +1,7 @@
 #include "messageview.h"
 #include "gettype.h"
 #include "datawindow.h"
+#include "messagewindow.h"
 
 #include <ColumnTypes.h>
 #include <Catalog.h>
@@ -64,7 +65,14 @@ MessageView::MessageReceived(BMessage *msg)
 			
 			if (field_type == B_MESSAGE_TYPE)
 			{
-				std::cout << "message field clicked" << std::endl;
+				
+				BMessage member_message;
+				status_t result = fDataMessage->FindMessage(field_name, &member_message);
+				MessageWindow *message_window = new MessageWindow(BRect(0, 0, 400,300), &member_message);
+				message_window->CenterOnScreen();
+				message_window->Show();
+				
+				
 			}
 			
 			else
@@ -288,7 +296,8 @@ MessageView::show_message_data(const char *name, type_code type, int32 number_of
 		message_data.push_back(message_item_data);
 				
 	}
-			
+	
+	
 	DataWindow *data_window = new DataWindow(BRect(0, 0, 400,300), name, get_type(type), message_data);
 	data_window->CenterOnScreen();
 	data_window->Show();
