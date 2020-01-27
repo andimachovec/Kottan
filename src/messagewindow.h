@@ -10,14 +10,29 @@
 
 #include <Window.h>
 #include <Message.h>
+#include <Button.h>
+#include <StringView.h>
+#include <String.h>
 #include "messageview.h"
+
+
+enum 
+{
+	MG_BUTTON_CLOSE = 'mg00'
+
+};
+
 
 class MessageWindow : public BWindow {
 public:
-		MessageWindow(BRect frame, BMessage *DataMessage);
+		MessageWindow(BRect frame, BMessage *data_message, BString name);
+		void MessageReceived(BMessage *msg);
+
 
 private:
-	MessageView *fMessageView;
+	MessageView 	*fMessageView;
+	BButton			*fCloseButton;
+	BStringView		*fMessageLabel;
 };
 
 #endif
