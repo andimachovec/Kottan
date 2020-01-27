@@ -66,9 +66,9 @@ MessageView::MessageReceived(BMessage *msg)
 			if (field_type == B_MESSAGE_TYPE)
 			{
 				
-				BMessage member_message;
-				status_t result = fDataMessage->FindMessage(field_name, &member_message);
-				MessageWindow *message_window = new MessageWindow(BRect(0, 0, 400,300), &member_message);
+				BMessage *member_message = new BMessage();
+				status_t result = fDataMessage->FindMessage(field_name, member_message);
+				MessageWindow *message_window = new MessageWindow(BRect(0, 0, 400,300), member_message);
 				message_window->CenterOnScreen();
 				message_window->Show();
 				
