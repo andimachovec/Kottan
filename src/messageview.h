@@ -4,7 +4,7 @@
 #include <ColumnListView.h>
 #include <Message.h>
 #include <String.h>
-
+#include <Looper.h>
 
 enum
 {
@@ -14,12 +14,13 @@ enum
 
 class MessageView : public BColumnListView {
 public:
-	MessageView();
+	MessageView(BLooper *TargetLooper);
 	void MessageReceived(BMessage *msg);
-	void ShowMessageInfo(BMessage *message);
+	void SetDataMessage(BMessage *message);
 
 private:
-	
+	void show_message_data(const char *name, type_code type, int32 number_of_items);
+	BMessage *fDataMessage;
 
 };
 

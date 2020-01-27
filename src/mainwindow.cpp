@@ -5,7 +5,6 @@
  */
 
 #include "mainwindow.h"
-#include "datawindow.h"
 #include "gettype.h"
 
 #include <Alert.h>
@@ -35,7 +34,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	fChooseMessageFileButton = new BButton(B_TRANSLATE("Choose Message File"),
 											new BMessage(MW_BUTTON_CHOOSEMESSAGEFILE));
 											
-	fMessageInfoView = new MessageView();
+	fMessageInfoView = new MessageView(this);
 	
 	
 	
@@ -134,31 +133,7 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
-		/*case MW_MSGINFO_CLICKED:
-		{
-			BIntegerField* index_field = (BIntegerField*)fMessageInfoView->CurrentSelection()->GetField(0);
-			
-			int32 field_index = index_field->Value();
-			char *field_name;
-			int32 items_count;
-			type_code field_type;
-			
-			
-			fCurrentMessage->GetInfo(B_ANY_TYPE, field_index, &field_name, &field_type, &items_count); 
-			
-			if (field_type == B_MESSAGE_TYPE)
-			{
-				std::cout << "message field clicked" << std::endl;
-			}
-			
-			else
-			{
-				show_message_data(field_name, field_type,items_count);
-				break;
-			}
-			
-		}*/
-				
+						
 		default:
 		{
 			BWindow::MessageReceived(msg);
@@ -195,25 +170,19 @@ MainWindow::inspect_message_file()
 					
 		if (fileopen_result == B_OK)
 		{
-				
 			status_t unflatten_result = fCurrentMessage->Unflatten(message_file);
 					
 			if (unflatten_result == B_OK)
 			{
-				
-				fMessageInfoView->ShowMessageInfo(fCurrentMessage);
-						
+				fMessageInfoView->SetDataMessage(fCurrentMessage);
 			}
-			
 			else
 			{	
 				BAlert *errorunflatten_alert = new BAlert("Kottan",
 											B_TRANSLATE("Error reading the message from the file!"), 
 											"OK");
 				errorunflatten_alert->Go();
-				
 			}
-				
 		}
 		else 
 		{
@@ -222,7 +191,6 @@ MainWindow::inspect_message_file()
 											"OK");
 			erroropen_alert->Go();
 		}
-
 
 		delete message_file;
 				
@@ -241,194 +209,13 @@ MainWindow::inspect_message_file()
 }
 
 
-void
-MainWindow::show_message_data(const char *name, type_code type, int32 number_of_items)
-{
-
-				
-	BString message_item_data;
-	std::vector<BString> message_data;
-			
-	for (int32 i=0; i < number_of_items; ++i)
-	{
-			
-		message_item_data="";
-				
-		switch (type)
-		{
-				
-			case B_STRING_TYPE:
-				message_item_data=BString(fCurrentMessage->GetString(name, i, ""));
-				break;
-						
-			case B_INT8_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetInt8(name,i,0);
-				break;
-			}
-
-			case B_INT16_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetInt16(name,i,0);
-				break;
-			}
-
-			case B_INT32_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetInt32(name,i,0);
-				break;
-			}
-
-			case B_INT64_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetInt64(name,i,0);
-				break;
-			}
-
-			case B_UINT8_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetUInt8(name,i,0);
-				break;
-			}
-
-			case B_UINT16_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetUInt16(name,i,0);
-				break;
-			}
-
-			case B_UINT32_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetUInt32(name,i,0);
-				break;
-			}
-
-			case B_UINT64_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetUInt64(name,i,0);
-				break;
-			}
-	
-			case B_DOUBLE_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetDouble(name,i,0);
-				break;
-			}
-
-			case B_FLOAT_TYPE:
-			{
-				message_item_data<<fCurrentMessage->GetFloat(name,i,0);
-				break;
-			}
-	
-			case B_BOOL_TYPE:
-			{
-				message_item_data=bool2bstring(fCurrentMessage->GetBool(name, i, false));
-				break;
-			}
-
-			case B_RGB_COLOR_TYPE:
-			{
-				rgb_color default_color;
-				rgb_color color = fCurrentMessage->GetColor(name,i,default_color);
-				message_item_data<<color.red;
-				message_item_data+=", ";
-				message_item_data<<color.green;
-				message_item_data+=", ";
-				message_item_data<<color.blue;
-				message_item_data+=", ";
-				message_item_data<<color.alpha;
-			
-				break;
-			}
-			
-			case B_RECT_TYPE:
-			{
-				BRect default_rect;
-				BRect rect = fCurrentMessage->GetRect(name,i, default_rect);
-				message_item_data<<rect.left;
-				message_item_data+=", ";
-				message_item_data<<rect.top;
-				message_item_data+=", ";
-				message_item_data<<rect.right;
-				message_item_data+=", ";
-				message_item_data<<rect.bottom;
-				
-				break;
-			}
-			
-			case B_SIZE_TYPE:
-			{
-				BSize default_size;
-				BSize size = fCurrentMessage->GetSize(name,i, default_size);
-				message_item_data<<size.width;
-				message_item_data+=", ";
-				message_item_data<<size.height;
-				
-				break;
-			}
-			
-			case B_POINT_TYPE:
-			{
-				BPoint default_point;
-				BPoint point = fCurrentMessage->GetPoint(name,i, default_point);
-				message_item_data<<point.x;
-				message_item_data+=", ";
-				message_item_data<<point.y;
-				
-				break;
-			}
-			
-			
-			case B_REF_TYPE:
-			{
-				entry_ref file_ref; 
-				status_t result = fCurrentMessage->FindRef(name, &file_ref);
-				
-				if (result == B_OK)
-				{	
-					
-					BEntry file_entry(&file_ref);
-					BPath file_path(&file_entry);
-					message_item_data << file_path.Path();
-					
-				}
-			
-				break;
-			}
-			
-			default:
-				message_item_data=B_TRANSLATE("data cannot be displayed");
-				break;
-		}
-				
-				
-		message_data.push_back(message_item_data);
-				
-	}
-			
-	DataWindow *data_window = new DataWindow(BRect(0, 0, 400,300), name, get_type(type), message_data);
-	data_window->CenterOnScreen();
-	data_window->Show();
-
-}
 
 
 
 
 
-BString 
-MainWindow::bool2bstring(bool value)
-{
-
-	if (value)
-	{
-		return BString("true");
-	}
-	else
-	{
-		return BString("false");
-	}
 
 
-}
+
+
+

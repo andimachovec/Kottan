@@ -39,12 +39,8 @@ private:
 
 
 	void inspect_message_file();
-	void show_message_data(const char *name, type_code type, int32 number_of_items);
 	
-	BString bool2bstring(bool value);
-	
-	
-	
+		
 	BMenuBar	*fTopMenuBar;
 	
 	BTextControl		*fMessageFileTextControl;

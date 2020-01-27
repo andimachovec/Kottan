@@ -321,3 +321,19 @@ get_type(type_code typecode)
 	return typecode_name;
 
 }
+
+
+static BString 
+bool2bstring(bool value)
+{
+
+	if (value)
+	{
+		return BString("true");
+	}
+	else
+	{
+		return BString("false");
+	}
+
+}
