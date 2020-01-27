@@ -1,3 +1,10 @@
+/*
+ * Copyright 2019 Andi Machovec <andi.machovec@gmail.com>
+ * All rights reserved. Distributed under the terms of the MIT license.
+ *
+ */
+
+
 #include "messagewindow.h"
 
 #include <LayoutBuilder.h>

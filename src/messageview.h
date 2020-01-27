@@ -1,3 +1,10 @@
+/*
+ * Copyright 2019 Andi Machovec <andi.machovec@gmail.com>
+ * All rights reserved. Distributed under the terms of the MIT license.
+ *
+ */
+
+
 #ifndef MESSAGEVIEW_H
 #define MESSAGEVIEW_H
 
