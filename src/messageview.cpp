@@ -99,6 +99,8 @@ MessageView::MessageReceived(BMessage *msg)
 						window_stack->AddWindow(window_list.ItemAt(i));
 					}
 				
+					window_list.FirstItem()->Activate();
+					
 					delete window_stack;
 				}
 			
