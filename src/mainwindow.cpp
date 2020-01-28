@@ -127,7 +127,7 @@ MainWindow::MessageReceived(BMessage *msg)
 			BEntry target_file(&ref, true);
 			BPath target_path(&target_file);
 			fMessageFileTextControl->SetText(target_path.Path());
-			
+			SetTitle(target_path.Path());
 			PostMessage(new BMessage(MW_INSPECTMESSAGEFILE));
 			Activate(true);
 			break;
