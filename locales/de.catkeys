@@ -1,19 +1,22 @@
-1	English	application/x-vnd.BlueSky-Kottan	182081698
+1	English	application/x-vnd.BlueSky-Kottan	3465294251
+Name	MessageView		Name
 Help	MainWindow		Hilfe
+Index	MessageView		Index
 About	MainWindow		Über
-data cannot be displayed	MainWindow		Daten können nicht angezeigt werden
-Error reading the message from the file!	MainWindow		Beim Laden der Message aus der Datei ist ein Fehler aufgetreten
+Error reading the message from the file!	MainWindow		Beim Laden der Message aus der Datei ist ein Fehler aufgetreten!
 File	MainWindow		Datei
 Message File	MainWindow		Message-Datei
-Value	MainWindow		Wert
-Close	MainWindow		Schliessen
-Type	MainWindow		Typ
-Index	MainWindow		Index
+data cannot be displayed	MessageView		Daten können nicht angezeigt werden
+Number of Items	MessageView		Anzahl Items
 Please specify a file to analyze!	MainWindow		Bitte einen Dateinamen zum Inspizieren angeben!
+Value	DataWindow		Wert
+Close	DataWindow		Schliessen
 Quit	MainWindow		Beenden
+Index	DataWindow		Index
 An inspector for archived BMessages	App		ein Inspektor für archivierte BMessages
-Name	MainWindow		Name
-Message Data	MainWindow		Message-Daten
-Number of Items	MainWindow		Anzahl Items
 Error opening the message file!	MainWindow		Beim Öffnen der Datei ist ein Fehler aufgetreten!
 Choose Message File	MainWindow		Message-Datei auswählen
+Message Data	DataWindow		Message-Daten
+Message Content	MessageWindow		Message-Inhalt
+Type	MessageView		Datentyp
+Close	MessageWindow		Schliessen
