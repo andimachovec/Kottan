@@ -1,3 +1,10 @@
+/*
+ * Copyright 2019-2020 Andi Machovec <andi.machovec@gmail.com>
+ * All rights reserved. Distributed under the terms of the MIT license.
+ *
+ */
+
+
 #include <String.h>
 
 static BString 
