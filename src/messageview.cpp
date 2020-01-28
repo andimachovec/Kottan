@@ -83,7 +83,17 @@ MessageView::MessageReceived(BMessage *msg)
 				{
 					BMessage *member_message = new BMessage();
 					fDataMessage->FindMessage(field_name, i, member_message);
-					MessageWindow *message_window = new MessageWindow(BRect(0,0,650,300), member_message, BString(field_name));
+					
+					BString window_title(field_name);
+
+					if (items_count > 1)
+					{
+						window_title+="(";
+						window_title << i+1;
+						window_title+=")";
+					}	
+						
+					MessageWindow *message_window = new MessageWindow(BRect(0,0,650,300), window_title, member_message);
 					window_list.AddItem(message_window);					
 					message_window->CenterOnScreen();
 					message_window->Show();

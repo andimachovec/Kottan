@@ -25,7 +25,7 @@ enum
 
 class MessageWindow : public BWindow {
 public:
-		MessageWindow(BRect frame, BMessage *data_message, BString name);
+		MessageWindow(BRect frame, BString title, BMessage *data_message);
 		void MessageReceived(BMessage *msg);
 
 

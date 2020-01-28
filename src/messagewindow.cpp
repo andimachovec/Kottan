@@ -15,32 +15,18 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MessageWindow"
 
-MessageWindow::MessageWindow(BRect frame, BMessage *data_message, BString name)
+MessageWindow::MessageWindow(BRect frame, BString title, BMessage *data_message)
 	:
-	BWindow(frame, B_TRANSLATE("Message Content"), B_TITLED_WINDOW,B_CLOSE_ON_ESCAPE)
+	BWindow(frame, title.String(), B_TITLED_WINDOW,B_CLOSE_ON_ESCAPE)
 {
 
 	fMessageView = new MessageView(this);
 	fMessageView->SetDataMessage(data_message);
 
-
-
-
-
-	fMessageLabel = new BStringView("messagelabel", name.String());
-	BFont bold_font(be_bold_font);
-	fMessageLabel->SetFont(&bold_font);
-
 	fCloseButton = new BButton(B_TRANSLATE("Close"), new BMessage(MG_BUTTON_CLOSE));
-
-
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL,0)
 		.SetInsets(5)
-		.AddGroup(B_HORIZONTAL)
-			.SetInsets(5)
-			.Add(fMessageLabel)
-		.End()
 		.Add(fMessageView)
 		.Add(fCloseButton)
 	.Layout();
