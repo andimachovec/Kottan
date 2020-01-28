@@ -13,7 +13,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "MainWindow"
+#define B_TRANSLATION_CONTEXT "DataWindow"
 
 
 DataWindow::DataWindow(BRect frame, BString fieldname, BString fieldtypename, std::vector<BString> messagedata)
