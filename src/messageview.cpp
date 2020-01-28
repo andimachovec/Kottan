@@ -15,6 +15,9 @@
 #include <Looper.h>
 #include <Entry.h>
 #include <Path.h>
+#include <WindowStack.h>
+#include <ObjectList.h>
+
 #include <iostream>
 
 
@@ -73,22 +76,37 @@ MessageView::MessageReceived(BMessage *msg)
 			if (field_type == B_MESSAGE_TYPE)
 			{
 				
+				BObjectList<BWindow> window_list;
+				
+				//create message content windows
 				for(int32 i=0; i < items_count; ++i)
 				{
 					BMessage *member_message = new BMessage();
-					status_t result = fDataMessage->FindMessage(field_name, i, member_message);
+					fDataMessage->FindMessage(field_name, i, member_message);
 					MessageWindow *message_window = new MessageWindow(BRect(0,0,650,300), member_message, BString(field_name));
+					window_list.AddItem(message_window);					
 					message_window->CenterOnScreen();
 					message_window->Show();
 				}
+			
+				//stack the windows if more than 1
+				if (items_count > 1)
+				{
+					BWindowStack *window_stack = new BWindowStack(window_list.FirstItem()); 
+					
+					for (int32 i=1; i < window_list.CountItems(); ++i)
+					{	
+						window_stack->AddWindow(window_list.ItemAt(i));
+					}
 				
+					delete window_stack;
+				}
+			
 			}
 			
 			else
 			{
-				
 				show_message_data(field_name, field_type,items_count);
-				
 			}
 			
 			break;
