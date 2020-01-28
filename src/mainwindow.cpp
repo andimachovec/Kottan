@@ -12,8 +12,6 @@
 #include <Catalog.h>
 #include <Application.h>
 
-
-#include <iostream>
 #include <sstream>
 
 #undef B_TRANSLATION_CONTEXT

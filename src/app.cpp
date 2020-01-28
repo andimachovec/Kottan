@@ -11,7 +11,6 @@
 #include <Resources.h>
 #include <AppFileInfo.h>
 
-#include <iostream>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "App"

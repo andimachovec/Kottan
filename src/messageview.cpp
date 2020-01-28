@@ -18,8 +18,6 @@
 #include <WindowStack.h>
 #include <ObjectList.h>
 
-#include <iostream>
-
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MessageView"
