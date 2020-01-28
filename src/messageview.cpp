@@ -73,12 +73,14 @@ MessageView::MessageReceived(BMessage *msg)
 			if (field_type == B_MESSAGE_TYPE)
 			{
 				
-				BMessage *member_message = new BMessage();
-				status_t result = fDataMessage->FindMessage(field_name, member_message);
-				MessageWindow *message_window = new MessageWindow(BRect(0,0,650,300), member_message, BString(field_name));
-				message_window->CenterOnScreen();
-				message_window->Show();
-				
+				for(int32 i=0; i < items_count; ++i)
+				{
+					BMessage *member_message = new BMessage();
+					status_t result = fDataMessage->FindMessage(field_name, i, member_message);
+					MessageWindow *message_window = new MessageWindow(BRect(0,0,650,300), member_message, BString(field_name));
+					message_window->CenterOnScreen();
+					message_window->Show();
+				}
 				
 			}
 			
