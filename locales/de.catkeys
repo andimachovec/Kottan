@@ -1,4 +1,4 @@
-1	English	application/x-vnd.BlueSky-Kottan	3465294251
+1	English	application/x-vnd.BlueSky-Kottan	2502323759
 Name	MessageView		Name
 Help	MainWindow		Hilfe
 Index	MessageView		Index
@@ -17,6 +17,5 @@ An inspector for archived BMessages	App		ein Inspektor für archivierte BMessage
 Error opening the message file!	MainWindow		Beim Öffnen der Datei ist ein Fehler aufgetreten!
 Choose Message File	MainWindow		Message-Datei auswählen
 Message Data	DataWindow		Message-Daten
-Message Content	MessageWindow		Message-Inhalt
 Type	MessageView		Datentyp
 Close	MessageWindow		Schliessen
