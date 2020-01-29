@@ -26,8 +26,15 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	//initialize GUI objects
 	fTopMenuBar = new BMenuBar("topmenubar");
 
-	fMessageFileTextControl = new BTextControl(B_TRANSLATE("Message File"), "", 
+	fMessageFileTextControl = new BTextControl(B_TRANSLATE("Message File"), B_TRANSLATE("drag message file here"), 
 											new BMessage(MW_INSPECTMESSAGEFILE));
+	//set text face to italic
+	BTextView *text_view = fMessageFileTextControl->TextView();
+	BFont text_font;
+	text_view->GetFontAndColor(0,&text_font,NULL);
+	text_font.SetFace(B_ITALIC_FACE);
+	text_view->SetFontAndColor(&text_font);
+	
 
 	fChooseMessageFileButton = new BButton(B_TRANSLATE("Choose Message File"),
 											new BMessage(MW_BUTTON_CHOOSEMESSAGEFILE));
@@ -124,6 +131,16 @@ MainWindow::MessageReceived(BMessage *msg)
 			msg->FindRef("refs", &ref);
 			BEntry target_file(&ref, true);
 			BPath target_path(&target_file);
+			
+			//switch text face back to regular
+			BTextView *text_view = fMessageFileTextControl->TextView();
+			BFont text_font;
+			text_view->GetFontAndColor(0,&text_font,NULL);
+			text_font.SetFace(B_REGULAR_FACE|B_OUTLINED_FACE);
+			text_view->SetFontAndColor(&text_font);
+			
+			
+			
 			fMessageFileTextControl->SetText(target_path.Path());
 			SetTitle(target_path.Path());
 			PostMessage(new BMessage(MW_INSPECTMESSAGEFILE));
