@@ -1,4 +1,4 @@
-1	English	application/x-vnd.BlueSky-Kottan	2502323759
+1	English	application/x-vnd.BlueSky-Kottan	3340274526
 Name	MessageView		Name
 Help	MainWindow		Help
 Index	MessageView		Index
@@ -8,6 +8,7 @@ File	MainWindow		File
 Message File	MainWindow		Message File
 data cannot be displayed	MessageView		data cannot be displayed
 Number of Items	MessageView		Number of Items
+drag message file here	MainWindow		drag message file here
 Please specify a file to analyze!	MainWindow		Please specify a file to analyze!
 Value	DataWindow		Value
 Close	DataWindow		Close

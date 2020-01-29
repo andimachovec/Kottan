@@ -1,4 +1,4 @@
-1	English	application/x-vnd.BlueSky-Kottan	2502323759
+1	English	application/x-vnd.BlueSky-Kottan	3340274526
 Name	MessageView		Name
 Help	MainWindow		Hilfe
 Index	MessageView		Index
@@ -8,6 +8,7 @@ File	MainWindow		Datei
 Message File	MainWindow		Message-Datei
 data cannot be displayed	MessageView		Daten können nicht angezeigt werden
 Number of Items	MessageView		Anzahl Items
+drag message file here	MainWindow		Message-Datei hierher ziehen
 Please specify a file to analyze!	MainWindow		Bitte einen Dateinamen zum Inspizieren angeben!
 Value	DataWindow		Wert
 Close	DataWindow		Schliessen
