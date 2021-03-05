@@ -8,7 +8,6 @@
 #include "messageview.h"
 #include "gettype.h"
 #include "datawindow.h"
-#include "messagewindow.h"
 
 #include <ColumnTypes.h>
 #include <Catalog.h>
@@ -90,11 +89,7 @@ MessageView::MessageReceived(BMessage *msg)
 						window_title << i+1;
 						window_title+=")";
 					}	
-						
-					MessageWindow *message_window = new MessageWindow(BRect(0,0,650,300), window_title, member_message);
-					window_list.AddItem(message_window);					
-					message_window->CenterOnScreen();
-					message_window->Show();
+			
 				}
 			
 				//stack the windows if more than 1
