@@ -96,26 +96,46 @@ MessageView::SetDataMessage(BMessage *message)
 	fDataMessage = message;
 	Clear();
 
+	create_data_rows(fDataMessage);
+	
+}
+
+
+void 
+MessageView::create_data_rows(BMessage *message)
+{
+
 	char *name;
 	type_code type;
 	int32 count;
 						
-	for (int32 i=0; fDataMessage->GetInfo(B_ANY_TYPE, i, &name, &type, &count) == B_OK; ++i)
+	for (int32 i=0; message->GetInfo(B_ANY_TYPE, i, &name, &type, &count) == B_OK; ++i)
 	{
 		
 		BRow *row = new BRow();
 						
-		BIntegerField *index_field = new BIntegerField(i);
-		BStringField *name_field = new BStringField(name);
-		BStringField *type_field = new BStringField(get_type(type).String());
-		BIntegerField *count_field = new BIntegerField(count);
+		BString type_name = get_type(type);
+		
+		if (type_name == "B_MESSAGE_TYPE")
+		{
+			//contained_message = message.
+		}
+		
+		else
+		{
+			BIntegerField *index_field = new BIntegerField(i);
+			BStringField *name_field = new BStringField(name);
+			BStringField *type_field = new BStringField(get_type(type).String());
+			BIntegerField *count_field = new BIntegerField(count);
 							
-		row->SetField(index_field,0);
-		row->SetField(name_field,1);
-		row->SetField(type_field,2);
-		row->SetField(count_field,3);
+			row->SetField(index_field,0);
+			row->SetField(name_field,1);
+			row->SetField(type_field,2);
+			row->SetField(count_field,3);
 							
-		AddRow(row);
+			AddRow(row);
+	
+		}
 	
 	}
 

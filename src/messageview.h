@@ -26,6 +26,7 @@ public:
 	void SetDataMessage(BMessage *message);
 
 private:
+	void create_data_rows(BMessage *message);
 	void show_message_data(const char *name, type_code type, int32 number_of_items);
 	BMessage *fDataMessage;
 
