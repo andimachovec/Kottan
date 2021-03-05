@@ -70,46 +70,7 @@ MessageView::MessageReceived(BMessage *msg)
 			
 			fDataMessage->GetInfo(B_ANY_TYPE, field_index, &field_name, &field_type, &items_count); 
 			
-			if (field_type == B_MESSAGE_TYPE)
-			{
-				
-				BObjectList<BWindow> window_list;
-				
-				//create message content windows
-				for(int32 i=0; i < items_count; ++i)
-				{
-					BMessage *member_message = new BMessage();
-					fDataMessage->FindMessage(field_name, i, member_message);
-					
-					BString window_title(field_name);
-
-					if (items_count > 1)
-					{
-						window_title+="(";
-						window_title << i+1;
-						window_title+=")";
-					}	
-			
-				}
-			
-				//stack the windows if more than 1
-				if (items_count > 1)
-				{
-					BWindowStack *window_stack = new BWindowStack(window_list.FirstItem()); 
-					
-					for (int32 i=1; i < window_list.CountItems(); ++i)
-					{	
-						window_stack->AddWindow(window_list.ItemAt(i));
-					}
-				
-					window_list.FirstItem()->Activate();
-					
-					delete window_stack;
-				}
-			
-			}
-			
-			else
+			if (field_type != B_MESSAGE_TYPE)
 			{
 				show_message_data(field_name, field_type,items_count);
 			}
@@ -124,8 +85,6 @@ MessageView::MessageReceived(BMessage *msg)
 		}
 
 	}
-
-
 
 }
 
