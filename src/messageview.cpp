@@ -69,13 +69,14 @@ MessageView::MessageReceived(BMessage *msg)
 			int32 items_count;
 			type_code field_type;
 			
+			std::cout << field_index << std::endl;
 			
-			fDataMessage->GetInfo(B_ANY_TYPE, field_index, &field_name, &field_type, &items_count); 
+			/*fDataMessage->GetInfo(B_ANY_TYPE, field_index, &field_name, &field_type, &items_count); 
 			
 			if (field_type != B_MESSAGE_TYPE)
 			{
 				show_message_data(field_name, field_type,items_count);
-			}
+			}*/
 			
 			break;
 		}
@@ -131,12 +132,28 @@ MessageView::create_data_rows(BMessage *message, BRow *parent)
 
 		if (type_name == "B_MESSAGE_TYPE")
 		{
-			for (int32 message_nr = 0; message_nr <= count; ++message_nr)
+
+			std::cout << "count: " << count << std::endl;
+			
+			BRow *parent_row = row;
+			
+			for (int32 message_nr = 0; message_nr < count; ++message_nr)
 			{
+				
+				if (count > 1)
+				{
+					BRow *header_row = new BRow();
+					BIntegerField *header_index_field = new BIntegerField(message_nr);
+					header_row->SetField(header_index_field,0);
+					AddRow(header_row,row);
+			
+					parent_row = header_row;
+				}
+				
 				BMessage *member_message = new BMessage();
 				message->FindMessage(name, message_nr, member_message);
 				
-				create_data_rows(member_message, row);
+				create_data_rows(member_message, parent_row);
 			}
 		}
 
