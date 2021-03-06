@@ -131,10 +131,7 @@ MessageView::create_data_rows(BMessage *message, BRow *parent)
 		AddRow(row, parent);
 
 		if (type_name == "B_MESSAGE_TYPE")
-		{
-
-			std::cout << "count: " << count << std::endl;
-			
+		{			
 			BRow *parent_row = row;
 			
 			for (int32 message_nr = 0; message_nr < count; ++message_nr)
