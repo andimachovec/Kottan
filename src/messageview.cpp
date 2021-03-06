@@ -17,6 +17,8 @@
 #include <WindowStack.h>
 #include <ObjectList.h>
 
+#include <iostream>
+
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MessageView"
@@ -102,7 +104,7 @@ MessageView::SetDataMessage(BMessage *message)
 
 
 void 
-MessageView::create_data_rows(BMessage *message)
+MessageView::create_data_rows(BMessage *message, BRow *parent)
 {
 
 	char *name;
@@ -112,31 +114,32 @@ MessageView::create_data_rows(BMessage *message)
 	for (int32 i=0; message->GetInfo(B_ANY_TYPE, i, &name, &type, &count) == B_OK; ++i)
 	{
 		
-		BRow *row = new BRow();
-						
+		BRow *row = new BRow();				
 		BString type_name = get_type(type);
 		
+		BIntegerField *index_field = new BIntegerField(i);
+		BStringField *name_field = new BStringField(name);
+		BStringField *type_field = new BStringField(get_type(type).String());
+		BIntegerField *count_field = new BIntegerField(count);
+							
+		row->SetField(index_field,0);
+		row->SetField(name_field,1);
+		row->SetField(type_field,2);
+		row->SetField(count_field,3);
+							
+		AddRow(row, parent);
+
 		if (type_name == "B_MESSAGE_TYPE")
 		{
-			//contained_message = message.
+			for (int32 message_nr = 0; message_nr <= count; ++message_nr)
+			{
+				BMessage *member_message = new BMessage();
+				message->FindMessage(name, message_nr, member_message);
+				
+				create_data_rows(member_message, row);
+			}
 		}
-		
-		else
-		{
-			BIntegerField *index_field = new BIntegerField(i);
-			BStringField *name_field = new BStringField(name);
-			BStringField *type_field = new BStringField(get_type(type).String());
-			BIntegerField *count_field = new BIntegerField(count);
-							
-			row->SetField(index_field,0);
-			row->SetField(name_field,1);
-			row->SetField(type_field,2);
-			row->SetField(count_field,3);
-							
-			AddRow(row);
-	
-		}
-	
+
 	}
 
 }
