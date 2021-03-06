@@ -17,6 +17,7 @@
 #include <WindowStack.h>
 #include <ObjectList.h>
 
+#include <vector>
 #include <iostream>
 
 
@@ -62,16 +63,42 @@ MessageView::MessageReceived(BMessage *msg)
 		case MV_ROW_CLICKED:
 		{
 		
-			BIntegerField* index_field = (BIntegerField*)CurrentSelection()->GetField(0);
+			BRow *selected_row = CurrentSelection();
+			std::vector<int32> message_path;
+			BRow *parent_row;
+			bool row_visible;
+			BRow *current_row = selected_row;
 			
-			int32 field_index = index_field->Value();
+			while (FindParent(current_row, &parent_row, &row_visible))
+			{
+				int32 message_index = static_cast<BIntegerField*>(current_row->GetField(0))->Value();
+				message_path.insert(message_path.begin(), message_index);
+				current_row = parent_row;
+				
+			}
+			
+			int32 top_index = static_cast<BIntegerField*>(current_row->GetField(0))->Value();
+			message_path.insert(message_path.begin(), top_index);
+		
+		
+			std::vector<int32>::iterator message_path_iter;
+			
+			for (message_path_iter = message_path.begin(); 
+				message_path_iter != message_path.end();
+				++message_path_iter)
+			{
+			
+				
+				
+			}	
+			
+		
+			/*
 			char *field_name;
 			int32 items_count;
 			type_code field_type;
 			
-			std::cout << field_index << std::endl;
-			
-			/*fDataMessage->GetInfo(B_ANY_TYPE, field_index, &field_name, &field_type, &items_count); 
+			fDataMessage->GetInfo(B_ANY_TYPE, field_index, &field_name, &field_type, &items_count); 
 			
 			if (field_type != B_MESSAGE_TYPE)
 			{
