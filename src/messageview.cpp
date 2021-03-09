@@ -88,11 +88,11 @@ MessageView::MessageReceived(BMessage *msg)
 				
 				//follow the path to the selected data		
 				BMessage *current_message = fDataMessage;	
-				int32 data_index_path_index=0;	
+				std::vector<int32>::iterator data_index_path_iter = data_index_path.begin();
 				
-				while(data_index_path_index < data_index_path.size())
+				while(data_index_path_iter != data_index_path.end())
 				{
-					int32 current_index = data_index_path.at(data_index_path_index);
+					int32 current_index = *data_index_path_iter;
 					
 					type_code current_type;
 					char *current_name;
@@ -111,8 +111,8 @@ MessageView::MessageReceived(BMessage *msg)
 						int32 find_index=0;
 						if (current_item_count > 1)
 						{
-							++data_index_path_index;
-							find_index = data_index_path.at(data_index_path_index);
+							++data_index_path_iter;
+							find_index = *data_index_path_iter;
 						}
 						
 						BMessage *temp_message = new BMessage();
@@ -121,12 +121,12 @@ MessageView::MessageReceived(BMessage *msg)
 												
 					}
 					
-					if (data_index_path_index == data_index_path.size()-1) //last item
+					if (data_index_path_iter == data_index_path.end()-1) //last item
 					{
 						show_message_data(current_message, current_name, current_type, current_item_count);
 					}
 						
-					++data_index_path_index;	
+					++data_index_path_iter;	
 				
 				} 
 			
