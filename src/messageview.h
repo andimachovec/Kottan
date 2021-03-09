@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2020 Andi Machovec <andi.machovec@gmail.com>
+ * Copyright 2019-2021 Andi Machovec <andi.machovec@gmail.com>
  * All rights reserved. Distributed under the terms of the MIT license.
  *
  */
@@ -27,7 +27,7 @@ public:
 
 private:
 	void create_data_rows(BMessage *message, BRow *parent = NULL);
-	void show_message_data(const char *name, type_code type, int32 number_of_items);
+	void show_message_data(BMessage *data_message, const char *field_name, type_code type, int32 number_of_items);
 	BMessage *fDataMessage;
 
 };
