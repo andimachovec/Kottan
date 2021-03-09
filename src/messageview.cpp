@@ -88,9 +88,12 @@ MessageView::MessageReceived(BMessage *msg)
 				
 				//follow the path to the selected data		
 				BMessage *current_message = fDataMessage;	
-				std::vector<int32>::iterator data_index_path_iter = data_index_path.begin();
+				std::vector<int32>::iterator data_index_path_iter;
 				
-				while(data_index_path_iter != data_index_path.end())
+				for(data_index_path_iter = data_index_path.begin();
+					data_index_path_iter != data_index_path.end();
+					++data_index_path_iter)
+					
 				{
 					int32 current_index = *data_index_path_iter;
 					
@@ -125,9 +128,7 @@ MessageView::MessageReceived(BMessage *msg)
 					{
 						show_message_data(current_message, current_name, current_type, current_item_count);
 					}
-						
-					++data_index_path_iter;	
-				
+					
 				} 
 			
 			}
