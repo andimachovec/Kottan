@@ -124,15 +124,29 @@ EditView::setup_controls()
 
 		case B_RECT_TYPE:
 		{	
-			BTextControl *left_text = new BTextControl("left:","",new BMessage());
-			BTextControl *top_text = new BTextControl("top:","",new BMessage());
-			BTextControl *right_text = new BTextControl("right:","",new BMessage());
-			BTextControl *bottom_text = new BTextControl("bottom:","",new BMessage());
+			
+			BRect data_rect;
+			fDataMessage->FindRect(fDataLabel, fDataIndex, &data_rect);
+			
+			BString left_text;
+			BString top_text;
+			BString right_text;
+			BString bottom_text;
 
-			fMainLayout->AddView(left_text);
-			fMainLayout->AddView(top_text);
-			fMainLayout->AddView(right_text);
-			fMainLayout->AddView(bottom_text);
+			left_text << data_rect.left;
+			top_text << data_rect.top;
+			right_text << data_rect.right;
+			bottom_text << data_rect.bottom;
+			
+			BTextControl *left_textctrl = new BTextControl("left:",left_text.String(), new BMessage());
+			BTextControl *top_textctrl = new BTextControl("top:",top_text.String(), new BMessage());
+			BTextControl *right_textctrl = new BTextControl("right:",right_text.String(), new BMessage());
+			BTextControl *bottom_textctrl = new BTextControl("bottom:", bottom_text.String(), new BMessage());
+
+			fMainLayout->AddView(left_textctrl);
+			fMainLayout->AddView(top_textctrl);
+			fMainLayout->AddView(right_textctrl);
+			fMainLayout->AddView(bottom_textctrl);
 
 			break;
 		}
