@@ -216,7 +216,7 @@ MessageView::create_data_rows(BMessage *message, BRow *parent)
 
 void
 MessageView::show_message_data(BMessage *data_message, const char *field_name, 
-								type_code type, int32 number_of_items)
+								type_code field_type, int32 number_of_items)
 {
 
 	BString message_item_data;
@@ -227,7 +227,7 @@ MessageView::show_message_data(BMessage *data_message, const char *field_name,
 			
 		message_item_data = "";
 				
-		switch (type)
+		switch (field_type)
 		{
 				
 			case B_STRING_TYPE:
@@ -381,7 +381,7 @@ MessageView::show_message_data(BMessage *data_message, const char *field_name,
 	}
 	
 	
-	DataWindow *data_window = new DataWindow(BRect(0, 0, 400,300), field_name, get_type(type), message_data);
+	DataWindow *data_window = new DataWindow(BRect(0, 0, 400,300), field_name, field_type, message_data);
 	data_window->CenterOnScreen();
 	data_window->Show();
 
