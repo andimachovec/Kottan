@@ -14,9 +14,12 @@
 #include <PopUpMenu.h>
 #include <Spinner.h>
 #include <FilePanel.h>
+#include <Catalog.h>
 
 #include <iostream>
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "EditView"
 
 EditView::EditView(BMessage *data_message, type_code data_type, const char *data_label, int32 data_index)
 	:
@@ -122,6 +125,50 @@ EditView::setup_controls()
 			break;
 		}
 
+		case B_SIZE_TYPE:
+		{
+			
+			BSize data_size;
+			fDataMessage->FindSize(fDataLabel, fDataIndex, &data_size);
+			
+			BString height_text;
+			BString width_text;
+			
+			height_text << data_size.height;
+			width_text << data_size.width;
+			
+			BTextControl *height_textctrl = new BTextControl(B_TRANSLATE("Height:"),height_text.String(), NULL);
+			BTextControl *width_textctrl = new BTextControl(B_TRANSLATE("Width:"),width_text.String(), NULL);	
+			
+			fMainLayout->AddView(height_textctrl);
+			fMainLayout->AddView(width_textctrl);			
+			
+			break;
+		}
+
+
+		case B_POINT_TYPE:
+		{
+			BPoint data_point;
+			fDataMessage->FindPoint(fDataLabel, fDataIndex, &data_point);
+			
+			BString x_text;
+			BString y_text;
+			
+			x_text << data_point.x;
+			y_text << data_point.y;
+			
+			BTextControl *x_textctrl = new BTextControl("X:",x_text.String(), NULL);
+			BTextControl *y_textctrl = new BTextControl("Y:",y_text.String(), NULL);	
+			
+			fMainLayout->AddView(x_textctrl);
+			fMainLayout->AddView(y_textctrl);	
+			
+			break;
+		}
+
+		
+
 		case B_RECT_TYPE:
 		{	
 			
@@ -138,10 +185,10 @@ EditView::setup_controls()
 			right_text << data_rect.right;
 			bottom_text << data_rect.bottom;
 			
-			BTextControl *left_textctrl = new BTextControl("left:",left_text.String(), new BMessage());
-			BTextControl *top_textctrl = new BTextControl("top:",top_text.String(), new BMessage());
-			BTextControl *right_textctrl = new BTextControl("right:",right_text.String(), new BMessage());
-			BTextControl *bottom_textctrl = new BTextControl("bottom:", bottom_text.String(), new BMessage());
+			BTextControl *left_textctrl = new BTextControl(B_TRANSLATE("Left:"),left_text.String(), new BMessage());
+			BTextControl *top_textctrl = new BTextControl(B_TRANSLATE("Top:"),top_text.String(), new BMessage());
+			BTextControl *right_textctrl = new BTextControl(B_TRANSLATE("Right:"),right_text.String(), new BMessage());
+			BTextControl *bottom_textctrl = new BTextControl(B_TRANSLATE("Bottom:"), bottom_text.String(), new BMessage());
 
 			fMainLayout->AddView(left_textctrl);
 			fMainLayout->AddView(top_textctrl);
@@ -161,6 +208,12 @@ EditView::setup_controls()
 			break;
 		}
 
+		case B_RGB_COLOR_TYPE:
+		{
+		
+			break;
+		}
+		
 		default:
 		{
 			BStringView *not_editable_text = new BStringView("","not editable");
