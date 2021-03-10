@@ -8,6 +8,8 @@ APP_MIME_SIG = application/x-vnd.BlueSky-Kottan
 #%{
 # @src->@ 
 SRCS = \
+	 src/editview.cpp  \
+	 src/editwindow.cpp  \
 	 src/app.cpp  \
 	 src/datawindow.cpp  \
 	 src/mainwindow.cpp  \
@@ -20,6 +22,8 @@ RDEFS = \
 RSRC = \
 
 # @<-src@ 
+#%}
+
 #%}
 
 #%}
