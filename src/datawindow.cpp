@@ -80,7 +80,11 @@ DataWindow::MessageReceived(BMessage *msg)
 		
 		case DW_ROW_CLICKED:
 		{
-			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fFieldType, new BMessage());
+			
+			BRow *selected_row = fDataView->CurrentSelection();
+			int32 field_index = static_cast<BIntegerField*>(selected_row->GetField(0))->Value();	
+				
+			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fDataMessage, fFieldType, fFieldName, field_index);
 			edit_window->CenterOnScreen();
 			edit_window->Show();
 			break;

@@ -23,7 +23,7 @@ enum
 
 class EditWindow : public BWindow {
 public:
-	EditWindow(BRect frame, type_code DataType, BMessage *Data);
+	EditWindow(BRect frame, BMessage *data_message, type_code data_type, const char *data_label, int32 data_index);
 	void MessageReceived(BMessage *msg);
 
 private:

@@ -15,12 +15,12 @@
 #define B_TRANSLATION_CONTEXT "EditWindow"
 
 
-EditWindow::EditWindow(BRect frame, type_code DataType, BMessage *Data)
+EditWindow::EditWindow(BRect frame, BMessage *data_message, type_code data_type, const char *data_label, int32 data_index)
 	:
 	BWindow(frame, B_TRANSLATE("Edit"), B_TITLED_WINDOW,B_CLOSE_ON_ESCAPE)
 {
 
-	fEditView = new EditView(DataType, Data);
+	fEditView = new EditView(data_message, data_type, data_label, data_index);
 	fCancelButton = new BButton(B_TRANSLATE("Cancel"), new BMessage(EW_BUTTON_CANCEL));
 	fSaveButton = new BButton(B_TRANSLATE("Save"), new BMessage(EW_BUTTON_SAVE));
 

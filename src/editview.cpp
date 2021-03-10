@@ -18,10 +18,13 @@
 #include <iostream>
 
 
-EditView::EditView(type_code datatype, BMessage *data)
+EditView::EditView(BMessage *data_message, type_code data_type, const char *data_label, int32 data_index)
 	:
 	BView("editview", B_SUPPORTS_LAYOUT),
-	fDataType(datatype)	
+	fDataMessage(data_message),
+	fDataType(data_type),	
+	fDataLabel(data_label),
+	fDataIndex(data_index)
 {
 
 	fEditable=true;
@@ -31,6 +34,24 @@ EditView::EditView(type_code datatype, BMessage *data)
 	SetLayout(fMainLayout);
 
 	//construct needed controls for the different data types and add them to the layout
+	setup_controls();
+
+}
+
+
+bool
+EditView::IsEditable()
+{
+
+	return fEditable;
+
+}
+
+
+void 
+EditView::setup_controls()
+{
+
 	switch(fDataType)
 	{
 
@@ -59,7 +80,8 @@ EditView::EditView(type_code datatype, BMessage *data)
 			BSpinner *integer_spinner = new BSpinner("","",new BMessage);
 			fMainLayout->AddView(integer_spinner);
 		
-			int32 range_min, range_max;  // B_UINT64 only gets 32bit ranges for now, let´s hope no one finds out ;-)
+			int32 range_min, range_max;  // B_UINT64 only gets 32bit ranges for now, 
+										//	let´s hope no one finds out ;-)
 		
 			switch(fDataType)
 			{			
@@ -67,7 +89,7 @@ EditView::EditView(type_code datatype, BMessage *data)
 					range_min=-128;
 					range_max=127;
 					break;
-		
+	
 				case B_INT16_TYPE:
 					range_min=-32768;
 					range_max=32767;
@@ -117,7 +139,10 @@ EditView::EditView(type_code datatype, BMessage *data)
 
 		case B_STRING_TYPE:
 		{
-			BTextControl *string_text = new BTextControl("","",new BMessage());
+			const char *data_string; 
+			fDataMessage->FindString(fDataLabel, fDataIndex, &data_string);
+		
+			BTextControl *string_text = new BTextControl("",data_string,new BMessage());
 			fMainLayout->AddView(string_text);
 			break;
 		}
@@ -132,13 +157,3 @@ EditView::EditView(type_code datatype, BMessage *data)
 	}
 
 }
-
-
-bool
-EditView::IsEditable()
-{
-
-	return fEditable;
-
-}
-

@@ -16,13 +16,21 @@
 
 class EditView : public BView {
 public:
-	EditView(type_code datatype, BMessage *data);
+	EditView(BMessage *data_message, type_code data_type, const char *data_label, int32 data_index);
 	bool IsEditable();
 
 private:
-	type_code 			fDataType;
+	
+	void setup_controls();	
+	
 	BGroupLayout		*fMainLayout;
 	bool				fEditable;
+	
+	BMessage			*fDataMessage;
+	type_code			fDataType;
+	const char			*fDataLabel;
+	int32				fDataIndex;
+
 };
 
 #endif
