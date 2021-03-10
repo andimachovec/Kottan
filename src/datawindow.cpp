@@ -5,6 +5,8 @@
  */
 
 #include "datawindow.h"
+#include "editwindow.h"
+#include "gettype.h"
 
 #include <LayoutBuilder.h>
 #include <Catalog.h>
@@ -16,12 +18,14 @@
 #define B_TRANSLATION_CONTEXT "DataWindow"
 
 
-DataWindow::DataWindow(BRect frame, BString fieldname, BString fieldtypename, std::vector<BString> messagedata)
+DataWindow::DataWindow(BRect frame, BString fieldname, type_code fieldtype, std::vector<BString> messagedata)
 	:
-	BWindow(frame, B_TRANSLATE("Message Data"), B_TITLED_WINDOW,B_CLOSE_ON_ESCAPE)
+	BWindow(frame, B_TRANSLATE("Message Data"), B_TITLED_WINDOW,B_CLOSE_ON_ESCAPE),
+	fFieldType(fieldtype)
 {
 
 
+	BString fieldtypename = get_type(fFieldType);
 	BString datalabeltext;
 	datalabeltext+=fieldname;
 	datalabeltext+=" (";
@@ -35,6 +39,7 @@ DataWindow::DataWindow(BRect frame, BString fieldname, BString fieldtypename, st
 	
 	
 	fDataView = new BColumnListView("dataview",0);
+	fDataView->SetInvocationMessage(new BMessage(DW_ROW_CLICKED));
 	BIntegerColumn *index_column = new BIntegerColumn(B_TRANSLATE("Index"),70,10,100);
 	BStringColumn *value_column = new BStringColumn(B_TRANSLATE("Value"),200,50,1000,0);
 	fDataView->AddColumn(index_column,0);
@@ -88,9 +93,20 @@ DataWindow::MessageReceived(BMessage *msg)
 	{
 	
 		case DW_BUTTON_CLOSE:
+		{
 			Quit();
 			break;
-	
+		}
+		
+		
+		case DW_ROW_CLICKED:
+		{
+			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fFieldType, new BMessage());
+			edit_window->CenterOnScreen();
+			edit_window->Show();
+			break;
+		}
+		
 		default:
 		{
 			BWindow::MessageReceived(msg);
