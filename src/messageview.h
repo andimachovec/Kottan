@@ -27,7 +27,6 @@ public:
 
 private:
 	void create_data_rows(BMessage *message, BRow *parent = NULL);
-	void show_message_data(BMessage *data_message, const char *field_name, type_code type, int32 number_of_items);
 	BMessage *fDataMessage;
 
 };

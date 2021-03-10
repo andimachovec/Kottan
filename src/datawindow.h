@@ -25,15 +25,25 @@ enum
 
 class DataWindow : public BWindow {
 public:
-	DataWindow(BRect frame, BString fieldname, type_code fieldtype, std::vector<BString> messagedata);
+	DataWindow(BRect frame, BMessage *data_message, std::vector<int32> index_path);
 	void MessageReceived(BMessage *msg);
 
 
 private:
-	BColumnListView	*fDataView;
-	BButton			*fCloseButton;
-	BStringView		*fDataLabel;
-	type_code 		fFieldType;
+	void get_field_data(BMessage *data_message);
+	void display_data();
+
+	BColumnListView		*fDataView;
+	BButton				*fCloseButton;
+	BStringView			*fDataLabel;
+	
+	BMessage			*fDataMessage;
+	std::vector<int32> 	fIndexPath;
+	
+	const char 			*fFieldName;
+	type_code			fFieldType;
+	int32				fItemCount;
+
 };
 
 #endif
