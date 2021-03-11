@@ -10,9 +10,14 @@
 
 #include <View.h>
 #include <Message.h>
-#include <View.h>
 #include <GroupLayout.h>
-
+#include <TextControl.h>
+#include <StringView.h>
+#include <MenuItem.h>
+#include <MenuField.h>
+#include <PopUpMenu.h>
+#include <Spinner.h>
+#include <DecimalSpinner.h>
 
 class EditView : public BView {
 public:
@@ -30,6 +35,21 @@ private:
 	type_code			fDataType;
 	const char			*fDataLabel;
 	int32				fDataIndex;
+
+	BPopUpMenu			*fPopUpMenu;
+	BSpinner			*fIntegerSpinner1;
+	BSpinner			*fIntegerSpinner2;
+	BSpinner			*fIntegerSpinner3;
+	BSpinner			*fIntegerSpinner4;
+	BDecimalSpinner		*fDecimalSpinner1;
+	BDecimalSpinner		*fDecimalSpinner2;
+	BDecimalSpinner		*fDecimalSpinner3;
+	BDecimalSpinner		*fDecimalSpinner4;
+	BTextControl		*fTextCtrl1;
+	BTextControl		*fTextCtrl2;
+	BTextControl		*fTextCtrl3;
+	BTextControl		*fTextCtrl4;
+
 
 };
 

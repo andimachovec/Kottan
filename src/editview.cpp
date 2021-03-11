@@ -7,12 +7,7 @@
 
 #include "editview.h"
 
-#include <TextControl.h>
-#include <StringView.h>
-#include <MenuItem.h>
-#include <MenuField.h>
-#include <PopUpMenu.h>
-#include <Spinner.h>
+
 #include <FilePanel.h>
 #include <Catalog.h>
 
@@ -36,7 +31,23 @@ EditView::EditView(BMessage *data_message, type_code data_type, const char *data
 	fMainLayout = new BGroupLayout(B_VERTICAL);
 	SetLayout(fMainLayout);
 
-	//construct needed controls for the different data types and add them to the layout
+	//initialize controls
+	fPopUpMenu = new BPopUpMenu("");
+	fIntegerSpinner1 = new BSpinner("","",NULL);
+	fIntegerSpinner2 = new BSpinner("","",NULL);
+	fIntegerSpinner3 = new BSpinner("","",NULL);
+	fIntegerSpinner4 = new BSpinner("","",NULL);
+	fDecimalSpinner1 = new BDecimalSpinner("","",NULL);
+	fDecimalSpinner2 = new BDecimalSpinner("","",NULL);
+	fDecimalSpinner3 = new BDecimalSpinner("","",NULL);
+	fDecimalSpinner4 = new BDecimalSpinner("","",NULL);
+	fTextCtrl1 = new BTextControl("","",NULL);
+	fTextCtrl2 = new BTextControl("","",NULL);
+	fTextCtrl3 = new BTextControl("","",NULL);
+	fTextCtrl4 = new BTextControl("","",NULL);
+	
+	
+	//fill the controls needed for the specified data type with values and add them to the layout
 	setup_controls();
 
 }
@@ -59,17 +70,21 @@ EditView::setup_controls()
 	{
 
 		case B_BOOL_TYPE:
-		{
+		{			
+			bool data_bool; 
+			fDataMessage->FindBool(fDataLabel, fDataIndex, &data_bool);	
+			int32 default_item = static_cast<int32>(data_bool);
 		
-			BPopUpMenu *bool_popup = new BPopUpMenu("boolpopup");
-			bool_popup->AddItem(new BMenuItem("false", NULL));
-			bool_popup->AddItem(new BMenuItem("true", NULL));
-			bool_popup->ItemAt(0)->SetMarked(true);
-			BMenuField *bool_select = new BMenuField("",bool_popup);
+			fPopUpMenu->AddItem(new BMenuItem("false", NULL));
+			fPopUpMenu->AddItem(new BMenuItem("true", NULL));
+			fPopUpMenu->ItemAt(default_item)->SetMarked(true);
+			
+			BMenuField *bool_select = new BMenuField("",fPopUpMenu);
 			fMainLayout->AddView(bool_select);
 			break;
 		}
-
+		
+		/*
 		//all integer types get the same input field but need different range constraints
 		case B_INT8_TYPE:
 		case B_INT16_TYPE:
@@ -167,7 +182,7 @@ EditView::setup_controls()
 			break;
 		}
 
-		
+		*/
 
 		case B_RECT_TYPE:
 		{	
@@ -175,36 +190,30 @@ EditView::setup_controls()
 			BRect data_rect;
 			fDataMessage->FindRect(fDataLabel, fDataIndex, &data_rect);
 			
-			BString left_text;
-			BString top_text;
-			BString right_text;
-			BString bottom_text;
+			fDecimalSpinner1->SetLabel(B_TRANSLATE("Left:"));
+			fDecimalSpinner1->SetValue(data_rect.left);
+			fDecimalSpinner2->SetLabel(B_TRANSLATE("Top:"));
+			fDecimalSpinner2->SetValue(data_rect.top);
+			fDecimalSpinner3->SetLabel(B_TRANSLATE("Right:"));
+			fDecimalSpinner3->SetValue(data_rect.right);
+			fDecimalSpinner4->SetLabel(B_TRANSLATE("Bottom:"));
+			fDecimalSpinner4->SetValue(data_rect.bottom);
 
-			left_text << data_rect.left;
-			top_text << data_rect.top;
-			right_text << data_rect.right;
-			bottom_text << data_rect.bottom;
-			
-			BTextControl *left_textctrl = new BTextControl(B_TRANSLATE("Left:"),left_text.String(), new BMessage());
-			BTextControl *top_textctrl = new BTextControl(B_TRANSLATE("Top:"),top_text.String(), new BMessage());
-			BTextControl *right_textctrl = new BTextControl(B_TRANSLATE("Right:"),right_text.String(), new BMessage());
-			BTextControl *bottom_textctrl = new BTextControl(B_TRANSLATE("Bottom:"), bottom_text.String(), new BMessage());
-
-			fMainLayout->AddView(left_textctrl);
-			fMainLayout->AddView(top_textctrl);
-			fMainLayout->AddView(right_textctrl);
-			fMainLayout->AddView(bottom_textctrl);
+			fMainLayout->AddView(fDecimalSpinner1);
+			fMainLayout->AddView(fDecimalSpinner2);
+			fMainLayout->AddView(fDecimalSpinner3);
+			fMainLayout->AddView(fDecimalSpinner4);
 
 			break;
-		}
+		} 
 
 		case B_STRING_TYPE:
 		{
 			const char *data_string; 
 			fDataMessage->FindString(fDataLabel, fDataIndex, &data_string);
-		
-			BTextControl *string_text = new BTextControl("",data_string,new BMessage());
-			fMainLayout->AddView(string_text);
+			
+			fTextCtrl1->SetText(data_string);
+			fMainLayout->AddView(fTextCtrl1);
 			break;
 		}
 
