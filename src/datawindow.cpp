@@ -13,6 +13,7 @@
 #include <ColumnTypes.h>
 #include <Entry.h>
 #include <Path.h>
+#include <iostream>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -89,6 +90,10 @@ DataWindow::MessageReceived(BMessage *msg)
 			edit_window->Show();
 			break;
 		}
+		
+		case EW_DATA_SAVE:
+			std::cout << "Data save message received" << std::endl;
+			break;
 		
 		default:
 		{

@@ -33,18 +33,18 @@ EditView::EditView(BMessage *data_message, type_code data_type, const char *data
 
 	//initialize controls
 	fPopUpMenu = new BPopUpMenu("");
-	fIntegerSpinner1 = new BSpinner("","",NULL);
-	fIntegerSpinner2 = new BSpinner("","",NULL);
-	fIntegerSpinner3 = new BSpinner("","",NULL);
-	fIntegerSpinner4 = new BSpinner("","",NULL);
-	fDecimalSpinner1 = new BDecimalSpinner("","",NULL);
-	fDecimalSpinner2 = new BDecimalSpinner("","",NULL);
-	fDecimalSpinner3 = new BDecimalSpinner("","",NULL);
-	fDecimalSpinner4 = new BDecimalSpinner("","",NULL);
-	fTextCtrl1 = new BTextControl("","",NULL);
-	fTextCtrl2 = new BTextControl("","",NULL);
-	fTextCtrl3 = new BTextControl("","",NULL);
-	fTextCtrl4 = new BTextControl("","",NULL);
+	fIntegerSpinner1 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fIntegerSpinner2 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fIntegerSpinner3 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fIntegerSpinner4 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fDecimalSpinner1 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fDecimalSpinner2 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fDecimalSpinner3 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fDecimalSpinner4 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fTextCtrl1 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
+	fTextCtrl2 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
+	fTextCtrl3 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
+	fTextCtrl4 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
 	
 	
 	//fill the controls needed for the specified data type with values and add them to the layout
@@ -62,6 +62,36 @@ EditView::IsEditable()
 }
 
 
+status_t 
+EditView::GetDataMessage(BMessage *data_message)
+{
+	const void *data;
+		
+	switch(fDataType)
+	{	
+		case B_BOOL_TYPE:
+		{
+			bool bool_data = static_cast<bool>(fPopUpMenu->FindMarkedIndex());
+			data=&bool_data;
+			break;	
+		}
+		
+		case B_STRING_TYPE:
+			data = fTextCtrl1->Text();
+			break;
+	
+		default:
+			return B_BAD_DATA;
+			break;
+	}
+	
+	fDataMessage->ReplaceData(fDataLabel, fDataType, fDataIndex, data, sizeof(data));
+	data_message = fDataMessage;
+	
+	return B_OK;
+}
+
+
 void 
 EditView::setup_controls()
 {
@@ -75,8 +105,8 @@ EditView::setup_controls()
 			fDataMessage->FindBool(fDataLabel, fDataIndex, &data_bool);	
 			int32 default_item = static_cast<int32>(data_bool);
 		
-			fPopUpMenu->AddItem(new BMenuItem("false", NULL));
-			fPopUpMenu->AddItem(new BMenuItem("true", NULL));
+			fPopUpMenu->AddItem(new BMenuItem("false", new BMessage(EV_DATA_CHANGED)));
+			fPopUpMenu->AddItem(new BMenuItem("true", new BMessage(EV_DATA_CHANGED)));
 			fPopUpMenu->ItemAt(default_item)->SetMarked(true);
 			
 			BMenuField *bool_select = new BMenuField("",fPopUpMenu);

@@ -17,7 +17,8 @@
 enum
 {
 	EW_BUTTON_CANCEL='ew00',
-	EW_BUTTON_SAVE
+	EW_BUTTON_SAVE,
+	EW_DATA_SAVE
 };
 
 

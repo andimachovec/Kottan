@@ -10,6 +10,7 @@
 #include <LayoutBuilder.h>
 #include <Catalog.h>
 
+#include <iostream>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "EditWindow"
@@ -23,12 +24,8 @@ EditWindow::EditWindow(BRect frame, BMessage *data_message, type_code data_type,
 	fEditView = new EditView(data_message, data_type, data_label, data_index);
 	fCancelButton = new BButton(B_TRANSLATE("Cancel"), new BMessage(EW_BUTTON_CANCEL));
 	fSaveButton = new BButton(B_TRANSLATE("Save"), new BMessage(EW_BUTTON_SAVE));
-
-	if (!fEditView->IsEditable())
-	{
-		fSaveButton->SetEnabled(false);
-	}
-
+	
+	
 	BLayoutBuilder::Group<>(this, B_VERTICAL,0)
 		.SetInsets(5)
 		.Add(fEditView)
@@ -47,18 +44,34 @@ EditWindow::MessageReceived(BMessage *msg)
 
 	switch (msg->what)
 	{
-	
 		case EW_BUTTON_SAVE:
+		{
+			BMessage *data_message = new BMessage();
+			status_t result = fEditView->GetDataMessage(data_message);
+			if (result == B_OK)
+			{
+				data_message->what = EW_DATA_SAVE;
+				PostMessage(data_message);
+			}
+			break;
+		}
+		
 		case EW_BUTTON_CANCEL:
 			Quit();
 			break;
-	
+				
+		/*
+		case EV_DATA_CHANGED:
+			std::cout << "Data changed" << std::endl;
+			fSaveButton->SetEnabled(true);
+			break;
+		*/
+					
 		default:
 		{
 			BWindow::MessageReceived(msg);
 			break;
 		}
-
 	}
 
 }

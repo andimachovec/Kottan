@@ -19,10 +19,18 @@
 #include <Spinner.h>
 #include <DecimalSpinner.h>
 
+
+enum
+{
+	EV_DATA_CHANGED='ev00',
+};
+
+
 class EditView : public BView {
 public:
 	EditView(BMessage *data_message, type_code data_type, const char *data_label, int32 data_index);
 	bool IsEditable();
+	status_t GetDataMessage(BMessage *data_message);
 
 private:
 	
