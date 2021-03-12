@@ -113,29 +113,29 @@ EditView::setup_controls()
 			break;
 		}
 		
-		/*
+		
 		//all integer types get the same input field but need different range constraints
 		case B_INT8_TYPE:
 		case B_INT16_TYPE:
 		case B_INT32_TYPE:
-		case B_INT64_TYPE:
 		case B_UINT8_TYPE:
 		case B_UINT16_TYPE:
 		case B_UINT32_TYPE:
-		case B_UINT64_TYPE:
 		{
-			BSpinner *integer_spinner = new BSpinner("","",new BMessage);
-			fMainLayout->AddView(integer_spinner);
-		
-			int32 range_min, range_max;  // B_UINT64 only gets 32bit ranges for now, 
-										//	let´s hope no one finds out ;-)
+			int32 range_min, range_max;
+			int32 data_int;
 		
 			switch(fDataType)
 			{			
 				case B_INT8_TYPE:
+				{		
 					range_min=-128;
 					range_max=127;
+					int8 data_int8;
+					fDataMessage->FindInt8(fDataLabel, fDataIndex, &data_int8);
+					data_int = static_cast<int32>(data_int8);
 					break;
+				}	
 	
 				case B_INT16_TYPE:
 					range_min=-32768;
@@ -143,76 +143,84 @@ EditView::setup_controls()
 					break;
 
 				case B_INT32_TYPE:
-				case B_INT64_TYPE:
 					range_min=-2147483648;
 					range_max=2147483647;
+					fDataMessage->FindInt32(fDataLabel, fDataIndex, &data_int);
+					
 					break;
 					
 				case B_UINT8_TYPE:
+				{
 					range_min=0;
 					range_max=255;
+					uint8 data_uint8;
+					fDataMessage->FindUInt8(fDataLabel, fDataIndex, &data_uint8);
+					data_int = static_cast<int32>(data_uint8);
+					
 					break;
-		
+				}
+				
 				case B_UINT16_TYPE:
+				{
 					range_min=0;
 					range_max=65535;
 					break;
+					
+					uint16 data_uint16;
+					fDataMessage->FindUInt16(fDataLabel, fDataIndex, &data_uint16);
+					data_int = static_cast<int32>(data_uint16);
+				}
 		
+				{
 				case B_UINT32_TYPE:
-				case B_UINT64_TYPE:
 					range_min=0;
 					range_max=2147483647;
 					break;
+				}	
 			}
 			
-			integer_spinner->SetRange(range_min, range_max);			
+			fIntegerSpinner1->SetRange(range_min, range_max);			
+			fIntegerSpinner1->SetValue(data_int);
+			fMainLayout->AddView(fIntegerSpinner1);
+			
 			break;
 		}
+		
 
 		case B_SIZE_TYPE:
 		{
-			
 			BSize data_size;
 			fDataMessage->FindSize(fDataLabel, fDataIndex, &data_size);
 			
-			BString height_text;
-			BString width_text;
+			fDecimalSpinner1->SetLabel(B_TRANSLATE("Height:"));
+			fDecimalSpinner1->SetValue(data_size.height);
+			fDecimalSpinner2->SetLabel(B_TRANSLATE("Width:"));	
+			fDecimalSpinner2->SetValue(data_size.width);	
 			
-			height_text << data_size.height;
-			width_text << data_size.width;
-			
-			BTextControl *height_textctrl = new BTextControl(B_TRANSLATE("Height:"),height_text.String(), NULL);
-			BTextControl *width_textctrl = new BTextControl(B_TRANSLATE("Width:"),width_text.String(), NULL);	
-			
-			fMainLayout->AddView(height_textctrl);
-			fMainLayout->AddView(width_textctrl);			
+			fMainLayout->AddView(fDecimalSpinner1);
+			fMainLayout->AddView(fDecimalSpinner2);			
 			
 			break;
 		}
 
-
+		
 		case B_POINT_TYPE:
 		{
 			BPoint data_point;
 			fDataMessage->FindPoint(fDataLabel, fDataIndex, &data_point);
+				
+			fDecimalSpinner1->SetLabel("X:");
+			fDecimalSpinner1->SetValue(data_point.x);
+			fDecimalSpinner2->SetLabel("Y:");
+			fDecimalSpinner2->SetValue(data_point.y);
 			
-			BString x_text;
-			BString y_text;
-			
-			x_text << data_point.x;
-			y_text << data_point.y;
-			
-			BTextControl *x_textctrl = new BTextControl("X:",x_text.String(), NULL);
-			BTextControl *y_textctrl = new BTextControl("Y:",y_text.String(), NULL);	
-			
-			fMainLayout->AddView(x_textctrl);
-			fMainLayout->AddView(y_textctrl);	
+			fMainLayout->AddView(fDecimalSpinner1);
+			fMainLayout->AddView(fDecimalSpinner2);	
 			
 			break;
 		}
 
-		*/
-
+	
 		case B_RECT_TYPE:
 		{	
 			
