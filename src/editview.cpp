@@ -63,7 +63,7 @@ EditView::IsEditable()
 
 
 status_t 
-EditView::GetDataMessage(BMessage *data_message)
+EditView::SaveData()
 {
 	const void *data;
 		
@@ -86,7 +86,6 @@ EditView::GetDataMessage(BMessage *data_message)
 	}
 	
 	fDataMessage->ReplaceData(fDataLabel, fDataType, fDataIndex, data, sizeof(data));
-	data_message = fDataMessage;
 	
 	return B_OK;
 }
