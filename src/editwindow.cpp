@@ -46,13 +46,7 @@ EditWindow::MessageReceived(BMessage *msg)
 	{
 		case EW_BUTTON_SAVE:
 		{
-			BMessage *data_message = new BMessage();
-			status_t result = fEditView->GetDataMessage(data_message);
-			if (result == B_OK)
-			{
-				data_message->what = EW_DATA_SAVE;
-				PostMessage(data_message);
-			}
+			fEditView->SaveData();
 			Quit();
 			break;
 		}
