@@ -53,6 +53,7 @@ EditWindow::MessageReceived(BMessage *msg)
 				data_message->what = EW_DATA_SAVE;
 				PostMessage(data_message);
 			}
+			Quit();
 			break;
 		}
 		
