@@ -140,6 +140,11 @@ EditView::setup_controls()
 				case B_INT16_TYPE:
 					range_min=-32768;
 					range_max=32767;
+					
+					int16 data_int16;
+					fDataMessage->FindInt16(fDataLabel, fDataIndex, &data_int16);
+					data_int = static_cast<int32>(data_int16);
+					
 					break;
 
 				case B_INT32_TYPE:
@@ -164,17 +169,21 @@ EditView::setup_controls()
 				{
 					range_min=0;
 					range_max=65535;
-					break;
-					
 					uint16 data_uint16;
 					fDataMessage->FindUInt16(fDataLabel, fDataIndex, &data_uint16);
 					data_int = static_cast<int32>(data_uint16);
+					
+					break;										
 				}
 		
 				{
 				case B_UINT32_TYPE:
 					range_min=0;
 					range_max=2147483647;
+					uint32 data_uint32;
+					fDataMessage->FindUInt32(fDataLabel, fDataIndex, &data_uint32);
+					data_int = static_cast<int32>(data_uint32);
+				
 					break;
 				}	
 			}
