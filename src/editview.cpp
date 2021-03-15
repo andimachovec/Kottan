@@ -195,6 +195,16 @@ EditView::setup_controls()
 			break;
 		}
 		
+		case B_FLOAT_TYPE:
+		{
+			float data_float;
+			fDataMessage->FindFloat(fDataLabel, fDataIndex, &data_float);
+			
+			fDecimalSpinner1->SetValue(data_float);
+			fMainLayout->AddView(fDecimalSpinner1);
+		
+			break;
+		}
 
 		case B_SIZE_TYPE:
 		{
@@ -265,6 +275,28 @@ EditView::setup_controls()
 
 		case B_RGB_COLOR_TYPE:
 		{
+			rgb_color data_rgbcolor;
+			fDataMessage->FindColor(fDataLabel, fDataIndex, &data_rgbcolor);
+			
+			
+			fIntegerSpinner1->SetRange(0, 255);	
+			fIntegerSpinner2->SetRange(0, 255);	
+			fIntegerSpinner3->SetRange(0, 255);	
+			fIntegerSpinner4->SetRange(0, 255);	
+			
+			fIntegerSpinner1->SetLabel(B_TRANSLATE("Red:"));
+			fIntegerSpinner1->SetValue(data_rgbcolor.red);	
+			fIntegerSpinner2->SetLabel(B_TRANSLATE("Green:"));
+			fIntegerSpinner2->SetValue(data_rgbcolor.green);		
+			fIntegerSpinner3->SetLabel(B_TRANSLATE("Blue:"));
+			fIntegerSpinner3->SetValue(data_rgbcolor.blue);	
+			fIntegerSpinner4->SetLabel(B_TRANSLATE("Alpha:"));	
+			fIntegerSpinner4->SetValue(data_rgbcolor.alpha);
+			
+			fMainLayout->AddView(fIntegerSpinner1);
+			fMainLayout->AddView(fIntegerSpinner2);
+			fMainLayout->AddView(fIntegerSpinner3);
+			fMainLayout->AddView(fIntegerSpinner4);
 		
 			break;
 		}
