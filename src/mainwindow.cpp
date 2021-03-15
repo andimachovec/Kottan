@@ -143,7 +143,7 @@ MainWindow::MessageReceived(BMessage *msg)
 			
 			fMessageFileTextControl->SetText(target_path.Path());
 			SetTitle(target_path.Path());
-			PostMessage(new BMessage(MW_INSPECTMESSAGEFILE));
+			PostMessage(MW_INSPECTMESSAGEFILE);
 			Activate(true);
 			break;
 		}
