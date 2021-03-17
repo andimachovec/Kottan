@@ -10,7 +10,7 @@
 #include <Application.h>
 #include <Message.h>
 
-#include "mainwindow.h"
+class MainWindow;
 
 class App : public BApplication {
 public:

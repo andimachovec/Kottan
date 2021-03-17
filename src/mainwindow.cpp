@@ -11,6 +11,7 @@
 #include <LayoutBuilder.h>
 #include <Catalog.h>
 #include <Application.h>
+#include <ColumnTypes.h>
 
 #include <iostream>
 
@@ -34,7 +35,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	fChooseMessageFileButton = new BButton(B_TRANSLATE("Choose Message File"),
 											new BMessage(MW_BUTTON_CHOOSEMESSAGEFILE));
 											
-	fMessageInfoView = new MessageView(this);
+	fMessageInfoView = new MessageView();
 	
 	fOpenFilePanel = new BFilePanel(B_OPEN_PANEL, 
 									new BMessenger(this), 
@@ -64,13 +65,8 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 		.End()
 		.AddGroup(B_HORIZONTAL)
 			.SetInsets(5,3,3,3)
-			.Add(fMessageInfoView,20)
-		//.AddGlue()
+			.Add(fMessageInfoView,20)		
 	.Layout();
-
-
-	
-
 
 }
 
@@ -189,7 +185,37 @@ MainWindow::MessageReceived(BMessage *msg)
 			
 			break;
 		}
+		
+		case MV_ROW_CLICKED:
+		{
+		
+			BRow *selected_row = fMessageInfoView->CurrentSelection();
+			BString selected_row_typename(static_cast<BStringField*>(selected_row->GetField(2))->String());
 						
+			if (selected_row_typename != "B_MESSAGE_TYPE")
+			{
+				//get index path to data of selected field
+				BMessage selection_path_msg(MW_ROW_SELECTED);
+				BRow *parent_row;
+				bool row_visible;
+				BRow *current_row = selected_row;
+			
+				while (fMessageInfoView->FindParent(current_row, &parent_row, NULL))
+				{
+					int32 field_index = static_cast<BIntegerField*>(current_row->GetField(0))->Value();
+					selection_path_msg.AddInt32("selection_path",field_index);
+					current_row = parent_row;
+				}
+			
+				int32 top_parent_index = static_cast<BIntegerField*>(current_row->GetField(0))->Value();
+				selection_path_msg.AddInt32("selection_path",top_parent_index);
+			
+				be_app->PostMessage(&selection_path_msg);	
+			}
+			
+			break;
+		}
+		
 		default:
 		{
 			BWindow::MessageReceived(msg);

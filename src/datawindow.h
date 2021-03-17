@@ -13,8 +13,6 @@
 #include <Button.h>
 #include <StringView.h>
 
-#include <vector>
-
 
 enum 
 {
@@ -25,7 +23,11 @@ enum
 
 class DataWindow : public BWindow {
 public:
-	DataWindow(BRect frame, BMessage *data_message, std::vector<int32> index_path);
+	DataWindow(BRect frame, BMessage *data_message, 
+			   BString field_name,
+			   type_code field_type,
+			   int32 item_count);
+			   
 	void MessageReceived(BMessage *msg);
 
 
@@ -38,9 +40,8 @@ private:
 	BStringView			*fDataLabel;
 	
 	BMessage			*fDataMessage;
-	std::vector<int32> 	fIndexPath;
 	
-	const char 			*fFieldName;
+	BString 			fFieldName;
 	type_code			fFieldType;
 	int32				fItemCount;
 

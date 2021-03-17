@@ -10,8 +10,6 @@
 
 #include <ColumnListView.h>
 #include <Message.h>
-#include <String.h>
-#include <Looper.h>
 
 enum
 {
@@ -21,8 +19,7 @@ enum
 
 class MessageView : public BColumnListView {
 public:
-	MessageView(BLooper *TargetLooper);
-	void MessageReceived(BMessage *msg);
+	MessageView();
 	void SetDataMessage(BMessage *message);
 
 private:

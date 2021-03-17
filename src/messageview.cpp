@@ -7,28 +7,20 @@
 
 #include "messageview.h"
 #include "gettype.h"
-#include "datawindow.h"
 
 #include <ColumnTypes.h>
 #include <Catalog.h>
-#include <Looper.h>
-
-#include <vector>
 
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MessageView"
 
 
-MessageView::MessageView(BLooper *TargetLooper)
+MessageView::MessageView()
 	:
 	BColumnListView("messageview",0)
 {
-
-	TargetLooper->AddHandler(this);
-		
 	SetInvocationMessage(new BMessage(MV_ROW_CLICKED));
-	SetTarget(this);
 	
 	BIntegerColumn *index_column = new BIntegerColumn(B_TRANSLATE("Index"),70,10,100);
 	BStringColumn *name_column = new BStringColumn(B_TRANSLATE("Name"),200,50,1000,0);
@@ -39,61 +31,6 @@ MessageView::MessageView(BLooper *TargetLooper)
 	AddColumn(name_column,1);
 	AddColumn(type_column,2);
 	AddColumn(count_column,3);
-
-}
-
-
-void
-MessageView::MessageReceived(BMessage *msg)
-{
-
-	switch(msg->what)
-	{
-
-		case MV_ROW_CLICKED:
-		{
-		
-			BRow *selected_row = CurrentSelection();
-			BString selected_row_typename(static_cast<BStringField*>(selected_row->GetField(2))->String());
-						
-			if (selected_row_typename != "B_MESSAGE_TYPE")
-			{
-			
-				//get index path to data of selected field
-				std::vector<int32> data_index_path;
-				BRow *parent_row;
-				bool row_visible;
-				BRow *current_row = selected_row;
-			
-				while (FindParent(current_row, &parent_row, NULL))
-				{
-					int32 field_index = static_cast<BIntegerField*>(current_row->GetField(0))->Value();
-					data_index_path.insert(data_index_path.begin(), field_index);
-					current_row = parent_row;
-				}
-			
-				int32 top_parent_index = static_cast<BIntegerField*>(current_row->GetField(0))->Value();
-				data_index_path.insert(data_index_path.begin(), top_parent_index);
-		
-				//create data window
-				DataWindow *data_window = new DataWindow(BRect(0, 0, 400,300),
-														fDataMessage, 
-														data_index_path);
-				data_window->CenterOnScreen();
-				data_window->Show();
-				
-			}
-			
-			break;
-		}
-				
-		default:
-		{
-			BColumnListView::MessageReceived(msg);
-			break;
-		}
-
-	}
 
 }
 

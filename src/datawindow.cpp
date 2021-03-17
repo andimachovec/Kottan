@@ -20,13 +20,18 @@
 #define B_TRANSLATION_CONTEXT "DataWindow"
 
 
-DataWindow::DataWindow(BRect frame, BMessage *data_message, std::vector<int32> index_path)
+DataWindow::DataWindow(BRect frame,
+					BMessage *data_message,
+					BString field_name,
+					type_code field_type,
+					int32 item_count)
 	:
-	BWindow(frame, B_TRANSLATE("Message Data"), B_TITLED_WINDOW,B_CLOSE_ON_ESCAPE),
-	fIndexPath(index_path)
+	BWindow(frame, B_TRANSLATE("Message Data"), B_TITLED_WINDOW, B_CLOSE_ON_ESCAPE),
+	fDataMessage(data_message),
+	fFieldName(field_name),
+	fFieldType(field_type),
+	fItemCount(item_count)
 {
-
-	get_field_data(data_message);
 
 	BString fieldtypename = get_type(fFieldType);
 	BString datalabeltext;
@@ -102,61 +107,6 @@ DataWindow::MessageReceived(BMessage *msg)
 		}
 
 	}
-
-}
-
-
-void 
-DataWindow::get_field_data(BMessage *data_message)
-{
-	
-	//follow the path to the selected data		
-	BMessage *current_message = data_message;	
-	std::vector<int32>::iterator index_path_iter;
-				
-	for(index_path_iter = fIndexPath.begin();
-		index_path_iter != fIndexPath.end();
-		++index_path_iter)
-			
-	{
-		int32 current_index = *index_path_iter;
-				
-		type_code current_type;
-		char *current_name;
-		int32 current_item_count;
-					
-		current_message->GetInfo(B_ANY_TYPE, 
-								current_index, 
-								&current_name,
-								&current_type,
-								&current_item_count);		
-					 
-					 
-		if (current_type == B_MESSAGE_TYPE)
-		{
-						
-			int32 find_index=0;
-			if (current_item_count > 1)
-			{
-				++index_path_iter;
-				find_index = *index_path_iter;
-			}
-						
-			BMessage *temp_message = new BMessage();
-			status_t result = current_message->FindMessage(current_name, find_index, temp_message);
-			current_message = temp_message;
-												
-		}
-					
-		if (index_path_iter == fIndexPath.end()-1) //last item
-		{
-			fDataMessage = current_message;
-			fFieldName = current_name;
-			fFieldType = current_type;
-			fItemCount = current_item_count;
-		}
-					
-	} 
 
 }
 
