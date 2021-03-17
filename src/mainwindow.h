@@ -13,7 +13,6 @@
 #include <TextControl.h>
 #include <String.h>
 #include <Path.h>
-#include <Message.h>
 #include <File.h>
 #include <FilePanel.h>
 #include <ColumnTypes.h>
@@ -25,7 +24,8 @@ enum
 	MW_MENU_ABOUT ='mw00',
 	MW_BUTTON_CHOOSEMESSAGEFILE,
 	MW_REF_MESSAGEFILE,
-	MW_INSPECTMESSAGEFILE
+	MW_INSPECTMESSAGEFILE,
+	MW_OPEN_REPLY
 };
 
 class MainWindow : public BWindow {
@@ -46,7 +46,6 @@ private:
 	BTextControl		*fMessageFileTextControl;
 	BButton				*fChooseMessageFileButton;
 	MessageView			*fMessageInfoView;
-	BMessage			*fCurrentMessage;
 	BFilePanel			*fOpenFilePanel;
 	
 };

@@ -8,6 +8,7 @@
 #define APP_H
 
 #include <Application.h>
+#include <Message.h>
 
 #include "mainwindow.h"
 
@@ -21,6 +22,8 @@ public:
 
 private:
 		MainWindow		*fMainWindow;
+		BMessage		*fDataMessage;
+		BMessage		*fWorkMessage;
 
 };
 

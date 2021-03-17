@@ -12,7 +12,7 @@
 #include <Catalog.h>
 #include <Application.h>
 
-#include <sstream>
+#include <iostream>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MainWindow"
@@ -80,7 +80,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	.Layout();
 
 
-	fCurrentMessage = new BMessage();
+	
 
 
 }
@@ -89,9 +89,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 MainWindow::~MainWindow()
 {
 
-	delete fCurrentMessage;
-	delete fOpenFilePanel;
-	
+	delete fOpenFilePanel;	
 }
 
 
@@ -118,15 +116,10 @@ MainWindow::MessageReceived(BMessage *msg)
 			fOpenFilePanel->Show();
 			break;
 		}
-
-		case MW_INSPECTMESSAGEFILE:
-		{
-			inspect_message_file();
-			break;
-		}
-				
+			
 		case MW_REF_MESSAGEFILE:
 		{
+			//get filename from file ref
 			entry_ref ref;
 			msg->FindRef("refs", &ref);
 			BEntry target_file(&ref, true);
@@ -138,16 +131,62 @@ MainWindow::MessageReceived(BMessage *msg)
 			text_view->GetFontAndColor(0,&text_font,NULL);
 			text_font.SetFace(B_REGULAR_FACE|B_OUTLINED_FACE);
 			text_view->SetFontAndColor(&text_font);
-			
-			
-			
+		
 			fMessageFileTextControl->SetText(target_path.Path());
 			SetTitle(target_path.Path());
-			PostMessage(MW_INSPECTMESSAGEFILE);
-			Activate(true);
+			BMessage inspect_message(MW_INSPECTMESSAGEFILE);
+			inspect_message.AddRef("msgfile",&ref);
+			be_app->PostMessage(&inspect_message);
+				
 			break;
 		}
 
+		case MW_OPEN_REPLY:
+		{
+			bool open_success;
+			msg->FindBool("success", &open_success);
+			
+			if (open_success)
+			{
+				void *data_msg_pointer;
+				status_t openmsg_result = msg->FindPointer("data_msg_pointer", &data_msg_pointer);
+				if (openmsg_result == B_OK)
+				{
+					std::cout << "MainWindow: successfully retrieved message pointer" << std::endl;
+				}
+				else
+				{
+					std::cout << "MainWindow: Error retrieving message pointer" << std::endl;
+				}
+	
+				if (data_msg_pointer == NULL)
+				{
+					std::cout << "message pointer is NULL" << std::endl;
+				}
+				
+				BMessage *data_message = static_cast<BMessage*>(data_msg_pointer);
+				if (data_message->IsEmpty())
+				{
+					std::cout << "MainWindow: data message is empty" << std::endl;
+				}
+				else
+				{	
+					std::cout << "MainWindow: data message has " << data_message->CountNames(B_ANY_TYPE) << " members" << std::endl;
+				}
+				fMessageInfoView->SetDataMessage(data_message);
+			}
+			
+			else 
+			{
+				const char *error_text; 
+				msg->FindString("error_text", &error_text);
+				BAlert *message_open_alert = new BAlert("Kottan",
+												error_text, 
+												"OK");
+				message_open_alert->Go();								
+			}
+		
+		}
 						
 		default:
 		{
@@ -162,52 +201,25 @@ MainWindow::MessageReceived(BMessage *msg)
 bool
 MainWindow::QuitRequested()
 {
-
+	
 	be_app->PostMessage(B_QUIT_REQUESTED);
 	return true;
-
+	
 }
 
-
+/*
 void
 MainWindow::inspect_message_file()
 {
-		
+	
+	
 	BString messagefile_name(fMessageFileTextControl->Text());
 	messagefile_name.Trim();
 			
 	if (messagefile_name != "")
 	{
 				
-		BFile *message_file = new BFile();
-					
-		status_t fileopen_result = message_file->SetTo(messagefile_name.String(), B_READ_ONLY);
-					
-		if (fileopen_result == B_OK)
-		{
-			status_t unflatten_result = fCurrentMessage->Unflatten(message_file);
-					
-			if (unflatten_result == B_OK)
-			{
-				fMessageInfoView->SetDataMessage(fCurrentMessage);
-			}
-			else
-			{	
-				BAlert *errorunflatten_alert = new BAlert("Kottan",
-											B_TRANSLATE("Error reading the message from the file!"), 
-											"OK");
-				errorunflatten_alert->Go();
-			}
-		}
-		else 
-		{
-			BAlert *erroropen_alert = new BAlert("Kottan",
-											B_TRANSLATE("Error opening the message file!"), 
-											"OK");
-			erroropen_alert->Go();
-		}
-
-		delete message_file;
+		
 				
 	}
 
@@ -220,10 +232,10 @@ MainWindow::inspect_message_file()
 		nomessagefile_alert->Go();
 			
 	}
-
+	
 }
 
-
+*/
 
 
 
