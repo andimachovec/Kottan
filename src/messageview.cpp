@@ -103,8 +103,6 @@ MessageView::SetDataMessage(BMessage *message)
 {
 
 	fDataMessage = message;
-	Clear();
-
 	create_data_rows(fDataMessage);
 	
 }

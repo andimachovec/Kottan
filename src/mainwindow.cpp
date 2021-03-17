@@ -26,14 +26,9 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	//initialize GUI objects
 	fTopMenuBar = new BMenuBar("topmenubar");
 
-	fMessageFileTextControl = new BTextControl(B_TRANSLATE("Message File"), B_TRANSLATE("drag message file here"), 
-											new BMessage(MW_INSPECTMESSAGEFILE));
-	//set text face to italic
-	BTextView *text_view = fMessageFileTextControl->TextView();
-	BFont text_font;
-	text_view->GetFontAndColor(0,&text_font,NULL);
-	text_font.SetFace(B_ITALIC_FACE);
-	text_view->SetFontAndColor(&text_font);
+	fMessageFileTextControl = new BTextControl(B_TRANSLATE("Message File"),"", 
+											new BMessage(MW_ENTERED_MESSAGEFILE));
+	
 	
 
 	fChooseMessageFileButton = new BButton(B_TRANSLATE("Choose Message File"),
@@ -104,12 +99,14 @@ MainWindow::MessageReceived(BMessage *msg)
 	switch(msg->what)
 	{
 
+		// Help/About was clicked
 		case MW_MENU_ABOUT:
 		{
 			be_app->PostMessage(B_ABOUT_REQUESTED);
 			break;
 		}
 		
+		// Choose file button was clicked
 		case MW_BUTTON_CHOOSEMESSAGEFILE:
 		{
 			
@@ -117,6 +114,38 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 			
+		// message file path was entered manually	
+		case MW_ENTERED_MESSAGEFILE:
+		{
+			
+			BString messagefile_path(fMessageFileTextControl->Text());
+			messagefile_path.Trim();
+			
+			if (messagefile_path.IsEmpty())
+			{
+				BAlert *nomessagefile_alert = new BAlert("Kottan",
+													B_TRANSLATE("Please specify a file to analyze!"), 
+													"OK");	
+				nomessagefile_alert->Go();
+			}
+			
+			else
+			{
+				SetTitle(messagefile_path.String());
+				
+				BEntry messagefile_entry(messagefile_path);
+				entry_ref ref;
+				messagefile_entry.GetRef(&ref);
+				
+				BMessage inspect_message(MW_INSPECTMESSAGEFILE);
+				inspect_message.AddRef("msgfile",&ref);
+				be_app->PostMessage(&inspect_message);
+			}
+
+			break;
+		}
+			
+		//message file was supplied via file dialog or drag&drop	
 		case MW_REF_MESSAGEFILE:
 		{
 			//get filename from file ref
@@ -125,15 +154,10 @@ MainWindow::MessageReceived(BMessage *msg)
 			BEntry target_file(&ref, true);
 			BPath target_path(&target_file);
 			
-			//switch text face back to regular
-			BTextView *text_view = fMessageFileTextControl->TextView();
-			BFont text_font;
-			text_view->GetFontAndColor(0,&text_font,NULL);
-			text_font.SetFace(B_REGULAR_FACE|B_OUTLINED_FACE);
-			text_view->SetFontAndColor(&text_font);
-		
+			
 			fMessageFileTextControl->SetText(target_path.Path());
 			SetTitle(target_path.Path());
+			
 			BMessage inspect_message(MW_INSPECTMESSAGEFILE);
 			inspect_message.AddRef("msgfile",&ref);
 			be_app->PostMessage(&inspect_message);
@@ -141,43 +165,26 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
+		//get back the data message from the app object
 		case MW_OPEN_REPLY:
 		{
 			bool open_success;
 			msg->FindBool("success", &open_success);
+
+			fMessageInfoView->Clear();	
 			
 			if (open_success)
 			{
 				void *data_msg_pointer;
 				status_t openmsg_result = msg->FindPointer("data_msg_pointer", &data_msg_pointer);
-				if (openmsg_result == B_OK)
-				{
-					std::cout << "MainWindow: successfully retrieved message pointer" << std::endl;
-				}
-				else
-				{
-					std::cout << "MainWindow: Error retrieving message pointer" << std::endl;
-				}
-	
-				if (data_msg_pointer == NULL)
-				{
-					std::cout << "message pointer is NULL" << std::endl;
-				}
 				
 				BMessage *data_message = static_cast<BMessage*>(data_msg_pointer);
-				if (data_message->IsEmpty())
-				{
-					std::cout << "MainWindow: data message is empty" << std::endl;
-				}
-				else
-				{	
-					std::cout << "MainWindow: data message has " << data_message->CountNames(B_ANY_TYPE) << " members" << std::endl;
-				}
 				fMessageInfoView->SetDataMessage(data_message);
 			}
 			
 			else 
 			{
+				
 				const char *error_text; 
 				msg->FindString("error_text", &error_text);
 				BAlert *message_open_alert = new BAlert("Kottan",
@@ -185,7 +192,8 @@ MainWindow::MessageReceived(BMessage *msg)
 												"OK");
 				message_open_alert->Go();								
 			}
-		
+			
+			break;
 		}
 						
 		default:
@@ -206,37 +214,6 @@ MainWindow::QuitRequested()
 	return true;
 	
 }
-
-/*
-void
-MainWindow::inspect_message_file()
-{
-	
-	
-	BString messagefile_name(fMessageFileTextControl->Text());
-	messagefile_name.Trim();
-			
-	if (messagefile_name != "")
-	{
-				
-		
-				
-	}
-
-	else
-	{
-		BAlert *nomessagefile_alert = new BAlert("Kottan",
-											B_TRANSLATE("Please specify a file to analyze!"), 
-											"OK");
-			
-		nomessagefile_alert->Go();
-			
-	}
-	
-}
-
-*/
-
 
 
 
