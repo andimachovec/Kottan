@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2020 Andi Machovec <andi.machovec@gmail.com>
+ * Copyright 2019-2021 Andi Machovec <andi.machovec@gmail.com>
  * All rights reserved. Distributed under the terms of the MIT license.
  *
  */
@@ -36,18 +36,12 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 											
 	fMessageInfoView = new MessageView(this);
 	
-	
-	
-	
-	
 	fOpenFilePanel = new BFilePanel(B_OPEN_PANEL, 
 									new BMessenger(this), 
 									NULL,
 									B_FILE_NODE,
 									false,
 									new BMessage(MW_REF_MESSAGEFILE));
-	
-	
 	
 	//define menu layout
 	BLayoutBuilder::Menu<>(fTopMenuBar)
