@@ -106,7 +106,7 @@ App::MessageReceived(BMessage *msg)
 				 --path_index)
 			{
 				int32 current_index;
-				msg->FindInt32("selection_path", &current_index);
+				msg->FindInt32("selection_path", path_index, &current_index);
 				
 				type_code current_type;
 				char *current_name;
@@ -117,8 +117,7 @@ App::MessageReceived(BMessage *msg)
 										&current_name,
 										&current_type,
 										&current_item_count);		
-					 
-					 
+					 	 
 				if (current_type == B_MESSAGE_TYPE)
 				{	
 					int32 find_index=0;
@@ -126,13 +125,12 @@ App::MessageReceived(BMessage *msg)
 					if (current_item_count > 1)
 					{
 						--path_index;
-						find_index = path_index;
+						msg->FindInt32("selection_path", path_index, &find_index);
 					}
 						
 					BMessage *temp_message = new BMessage();
 					status_t result = current_message->FindMessage(current_name, find_index, temp_message);
-					current_message = temp_message;
-												
+					current_message = temp_message;							
 				}
 			
 				if (path_index == 0) //last item
@@ -147,8 +145,7 @@ App::MessageReceived(BMessage *msg)
 													 
 					data_window->CenterOnScreen();
 					data_window->Show();	
-				}
-			
+				}			
 			}	
 			
 			
