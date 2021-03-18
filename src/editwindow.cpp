@@ -9,6 +9,7 @@
 
 #include <LayoutBuilder.h>
 #include <Catalog.h>
+#include <Application.h>
 
 #include <iostream>
 
@@ -47,6 +48,7 @@ EditWindow::MessageReceived(BMessage *msg)
 		case EW_BUTTON_SAVE:
 		{
 			fEditView->SaveData();
+			be_app->PostMessage(msg);	
 			Quit();
 			break;
 		}
