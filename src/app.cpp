@@ -7,7 +7,7 @@
 #include "app.h"
 #include "mainwindow.h"
 #include "datawindow.h"
-
+#include "editwindow.h"
 
 #include <AboutWindow.h>
 #include <Catalog.h>
@@ -135,18 +135,37 @@ App::MessageReceived(BMessage *msg)
 			
 				if (path_index == 0) //last item
 				{
-					DataWindow *data_window = new DataWindow(BRect(0,0,400,300),
-															current_message,
-															current_name,
-															current_type,
-													        current_item_count);
+					
+					fSelectedMessage = current_message;
+					fSelectedFieldName = current_name;
+					fSelectedFieldType = current_type;
+					fSelectedFieldItemCount = current_item_count;
+				
+				}	
+								
+			}
+			
+			DataWindow *data_window = new DataWindow(BRect(0,0,400,300),
+														fSelectedMessage,
+														fSelectedFieldName,
+														fSelectedFieldType,
+												        fSelectedFieldItemCount);
 													 
-					data_window->CenterOnScreen();
-					data_window->Show();	
-				}			
-			}	
+			data_window->CenterOnScreen();
+			data_window->Show();		
 			
+			break;
+		}
+					
+		case DW_ROW_CLICKED:	
+		{	
 			
+			int32 field_index;
+			msg->FindInt32("field_index", &field_index);
+			
+			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fSelectedMessage, fSelectedFieldType, fSelectedFieldName, field_index);
+			edit_window->CenterOnScreen();
+			edit_window->Show();
 			
 			break;
 		}

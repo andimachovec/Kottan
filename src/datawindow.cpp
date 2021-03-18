@@ -1,11 +1,10 @@
 /*
- * Copyright 2019-2020 Andi Machovec <andi.machovec@gmail.com>
+ * Copyright 2019-2021 Andi Machovec <andi.machovec@gmail.com>
  * All rights reserved. Distributed under the terms of the MIT license.
  *
  */
 
 #include "datawindow.h"
-#include "editwindow.h"
 #include "gettype.h"
 
 #include <LayoutBuilder.h>
@@ -13,6 +12,8 @@
 #include <ColumnTypes.h>
 #include <Entry.h>
 #include <Path.h>
+#include <Application.h>
+
 #include <iostream>
 
 
@@ -83,22 +84,17 @@ DataWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 		
-		
 		case DW_ROW_CLICKED:
 		{
 			
 			BRow *selected_row = fDataView->CurrentSelection();
 			int32 field_index = static_cast<BIntegerField*>(selected_row->GetField(0))->Value();	
-				
-			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fDataMessage, fFieldType, fFieldName, field_index);
-			edit_window->CenterOnScreen();
-			edit_window->Show();
+			
+			msg->AddInt32("field_index", field_index); 
+			be_app->PostMessage(msg);
+			
 			break;
 		}
-		
-		case EW_DATA_SAVE:
-			std::cout << "Data save message received" << std::endl;
-			break;
 		
 		default:
 		{

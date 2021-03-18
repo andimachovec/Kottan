@@ -23,7 +23,10 @@ public:
 private:
 		MainWindow		*fMainWindow;
 		BMessage		*fDataMessage;
-		BMessage		*fWorkMessage;
+		BMessage		*fSelectedMessage;		
+		BString 		fSelectedFieldName;
+		type_code		fSelectedFieldType;
+		int32			fSelectedFieldItemCount;
 
 };
 
