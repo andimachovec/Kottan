@@ -97,16 +97,19 @@ App::MessageReceived(BMessage *msg)
 		{	
 			//follow the path to the selected data		
 			BMessage *current_message = fDataMessage;	
+
+			delete fPathMessage;
+			fPathMessage=new BMessage(*msg);
 			
 			int32 path_items_count;
-			msg->GetInfo("selection_path", NULL, &path_items_count);
+			fPathMessage->GetInfo("selection_path", NULL, &path_items_count);
 			
 			for (int32 path_index = path_items_count-1;  // we go through the index values in 
 				 path_index >= 0;						// in reverse
 				 --path_index)
 			{
 				int32 current_index;
-				msg->FindInt32("selection_path", path_index, &current_index);
+				fPathMessage->FindInt32("selection_path", path_index, &current_index);
 				
 				type_code current_type;
 				char *current_name;
@@ -125,7 +128,7 @@ App::MessageReceived(BMessage *msg)
 					if (current_item_count > 1)
 					{
 						--path_index;
-						msg->FindInt32("selection_path", path_index, &find_index);
+						fPathMessage->FindInt32("selection_path", path_index, &find_index);
 					}
 						
 					BMessage *temp_message = new BMessage();
@@ -169,6 +172,31 @@ App::MessageReceived(BMessage *msg)
 			
 			break;
 		}
+
+		case EW_BUTTON_SAVE:
+		{
+			
+			std::cout << "App: EW_BUTTON_SAVE received..." << std::endl;
+			int32 path_items_count;
+			fPathMessage->GetInfo("selection_path", NULL, &path_items_count);
+			
+			fPathMessage->PrintToStream();
+			
+			for (int32 path_index = path_items_count-1;  // we go through the index values in 
+				 path_index >= 0;						// in reverse
+				 --path_index)
+			{
+		
+				int32 current_index;
+				fPathMessage->FindInt32("selection_path", path_index, &current_index);
+				std::cout << current_index << std::endl;
+		
+		
+			}
+			
+			break;
+		}
+
 
 		default:
 		{
@@ -226,6 +254,7 @@ App::ReadyToRun()
 {
 
 	fDataMessage = new BMessage();
+	fPathMessage = new BMessage();
 
 	fMainWindow = new MainWindow(100,100,750,400);
 	fMainWindow->CenterOnScreen();

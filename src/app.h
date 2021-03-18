@@ -27,7 +27,7 @@ private:
 		BString 		fSelectedFieldName;
 		type_code		fSelectedFieldType;
 		int32			fSelectedFieldItemCount;
-
+		BMessage		*fPathMessage;
 };
 
 #endif
