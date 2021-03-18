@@ -135,8 +135,6 @@ App::MessageReceived(BMessage *msg)
 			
 				if (path_index == 0) //last item
 				{
-					std::cout << "Calling DataWindow()..." << std::endl;					
-					
 					DataWindow *data_window = new DataWindow(BRect(0,0,400,300),
 															current_message,
 															current_name,
