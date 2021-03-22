@@ -33,6 +33,22 @@ App::App()
 
 {
 
+	fDataMessage = new BMessage();
+	fPathMessage = new BMessage();		
+	fMessageList = new BObjectList<IndexMessage>(20, false);
+	fMessageFile = new BFile();
+	
+}
+
+
+App::~App()
+{
+
+	delete fDataMessage;
+	delete fPathMessage;
+	delete fMessageFile;
+	//delete fMessageList;
+
 }
 
 
@@ -47,9 +63,8 @@ App::MessageReceived(BMessage *msg)
 		{
 			entry_ref ref;
 			msg->FindRef("msgfile", &ref);
-			BFile *message_file = new BFile();
 					
-			status_t fileopen_result = message_file->SetTo(&ref, B_READ_ONLY);
+			status_t fileopen_result = fMessageFile->SetTo(&ref, B_READ_WRITE);
 
 			BString error_text;	
 			bool message_read_success = false;
@@ -57,7 +72,7 @@ App::MessageReceived(BMessage *msg)
 			
 			if (fileopen_result == B_OK)
 			{
-				status_t unflatten_result = fDataMessage->Unflatten(message_file);
+				status_t unflatten_result = fDataMessage->Unflatten(fMessageFile);
 					
 				if (unflatten_result == B_OK)
 				{
@@ -88,32 +103,32 @@ App::MessageReceived(BMessage *msg)
 			
 			fMainWindow->PostMessage(&open_reply_msg);
 			
-			delete message_file;
 			break;
 		}
 
 		// a row was clicked in MessageView and we get the index path
 		case MW_ROW_SELECTED:
 		{	
-			//follow the path to the selected data		
+			// follow the path to the selected data		
 			BMessage *current_message = fDataMessage;	
+
+			fMessageList->MakeEmpty();
 
 			delete fPathMessage;
 			fPathMessage=new BMessage(*msg);
-			
 			int32 path_items_count;
 			fPathMessage->GetInfo("selection_path", NULL, &path_items_count);
 			
-			for (int32 path_index = path_items_count-1;  // we go through the index values in 
-				 path_index >= 0;						// in reverse
+			type_code current_type;
+			char *current_name;
+			int32 current_item_count;
+			
+			for (int32 path_index = path_items_count-1;  // we loop through the index values in 
+				 path_index >= 0;				   		 // in reverse order
 				 --path_index)
 			{
 				int32 current_index;
 				fPathMessage->FindInt32("selection_path", path_index, &current_index);
-				
-				type_code current_type;
-				char *current_name;
-				int32 current_item_count;
 					
 				current_message->GetInfo(B_ANY_TYPE, 
 										current_index, 
@@ -131,28 +146,26 @@ App::MessageReceived(BMessage *msg)
 						fPathMessage->FindInt32("selection_path", path_index, &find_index);
 					}
 						
-					BMessage *temp_message = new BMessage();
+					BMessage *temp_message = new BMessage;	
 					status_t result = current_message->FindMessage(current_name, find_index, temp_message);
-					current_message = temp_message;							
-				}
-			
-				if (path_index == 0) //last item
-				{
 					
-					fSelectedMessage = current_message;
-					fSelectedFieldName = current_name;
-					fSelectedFieldType = current_type;
-					fSelectedFieldItemCount = current_item_count;
-				
-				}	
-								
+					IndexMessage index_message;
+					index_message.message = current_message;
+					index_message.field_index = find_index;
+					index_message.field_name = current_name;
+					fMessageList->AddItem(&index_message, 0);
+					
+					current_message = temp_message;
+				}
+									
 			}
 			
+			
 			DataWindow *data_window = new DataWindow(BRect(0,0,400,300),
-														fSelectedMessage,
-														fSelectedFieldName,
-														fSelectedFieldType,
-												        fSelectedFieldItemCount);
+													fMessageList->FirstItem()->message,
+													current_name,
+													current_type,
+											        current_item_count);
 													 
 			data_window->CenterOnScreen();
 			data_window->Show();		
@@ -164,9 +177,14 @@ App::MessageReceived(BMessage *msg)
 		{	
 			
 			int32 field_index;
+			const char *field_name;
+			type_code field_type;
 			msg->FindInt32("field_index", &field_index);
+			msg->FindString("field_name", &field_name);
+			msg->FindUInt32("field_type", &field_type);
 			
-			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fSelectedMessage, fSelectedFieldType, fSelectedFieldName, field_index);
+			
+			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fMessageList->FirstItem()->message, field_type, field_name, field_index);
 			edit_window->CenterOnScreen();
 			edit_window->Show();
 			
@@ -174,29 +192,27 @@ App::MessageReceived(BMessage *msg)
 		}
 
 		case EW_BUTTON_SAVE:
-		{
+		{			
 			
-			std::cout << "App: EW_BUTTON_SAVE received..." << std::endl;
-			int32 path_items_count;
-			fPathMessage->GetInfo("selection_path", NULL, &path_items_count);
-			
-			fPathMessage->PrintToStream();
-			
-			for (int32 path_index = path_items_count-1;  // we go through the index values in 
-				 path_index >= 0;						// in reverse
-				 --path_index)
+			for( int32 i = 1; i < fMessageList->CountItems(); ++i)
 			{
-		
-				int32 current_index;
-				fPathMessage->FindInt32("selection_path", path_index, &current_index);
-				std::cout << current_index << std::endl;
-		
-		
+				int32 field_index = fMessageList->ItemAt(i)->field_index;
+				const char *field_name = fMessageList->ItemAt(i)->field_name;
+				fMessageList->ItemAt(i)->message->ReplaceMessage(field_name,
+															field_index,
+															fMessageList->ItemAt(i-1)->message);
+			}	
+	
+			fMessageFile->Seek(0, SEEK_SET);
+			status_t flatten_result = fMessageList->LastItem()->message->Flatten(fMessageFile);
+			
+			if (flatten_result != B_OK)
+			{
+				std::cout << "Error saving message to file..." << std::endl;
 			}
 			
 			break;
 		}
-
 
 		default:
 		{
@@ -253,9 +269,6 @@ void
 App::ReadyToRun()
 {
 
-	fDataMessage = new BMessage();
-	fPathMessage = new BMessage();
-
 	fMainWindow = new MainWindow(100,100,750,400);
 	fMainWindow->CenterOnScreen();
 	fMainWindow->Show();
@@ -275,4 +288,3 @@ main(int argc, char** argv)
 	return 0;
 
 }
-

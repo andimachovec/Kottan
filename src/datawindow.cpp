@@ -91,6 +91,8 @@ DataWindow::MessageReceived(BMessage *msg)
 			int32 field_index = static_cast<BIntegerField*>(selected_row->GetField(0))->Value();	
 			
 			msg->AddInt32("field_index", field_index); 
+			msg->AddString("field_name", fFieldName);
+			msg->AddUInt32("field_type", fFieldType);
 			be_app->PostMessage(msg);
 			
 			break;
