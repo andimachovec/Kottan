@@ -127,11 +127,8 @@ App::MessageReceived(BMessage *msg)
 			const char *field_name;
 			type_code field_type;
 			msg->FindInt32("field_index", &field_index);
-			msg->FindString("field_name", &field_name);
-			msg->FindUInt32("field_type", &field_type);
 			
-			
-			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fMessageList->FirstItem()->message, field_type, field_name, field_index);
+			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fMessageList->FirstItem()->message, fSelectedType, fSelectedName, field_index);
 			edit_window->CenterOnScreen();
 			edit_window->Show();
 			
@@ -140,18 +137,62 @@ App::MessageReceived(BMessage *msg)
 
 		case EW_BUTTON_SAVE:
 		{			
-			
-			for( int32 i = 1; i < fMessageList->CountItems(); ++i)
+			/*
+			for( int32 i = 0; i < fMessageList->CountItems(); ++i)
 			{
 				int32 field_index = fMessageList->ItemAt(i)->field_index;
 				const char *field_name = fMessageList->ItemAt(i)->field_name;
-				fMessageList->ItemAt(i)->message->ReplaceMessage(field_name,
-															field_index,
+				
+				std::cout << field_index << " " << field_name << std::endl;
+				
+				
+			}	
+			
+			*/
+			
+			
+			for( int32 i = 1; i < fMessageList->CountItems(); ++i)
+			{
+				
+				const char *field_name = fMessageList->ItemAt(i-1)->field_name;
+				status_t result = fMessageList->ItemAt(i)->message->ReplaceMessage(field_name,
+															fMessageList->ItemAt(i-1)->field_index,
 															fMessageList->ItemAt(i-1)->message);
+															
+				switch(result)
+				{
+					case B_OK:
+						std::cout << "Saving message data succeeded" << std::endl;
+						break;
+					
+					default:
+						std::cout << "Error saving message. Unknown Error" << std::endl;
+						break;
+				}											
+															
+															
 			}	
 	
+			status_t result = fDataMessage->ReplaceMessage(fMessageList->LastItem()->field_name,
+										fMessageList->LastItem()->field_index,
+										fMessageList->LastItem()->message);
+			
+			
+			
+			switch(result)
+			{
+				case B_OK:
+					std::cout << "Saving message data succeeded" << std::endl;
+					break;
+					
+				default:
+					std::cout << "Error saving message. Unknown Error" << std::endl;
+					break;
+			}
+							
+					
 			fMessageFile->Seek(0, SEEK_SET);
-			status_t flatten_result = fMessageList->LastItem()->message->Flatten(fMessageFile);
+			status_t flatten_result = fDataMessage->Flatten(fMessageFile);
 			
 			if (flatten_result != B_OK)
 			{
