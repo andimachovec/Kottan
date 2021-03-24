@@ -15,7 +15,6 @@
 #include <AppFileInfo.h>
 #include <Path.h>
 #include <File.h>
-
 #include <iostream>
 
 
@@ -255,22 +254,22 @@ App::get_selection_data(BMessage *selection_path_message)
 					 	 
 		if (current_type == B_MESSAGE_TYPE)
 		{	
-			int32 find_index=0;
+			int32 member_index=0;
 			
 			if (current_item_count > 1)
 			{
 				--path_index;
-				selection_path_message->FindInt32("selection_path", path_index, &find_index);
+				selection_path_message->FindInt32("selection_path", path_index, &member_index);
 			}
 						
 			BMessage *temp_message = new BMessage();	
-			status_t result = current_message->FindMessage(current_name, find_index, temp_message);
+			status_t result = current_message->FindMessage(current_name, member_index, temp_message);
 				
-			IndexMessage index_message;
-			index_message.message = current_message;
-			index_message.field_index = find_index;
-			index_message.field_name = current_name;
-			fMessageList->AddItem(&index_message, 0);
+			IndexMessage *index_message = new IndexMessage();
+			index_message->message = new BMessage(*temp_message);
+			index_message->field_index = member_index;
+			index_message->field_name = current_name;
+			fMessageList->AddItem(index_message, 0);
 					
 			current_message = temp_message;
 		}										
