@@ -34,7 +34,6 @@ App::App()
 {
 
 	fDataMessage = new BMessage();
-	fPathMessage = new BMessage();		
 	fMessageList = new BObjectList<IndexMessage>(20, false);
 	fMessageFile = new BFile();
 	
@@ -45,7 +44,6 @@ App::~App()
 {
 
 	delete fDataMessage;
-	delete fPathMessage;
 	delete fMessageFile;
 	//delete fMessageList;
 
@@ -109,63 +107,13 @@ App::MessageReceived(BMessage *msg)
 		// a row was clicked in MessageView and we get the index path
 		case MW_ROW_SELECTED:
 		{	
-			// follow the path to the selected data		
-			BMessage *current_message = fDataMessage;	
-
-			fMessageList->MakeEmpty();
-
-			delete fPathMessage;
-			fPathMessage=new BMessage(*msg);
-			int32 path_items_count;
-			fPathMessage->GetInfo("selection_path", NULL, &path_items_count);
-			
-			type_code current_type;
-			char *current_name;
-			int32 current_item_count;
-			
-			for (int32 path_index = path_items_count-1;  // we loop through the index values in 
-				 path_index >= 0;				   		 // in reverse order
-				 --path_index)
-			{
-				int32 current_index;
-				fPathMessage->FindInt32("selection_path", path_index, &current_index);
-					
-				current_message->GetInfo(B_ANY_TYPE, 
-										current_index, 
-										&current_name,
-										&current_type,
-										&current_item_count);		
-					 	 
-				if (current_type == B_MESSAGE_TYPE)
-				{	
-					int32 find_index=0;
-					
-					if (current_item_count > 1)
-					{
-						--path_index;
-						fPathMessage->FindInt32("selection_path", path_index, &find_index);
-					}
-						
-					BMessage *temp_message = new BMessage;	
-					status_t result = current_message->FindMessage(current_name, find_index, temp_message);
-					
-					IndexMessage index_message;
-					index_message.message = current_message;
-					index_message.field_index = find_index;
-					index_message.field_name = current_name;
-					fMessageList->AddItem(&index_message, 0);
-					
-					current_message = temp_message;
-				}
-									
-			}
-			
+			get_selection_data(msg);
 			
 			DataWindow *data_window = new DataWindow(BRect(0,0,400,300),
 													fMessageList->FirstItem()->message,
-													current_name,
-													current_type,
-											        current_item_count);
+													fSelectedName,
+													fSelectedType,
+											        fSelectedItemCount);
 													 
 			data_window->CenterOnScreen();
 			data_window->Show();		
@@ -273,6 +221,65 @@ App::ReadyToRun()
 	fMainWindow->CenterOnScreen();
 	fMainWindow->Show();
 	
+}
+
+
+void
+App::get_selection_data(BMessage *selection_path_message)
+{
+
+	// follow the path to the selected data		
+	BMessage *current_message = fDataMessage;	
+
+	fMessageList->MakeEmpty();
+
+	int32 path_items_count;
+	selection_path_message->GetInfo("selection_path", NULL, &path_items_count);
+			
+	type_code current_type;
+	char *current_name;
+	int32 current_item_count;
+			
+	for (int32 path_index = path_items_count-1;  // we loop through the index values in 
+		 path_index >= 0;				   		 // in reverse order
+		 --path_index)
+	{
+		int32 current_index;
+		selection_path_message->FindInt32("selection_path", path_index, &current_index);
+					
+		current_message->GetInfo(B_ANY_TYPE, 
+								current_index, 
+								&current_name,
+								&current_type,
+								&current_item_count);		
+					 	 
+		if (current_type == B_MESSAGE_TYPE)
+		{	
+			int32 find_index=0;
+			
+			if (current_item_count > 1)
+			{
+				--path_index;
+				selection_path_message->FindInt32("selection_path", path_index, &find_index);
+			}
+						
+			BMessage *temp_message = new BMessage();	
+			status_t result = current_message->FindMessage(current_name, find_index, temp_message);
+				
+			IndexMessage index_message;
+			index_message.message = current_message;
+			index_message.field_index = find_index;
+			index_message.field_name = current_name;
+			fMessageList->AddItem(&index_message, 0);
+					
+			current_message = temp_message;
+		}										
+	}	
+
+	fSelectedName = current_name;
+	fSelectedType = current_type;
+	fSelectedItemCount = current_item_count;
+
 }
 
 

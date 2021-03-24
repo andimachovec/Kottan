@@ -34,11 +34,16 @@ public:
 	void ReadyToRun();
 
 private:
+		void get_selection_data(BMessage *selection_path_message);
+		
 		MainWindow					*fMainWindow;
 		BMessage					*fDataMessage;
-		BMessage					*fPathMessage;
 		BObjectList<IndexMessage>	*fMessageList;
 		BFile						*fMessageFile;
+
+		const char 					*fSelectedName;
+		type_code 					fSelectedType;
+		int32 						fSelectedItemCount;
 };
 
 #endif
