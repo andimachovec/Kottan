@@ -12,8 +12,9 @@
 #include <Catalog.h>
 #include <Application.h>
 #include <ColumnTypes.h>
+#include <Entry.h>
+#include <Path.h>
 
-#include <iostream>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MainWindow"
@@ -25,18 +26,8 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 {
 
 	//initialize GUI objects
-	fTopMenuBar = new BMenuBar("topmenubar");
-
-	fMessageFileTextControl = new BTextControl(B_TRANSLATE("Message File"),"", 
-											new BMessage(MW_ENTERED_MESSAGEFILE));
-	
-	
-
-	fChooseMessageFileButton = new BButton(B_TRANSLATE("Choose Message File"),
-											new BMessage(MW_BUTTON_CHOOSEMESSAGEFILE));
-											
+	fTopMenuBar = new BMenuBar("topmenubar");										
 	fMessageInfoView = new MessageView();
-	
 	fOpenFilePanel = new BFilePanel(B_OPEN_PANEL, 
 									new BMessenger(this), 
 									NULL,
@@ -47,6 +38,8 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	//define menu layout
 	BLayoutBuilder::Menu<>(fTopMenuBar)
 		.AddMenu(B_TRANSLATE("File"))
+			.AddItem(B_TRANSLATE("Open Message File"), MW_OPEN_MESSAGEFILE, 'O')
+			.AddItem(B_TRANSLATE("Save Message File"), MW_SAVE_MESSAGEFILE, 'S')
 			.AddItem(B_TRANSLATE("Quit"), B_QUIT_REQUESTED, 'Q')
 		.End()
 		.AddMenu(B_TRANSLATE("Help"))
@@ -58,11 +51,6 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	BLayoutBuilder::Group<>(this, B_VERTICAL,0)
 		.SetInsets(0)
 		.Add(fTopMenuBar)
-		.AddGroup(B_HORIZONTAL)
-			.SetInsets(5,5,5,5)
-			.Add(fMessageFileTextControl)
-			.Add(fChooseMessageFileButton)
-		.End()
 		.AddGroup(B_HORIZONTAL)
 			.SetInsets(5,3,3,3)
 			.Add(fMessageInfoView,20)		
@@ -96,45 +84,22 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 		
-		// Choose file button was clicked
-		case MW_BUTTON_CHOOSEMESSAGEFILE:
+		// Open file menu was selected
+		case MW_OPEN_MESSAGEFILE:
 		{
 			
 			fOpenFilePanel->Show();
 			break;
 		}
 			
-		// message file path was entered manually	
-		case MW_ENTERED_MESSAGEFILE:
+		// Save file menu was selected	
+		case MW_SAVE_MESSAGEFILE:
 		{
 			
-			BString messagefile_path(fMessageFileTextControl->Text());
-			messagefile_path.Trim();
 			
-			if (messagefile_path.IsEmpty())
-			{
-				BAlert *nomessagefile_alert = new BAlert("Kottan",
-													B_TRANSLATE("Please specify a file to analyze!"), 
-													"OK");	
-				nomessagefile_alert->Go();
-			}
-			
-			else
-			{
-				SetTitle(messagefile_path.String());
-				
-				BEntry messagefile_entry(messagefile_path);
-				entry_ref ref;
-				messagefile_entry.GetRef(&ref);
-				
-				BMessage inspect_message(MW_INSPECTMESSAGEFILE);
-				inspect_message.AddRef("msgfile",&ref);
-				be_app->PostMessage(&inspect_message);
-			}
-
 			break;
 		}
-			
+					
 		//message file was supplied via file dialog or drag&drop	
 		case MW_REF_MESSAGEFILE:
 		{
@@ -144,8 +109,6 @@ MainWindow::MessageReceived(BMessage *msg)
 			BEntry target_file(&ref, true);
 			BPath target_path(&target_file);
 			
-			
-			fMessageFileTextControl->SetText(target_path.Path());
 			SetTitle(target_path.Path());
 			
 			BMessage inspect_message(MW_INSPECTMESSAGEFILE);
