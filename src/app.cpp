@@ -108,8 +108,20 @@ App::MessageReceived(BMessage *msg)
 		{	
 			get_selection_data(msg);
 			
+				
+			BMessage *dw_message;
+			
+			if (fMessageList->CountItems() > 0)
+			{
+				dw_message = fMessageList->FirstItem()->message;
+			}
+			else
+			{
+				dw_message = fDataMessage;
+			}
+			
 			DataWindow *data_window = new DataWindow(BRect(0,0,400,300),
-													fMessageList->FirstItem()->message,
+													dw_message,
 													fSelectedName,
 													fSelectedType,
 											        fSelectedItemCount);
@@ -128,7 +140,20 @@ App::MessageReceived(BMessage *msg)
 			type_code field_type;
 			msg->FindInt32("field_index", &field_index);
 			
-			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), fMessageList->FirstItem()->message, fSelectedType, fSelectedName, field_index);
+			
+			BMessage *ew_message;
+			
+			if (fMessageList->CountItems() > 0)
+			{
+				ew_message = fMessageList->FirstItem()->message;
+			}
+			else
+			{
+				ew_message = fDataMessage;
+			}
+			
+			
+			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), ew_message, fSelectedType, fSelectedName, field_index);
 			edit_window->CenterOnScreen();
 			edit_window->Show();
 			
@@ -137,18 +162,21 @@ App::MessageReceived(BMessage *msg)
 
 		case EW_BUTTON_SAVE:
 		{			
-			for( int32 i = 1; i < fMessageList->CountItems(); ++i)
+			if (fMessageList->CountItems() > 0)
 			{
-				fMessageList->ItemAt(i)->message->ReplaceMessage(
-															fMessageList->ItemAt(i-1)->field_name,
-															fMessageList->ItemAt(i-1)->field_index,
-															fMessageList->ItemAt(i-1)->message);											
-			}	
+				for( int32 i = 1; i < fMessageList->CountItems(); ++i)
+				{
+					fMessageList->ItemAt(i)->message->ReplaceMessage(
+																fMessageList->ItemAt(i-1)->field_name,
+																fMessageList->ItemAt(i-1)->field_index,
+																fMessageList->ItemAt(i-1)->message);											
+				}	
 	
-			fDataMessage->ReplaceMessage(fMessageList->LastItem()->field_name,
-										fMessageList->LastItem()->field_index,
-										fMessageList->LastItem()->message);
-							
+				fDataMessage->ReplaceMessage(fMessageList->LastItem()->field_name,
+											fMessageList->LastItem()->field_index,
+											fMessageList->LastItem()->message);
+			}	
+			
 			fMainWindow->PostMessage(MW_WAS_EDITED);
 			
 			break;
@@ -235,8 +263,7 @@ App::ReadyToRun()
 void
 App::get_selection_data(BMessage *selection_path_message)
 {
-
-	// follow the path to the selected data		
+	// follow the index path to the selected data		
 	BMessage *current_message = fDataMessage;	
 
 	fMessageList->MakeEmpty();
