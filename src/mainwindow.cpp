@@ -181,12 +181,15 @@ MainWindow::MessageReceived(BMessage *msg)
 		}
 		
 		case MW_WAS_EDITED:
-		{
-			BString title(Title());
-			title.Prepend("*");
-			SetTitle(title.String());
+		{	
+			if(!fNotSaved)
+			{
+				BString title(Title());
+				title.Prepend("*");
+				SetTitle(title.String());
 			
-			fNotSaved = true;
+				fNotSaved = true;
+			}
 
 			break;
 		}
@@ -194,12 +197,14 @@ MainWindow::MessageReceived(BMessage *msg)
 		
 		case MW_WAS_SAVED:
 		{
-		
-			BString title(Title());
-			title.RemoveChars(0,1);
-			SetTitle(title.String());
+			if (fNotSaved)
+			{
+				BString title(Title());
+				title.RemoveChars(0,1);
+				SetTitle(title.String());
 
-			fNotSaved = false;
+				fNotSaved = false;
+			}
 		
 			break;
 		}
