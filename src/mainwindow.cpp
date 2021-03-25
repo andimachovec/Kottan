@@ -96,7 +96,7 @@ MainWindow::MessageReceived(BMessage *msg)
 		case MW_SAVE_MESSAGEFILE:
 		{
 			
-			
+			be_app->PostMessage(msg);
 			break;
 		}
 					
@@ -176,6 +176,26 @@ MainWindow::MessageReceived(BMessage *msg)
 				be_app->PostMessage(&selection_path_msg);	
 			}
 			
+			break;
+		}
+		
+		case MW_WAS_EDITED:
+		{
+			BString title(Title());
+			title.Prepend("*");
+			SetTitle(title.String());
+			
+			break;
+		}
+		
+		
+		case MW_WAS_SAVED:
+		{
+		
+			BString title(Title());
+			title.RemoveChars(0,1);
+			SetTitle(title.String());
+		
 			break;
 		}
 		

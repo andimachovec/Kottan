@@ -23,6 +23,8 @@ enum
 	MW_INSPECTMESSAGEFILE,
 	MW_OPEN_REPLY,
 	MW_ROW_SELECTED,
+	MW_WAS_EDITED,
+	MW_WAS_SAVED,
 };
 
 class MainWindow : public BWindow {

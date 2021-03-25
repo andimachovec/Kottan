@@ -149,6 +149,14 @@ App::MessageReceived(BMessage *msg)
 										fMessageList->LastItem()->field_index,
 										fMessageList->LastItem()->message);
 							
+			fMainWindow->PostMessage(MW_WAS_EDITED);
+			
+			break;
+		}
+
+		case MW_SAVE_MESSAGEFILE:
+		{
+			
 			fMessageFile->Seek(0, SEEK_SET);
 			status_t flatten_result = fDataMessage->Flatten(fMessageFile);
 			
@@ -156,6 +164,8 @@ App::MessageReceived(BMessage *msg)
 			{
 				
 			}
+			
+			fMainWindow->PostMessage(MW_WAS_SAVED);
 			
 			break;
 		}
