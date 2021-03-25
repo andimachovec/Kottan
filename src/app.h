@@ -12,7 +12,7 @@
 #include <ObjectList.h>
 #include <File.h>
 
-
+class DataWindow;
 class MainWindow;
 
 class IndexMessage {
@@ -37,6 +37,7 @@ private:
 		void get_selection_data(BMessage *selection_path_message);
 		
 		MainWindow					*fMainWindow;
+		DataWindow					*fDataWindow;
 		BMessage					*fDataMessage;
 		BObjectList<IndexMessage>	*fMessageList;
 		BFile						*fMessageFile;

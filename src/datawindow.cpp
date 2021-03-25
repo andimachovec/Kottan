@@ -98,6 +98,14 @@ DataWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 		
+		case DW_UPDATE:
+		{
+			fDataView->Clear();
+			display_data();
+		
+			break;
+		}
+		
 		default:
 		{
 			BWindow::MessageReceived(msg);

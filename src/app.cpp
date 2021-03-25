@@ -44,8 +44,7 @@ App::~App()
 
 	delete fDataMessage;
 	delete fMessageFile;
-	//delete fMessageList;
-
+	
 }
 
 
@@ -120,14 +119,14 @@ App::MessageReceived(BMessage *msg)
 				dw_message = fDataMessage;
 			}
 			
-			DataWindow *data_window = new DataWindow(BRect(0,0,400,300),
-													dw_message,
-													fSelectedName,
-													fSelectedType,
-											        fSelectedItemCount);
+			fDataWindow = new DataWindow(BRect(0,0,400,300),
+										dw_message,
+										fSelectedName,
+										fSelectedType,
+								        fSelectedItemCount);
 													 
-			data_window->CenterOnScreen();
-			data_window->Show();		
+			fDataWindow->CenterOnScreen();
+			fDataWindow->Show();		
 			
 			break;
 		}
@@ -177,6 +176,7 @@ App::MessageReceived(BMessage *msg)
 											fMessageList->LastItem()->message);
 			}	
 			
+			fDataWindow->PostMessage(DW_UPDATE);
 			fMainWindow->PostMessage(MW_WAS_EDITED);
 			
 			break;

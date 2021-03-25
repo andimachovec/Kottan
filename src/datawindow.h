@@ -17,7 +17,8 @@
 enum 
 {
 	DW_BUTTON_CLOSE = 'dw00',
-	DW_ROW_CLICKED
+	DW_ROW_CLICKED,
+	DW_UPDATE
 };
 
 
