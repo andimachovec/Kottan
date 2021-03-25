@@ -65,27 +65,23 @@ EditView::IsEditable()
 status_t 
 EditView::SaveData()
 {
-	const void *data;
 		
 	switch(fDataType)
 	{	
 		case B_BOOL_TYPE:
 		{
-			bool bool_data = static_cast<bool>(fPopUpMenu->FindMarkedIndex());
-			data=&bool_data;
+			fDataMessage->ReplaceBool(fDataLabel, fDataIndex, static_cast<bool>(fPopUpMenu->FindMarkedIndex()));
 			break;	
 		}
 		
 		case B_STRING_TYPE:
-			data = fTextCtrl1->Text();
+			fDataMessage->ReplaceString(fDataLabel, fDataIndex, fTextCtrl1->Text());
 			break;
 	
 		default:
 			return B_BAD_DATA;
 			break;
 	}
-	
-	fDataMessage->ReplaceData(fDataLabel, fDataType, fDataIndex, data, sizeof(data));
 	
 	return B_OK;
 }
