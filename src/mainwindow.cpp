@@ -71,8 +71,19 @@ void
 MainWindow::MessageReceived(BMessage *msg)
 {
 
-	if(msg->WasDropped()) {
-		msg->what = MW_REF_MESSAGEFILE;
+	if(msg->WasDropped()) 
+	{
+		if(fNotSaved)
+		{
+			if(continue_action())
+			{
+				msg->what = MW_REF_MESSAGEFILE;
+			}
+		}
+		else
+		{
+			msg->what = MW_REF_MESSAGEFILE;
+		}
 	}
 
 	switch(msg->what)
@@ -88,6 +99,13 @@ MainWindow::MessageReceived(BMessage *msg)
 		// Open file menu was selected
 		case MW_OPEN_MESSAGEFILE:
 		{
+			if (fNotSaved)
+			{
+				if (!continue_action())
+				{
+					break;
+				}
+			}
 			
 			fOpenFilePanel->Show();
 			break;
@@ -122,6 +140,8 @@ MainWindow::MessageReceived(BMessage *msg)
 		//get back the data message from the app object
 		case MW_OPEN_REPLY:
 		{
+			fNotSaved = false;	
+			
 			bool open_success;
 			msg->FindBool("success", &open_success);
 
@@ -225,18 +245,10 @@ MainWindow::QuitRequested()
 
 	if (fNotSaved)
 	{
-		BAlert *not_saved_alert = new BAlert("", 
-			B_TRANSLATE("The message file was changed but not saved. Do you really want to quit?"),
-			B_TRANSLATE("No"),
-			B_TRANSLATE("Yes"),
-			NULL,
-			B_WIDTH_AS_USUAL,
-			B_WARNING_ALERT);
-		
-		if (not_saved_alert->Go() == 0)
+		if (!continue_action())
 		{
 			return false;
-		}		
+		}	
 	}
 
 	be_app->PostMessage(B_QUIT_REQUESTED);
@@ -245,7 +257,27 @@ MainWindow::QuitRequested()
 }
 
 
+bool
+MainWindow::continue_action()
+{
 
+	BAlert *not_saved_alert = new BAlert(
+		"", 
+		B_TRANSLATE("The message data was changed but not saved. Do you really want to continue?"),
+		B_TRANSLATE("No"),
+		B_TRANSLATE("Yes"),
+		NULL,
+		B_WIDTH_AS_USUAL,
+		B_WARNING_ALERT);
+		
+	if (not_saved_alert->Go() == 0)
+	{
+		return false;
+	}		
+
+	return true;
+
+}
 
 
 

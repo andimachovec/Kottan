@@ -35,8 +35,8 @@ public:
 	bool QuitRequested();
 
 private:
-	void inspect_message_file();
-			
+	bool continue_action();
+	
 	BMenuBar			*fTopMenuBar;
 	MessageView			*fMessageInfoView;
 	BFilePanel			*fOpenFilePanel;
