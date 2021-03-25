@@ -56,6 +56,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 			.Add(fMessageInfoView,20)		
 	.Layout();
 
+	fNotSaved = false;
 }
 
 
@@ -185,6 +186,8 @@ MainWindow::MessageReceived(BMessage *msg)
 			title.Prepend("*");
 			SetTitle(title.String());
 			
+			fNotSaved = true;
+
 			break;
 		}
 		
@@ -195,6 +198,8 @@ MainWindow::MessageReceived(BMessage *msg)
 			BString title(Title());
 			title.RemoveChars(0,1);
 			SetTitle(title.String());
+
+			fNotSaved = false;
 		
 			break;
 		}
@@ -212,10 +217,26 @@ MainWindow::MessageReceived(BMessage *msg)
 bool
 MainWindow::QuitRequested()
 {
-	
+
+	if (fNotSaved)
+	{
+		BAlert *not_saved_alert = new BAlert("", 
+			B_TRANSLATE("The message file was changed but not saved. Do you really want to quit?"),
+			B_TRANSLATE("No"),
+			B_TRANSLATE("Yes"),
+			NULL,
+			B_WIDTH_AS_USUAL,
+			B_WARNING_ALERT);
+		
+		if (not_saved_alert->Go() == 0)
+		{
+			return false;
+		}		
+	}
+
 	be_app->PostMessage(B_QUIT_REQUESTED);
 	return true;
-	
+			
 }
 
 

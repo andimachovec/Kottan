@@ -40,7 +40,7 @@ private:
 	BMenuBar			*fTopMenuBar;
 	MessageView			*fMessageInfoView;
 	BFilePanel			*fOpenFilePanel;
-	
+	bool				fNotSaved;
 };
 
 #endif
