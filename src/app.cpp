@@ -135,8 +135,6 @@ App::MessageReceived(BMessage *msg)
 		{	
 			
 			int32 field_index;
-			const char *field_name;
-			type_code field_type;
 			msg->FindInt32("field_index", &field_index);
 			
 			
@@ -299,7 +297,7 @@ App::get_selection_data(BMessage *selection_path_message)
 			}
 						
 			BMessage *temp_message = new BMessage();	
-			status_t result = current_message->FindMessage(current_name, member_index, temp_message);
+			current_message->FindMessage(current_name, member_index, temp_message);
 				
 			IndexMessage *index_message = new IndexMessage();
 			index_message->message = new BMessage(*temp_message);

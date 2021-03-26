@@ -5,7 +5,6 @@
  */
 
 #include "mainwindow.h"
-#include "gettype.h"
 
 #include <Alert.h>
 #include <LayoutBuilder.h>
@@ -150,7 +149,7 @@ MainWindow::MessageReceived(BMessage *msg)
 			if (open_success)
 			{
 				void *data_msg_pointer;
-				status_t openmsg_result = msg->FindPointer("data_msg_pointer", &data_msg_pointer);
+				msg->FindPointer("data_msg_pointer", &data_msg_pointer);
 				
 				BMessage *data_message = static_cast<BMessage*>(data_msg_pointer);
 				fMessageInfoView->SetDataMessage(data_message);
@@ -181,7 +180,6 @@ MainWindow::MessageReceived(BMessage *msg)
 				//get index path to data of selected field
 				BMessage selection_path_msg(MW_ROW_SELECTED);
 				BRow *parent_row;
-				bool row_visible;
 				BRow *current_row = selected_row;
 			
 				while (fMessageInfoView->FindParent(current_row, &parent_row, NULL))
