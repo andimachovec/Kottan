@@ -10,7 +10,7 @@
 
 #include <FilePanel.h>
 #include <Catalog.h>
-
+#include <limits>
 #include <iostream>
 
 #undef B_TRANSLATION_CONTEXT
@@ -113,6 +113,12 @@ EditView::SaveData()
 		case B_FLOAT_TYPE:
 		{
 			fDataMessage->ReplaceFloat(fDataLabel, fDataIndex, fDecimalSpinner1->Value());
+			break;
+		}
+	
+		case B_DOUBLE_TYPE:
+		{
+			fDataMessage->ReplaceDouble(fDataLabel, fDataIndex, fDecimalSpinner1->Value());
 			break;
 		}
 	
@@ -287,11 +293,28 @@ EditView::setup_controls()
 			float data_float;
 			fDataMessage->FindFloat(fDataLabel, fDataIndex, &data_float);
 			
+			fDecimalSpinner1->SetRange(-(std::numeric_limits<float>::max()), std::numeric_limits<float>::max()); 
 			fDecimalSpinner1->SetValue(data_float);
 			fMainLayout->AddView(fDecimalSpinner1);
 		
 			break;
 		}
+
+		case B_DOUBLE_TYPE:
+		{
+			double data_double;
+			fDataMessage->FindDouble(fDataLabel, fDataIndex, &data_double);
+			
+			fDecimalSpinner1->SetRange(-(std::numeric_limits<double>::max()), std::numeric_limits<double>::max()); 
+			fDecimalSpinner1->SetValue(data_double);
+			fMainLayout->AddView(fDecimalSpinner1);
+		
+			break;
+		}
+	
+
+
+
 
 		case B_SIZE_TYPE:
 		{
