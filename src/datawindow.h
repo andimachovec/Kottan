@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2020 Andi Machovec <andi.machovec@gmail.com>
+ * Copyright 2019-2021 Andi Machovec <andi.machovec@gmail.com>
  * All rights reserved. Distributed under the terms of the MIT license.
  *
  */
