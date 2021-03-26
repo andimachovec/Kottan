@@ -1,22 +1,36 @@
-1	English	application/x-vnd.BlueSky-Kottan	3340274526
+1	English	application/x-vnd.BlueSky-Kottan	3402679833
 Name	MessageView		Name
-Help	MainWindow		Hilfe
-Index	MessageView		Index
+Blue:	EditView		Blau:
 About	MainWindow		Über
-Error reading the message from the file!	MainWindow		Beim Laden der Message aus der Datei ist ein Fehler aufgetreten!
-File	MainWindow		Datei
-Message File	MainWindow		Message-Datei
-data cannot be displayed	MessageView		Daten können nicht angezeigt werden
+Open Message File	MainWindow		Message-Datei Öffnen
+Save Message File	MainWindow		Message-Datei Speichern
+Top:	EditView		Oben:
 Number of Items	MessageView		Anzahl Items
-drag message file here	MainWindow		Message-Datei hierher ziehen
-Please specify a file to analyze!	MainWindow		Bitte einen Dateinamen zum Inspizieren angeben!
-Value	DataWindow		Wert
-Close	DataWindow		Schliessen
+data cannot be displayed	DataWindow		Daten können nicht angezeigt werden
 Quit	MainWindow		Beenden
+No	MainWindow		Nein
 Index	DataWindow		Index
-An inspector for archived BMessages	App		ein Inspektor für archivierte BMessages
-Error opening the message file!	MainWindow		Beim Öffnen der Datei ist ein Fehler aufgetreten!
-Choose Message File	MainWindow		Message-Datei auswählen
-Message Data	DataWindow		Message-Daten
+Bottom:	EditView		Unten:
 Type	MessageView		Datentyp
-Close	MessageWindow		Schliessen
+Yes	MainWindow		Ja
+Red:	EditView		Rot:
+Error opening the message file!	App		Fehler beim Öffnen der Message-Datei!
+Help	MainWindow		Hilfe
+Green:	EditView		Grün:
+Index	MessageView		Index
+The message data was changed but not saved. Do you really want to continue?	MainWindow		Die Message-Daten wurden geändert aber noch nicht gespeichert. Möchten Sie wirklich fortfahren?
+Left:	EditView		Links:
+Width:	EditView		Breite:
+Height:	EditView		Höhe:
+File	MainWindow		Datei
+Right:	EditView		Rechts:
+Value	DataWindow		Wert
+Cancel	EditWindow		Abbrechen
+Edit	EditWindow		Bearbeiten
+Close	DataWindow		Schliessen
+Alpha:	EditView		Alpha:
+Save	EditWindow		Speichern
+An inspector for archived BMessages	App		ein Inspektor für archivierte BMessages
+Error reading the message from the file!	App		Fehler beim Lesen der Message-Datei!
+Message Data	DataWindow		Message-Daten
+ten

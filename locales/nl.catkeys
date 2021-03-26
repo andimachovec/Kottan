@@ -1,22 +1,35 @@
-1	English	application/x-vnd.BlueSky-Kottan	3340274526
+1	English	application/x-vnd.BlueSky-Kottan	3402679833
 Name	MessageView		Naam
-Help	MainWindow		Help
-Index	MessageView		Index
+Blue:	EditView		Blue:
 About	MainWindow		Over
-Error reading the message from the file!	MainWindow		Fout bij het lezen van Message uit bestand!
-File	MainWindow		Bestand
-Message File	MainWindow		Message bestand
-data cannot be displayed	MessageView		data kan niet getoond worden
+Open Message File	MainWindow		Open Message File
+Save Message File	MainWindow		Save Message File
+Top:	EditView		Top:
 Number of Items	MessageView		Aantal Items
-drag message file here	MainWindow		drag message file here
-Please specify a file to analyze!	MainWindow		Kies een bestand om te analyseren!
-Value	DataWindow		Waarde
-Close	DataWindow		Sluiten
+data cannot be displayed	DataWindow		data cannot be displayed
 Quit	MainWindow		Sluiten
+No	MainWindow		No
 Index	DataWindow		Index
-An inspector for archived BMessages	App		Een inspecteur voor gearchiveerde BMessages
-Error opening the message file!	MainWindow		Fout bij het openen van het bestand!
-Choose Message File	MainWindow		Kies Message bestand
-Message Data	DataWindow		Message Data
+Bottom:	EditView		Bottom:
 Type	MessageView		Type
-Close	MessageWindow		Sluiten
+Yes	MainWindow		Yes
+Red:	EditView		Red:
+Error opening the message file!	App		Error opening the message file!
+Help	MainWindow		Help
+Green:	EditView		Green:
+Index	MessageView		Index
+The message data was changed but not saved. Do you really want to continue?	MainWindow		The message data was changed but not saved. Do you really want to continue?
+Left:	EditView		Left:
+Width:	EditView		Width:
+Height:	EditView		Height:
+File	MainWindow		Bestand
+Right:	EditView		Right:
+Value	DataWindow		Waarde
+Cancel	EditWindow		Cancel
+Edit	EditWindow		Edit
+Close	DataWindow		Sluiten
+Alpha:	EditView		Alpha:
+Save	EditWindow		Save
+An inspector for archived BMessages	App		Een inspecteur voor gearchiveerde BMessages
+Error reading the message from the file!	App		Error reading the message from the file!
+Message Data	DataWindow		Message Data
