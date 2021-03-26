@@ -203,8 +203,13 @@ DataWindow::display_data()
 
 			case B_RGB_COLOR_TYPE:
 			{
-				rgb_color default_color;
-				rgb_color color = fDataMessage->GetColor(fFieldName,i,default_color);
+				// BMessage->FindColor() or GetColor() don´t seem to work on B_RGB_COLOR_TYPE so we
+				// have to use the raw FindData() here
+				const void *color_ptr;
+				ssize_t data_size = sizeof(rgb_color);
+				fDataMessage->FindData(fFieldName, B_RGB_COLOR_TYPE, i, &color_ptr, &data_size);
+				rgb_color color = *(static_cast<const rgb_color*>(color_ptr));	
+				
 				message_item_data<<color.red;
 				message_item_data+=", ";
 				message_item_data<<color.green;

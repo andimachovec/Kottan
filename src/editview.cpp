@@ -74,9 +74,100 @@ EditView::SaveData()
 			break;	
 		}
 		
-		case B_STRING_TYPE:
-			fDataMessage->ReplaceString(fDataLabel, fDataIndex, fTextCtrl1->Text());
+		case B_INT8_TYPE:
+		{
+			fDataMessage->ReplaceInt8(fDataLabel, fDataIndex, static_cast<int8>(fIntegerSpinner1->Value()));
 			break;
+		}	
+		
+		case B_INT16_TYPE:
+		{
+			fDataMessage->ReplaceInt16(fDataLabel, fDataIndex, static_cast<int16>(fIntegerSpinner1->Value()));
+			break;
+		}
+		
+		case B_INT32_TYPE:
+		{
+			fDataMessage->ReplaceInt32(fDataLabel, fDataIndex, fIntegerSpinner1->Value());
+			break;
+		}
+		
+		case B_UINT8_TYPE:
+		{
+			fDataMessage->ReplaceUInt8(fDataLabel, fDataIndex, static_cast<uint8>(fIntegerSpinner1->Value()));
+			break;
+		}
+		
+		case B_UINT16_TYPE:
+		{
+			fDataMessage->ReplaceUInt16(fDataLabel, fDataIndex, static_cast<uint16>(fIntegerSpinner1->Value()));
+			break;
+		}
+		
+		case B_UINT32_TYPE:
+		{
+			fDataMessage->ReplaceUInt32(fDataLabel, fDataIndex, static_cast<uint32>(fIntegerSpinner1->Value()));
+			break;
+		}	
+	
+		case B_FLOAT_TYPE:
+		{
+			fDataMessage->ReplaceFloat(fDataLabel, fDataIndex, fDecimalSpinner1->Value());
+			break;
+		}
+	
+		case B_SIZE_TYPE:
+		{
+			BSize data_size;
+			data_size.height = fDecimalSpinner1->Value();
+			data_size.width = fDecimalSpinner2->Value();
+			fDataMessage->ReplaceSize(fDataLabel, fDataIndex, data_size);
+			break;
+		}
+	
+		case B_POINT_TYPE:
+		{
+			BPoint data_point;
+			data_point.x = fDecimalSpinner1->Value();
+			data_point.y = fDecimalSpinner2->Value();
+			fDataMessage->ReplacePoint(fDataLabel, fDataIndex, data_point);
+			
+			break;
+		}
+		
+		case B_RECT_TYPE:
+		{
+			BRect data_rect;
+			data_rect.left = fDecimalSpinner1->Value();
+			data_rect.top = fDecimalSpinner2->Value();
+			data_rect.right = fDecimalSpinner3->Value();
+			data_rect.bottom = fDecimalSpinner4->Value();
+			fDataMessage->ReplaceRect(fDataLabel, fDataIndex, data_rect);
+		
+			break;
+		}
+		
+		case B_STRING_TYPE:
+		{		
+			fDataMessage->ReplaceString(fDataLabel, fDataIndex, fTextCtrl1->Text());
+		
+			break;	
+		}
+	
+		case B_RGB_COLOR_TYPE:
+		{
+			rgb_color data_rgbcolor;
+			data_rgbcolor.red =  static_cast<uint8>(fIntegerSpinner1->Value());
+			data_rgbcolor.green = static_cast<uint8>(fIntegerSpinner2->Value());
+			data_rgbcolor.blue = static_cast<uint8>(fIntegerSpinner3->Value());
+			data_rgbcolor.alpha = static_cast<uint8>(fIntegerSpinner4->Value());
+			fDataMessage->ReplaceColor(fDataLabel, fDataIndex, data_rgbcolor);
+		
+			break;			
+		}
+	
+	
+	
 	
 		default:
 			return B_BAD_DATA;
@@ -207,6 +298,9 @@ EditView::setup_controls()
 			BSize data_size;
 			fDataMessage->FindSize(fDataLabel, fDataIndex, &data_size);
 			
+			fDecimalSpinner1->SetMaxValue(10000);
+			fDecimalSpinner2->SetMaxValue(10000);		
+			
 			fDecimalSpinner1->SetLabel(B_TRANSLATE("Height:"));
 			fDecimalSpinner1->SetValue(data_size.height);
 			fDecimalSpinner2->SetLabel(B_TRANSLATE("Width:"));	
@@ -223,6 +317,9 @@ EditView::setup_controls()
 		{
 			BPoint data_point;
 			fDataMessage->FindPoint(fDataLabel, fDataIndex, &data_point);
+				
+			fDecimalSpinner1->SetMaxValue(10000);
+			fDecimalSpinner2->SetMaxValue(10000);			
 				
 			fDecimalSpinner1->SetLabel("X:");
 			fDecimalSpinner1->SetValue(data_point.x);
@@ -241,6 +338,11 @@ EditView::setup_controls()
 			
 			BRect data_rect;
 			fDataMessage->FindRect(fDataLabel, fDataIndex, &data_rect);
+			
+			fDecimalSpinner1->SetMaxValue(10000);
+			fDecimalSpinner2->SetMaxValue(10000);		
+			fDecimalSpinner3->SetMaxValue(10000);			
+			fDecimalSpinner4->SetMaxValue(10000);			
 			
 			fDecimalSpinner1->SetLabel(B_TRANSLATE("Left:"));
 			fDecimalSpinner1->SetValue(data_rect.left);
@@ -271,8 +373,11 @@ EditView::setup_controls()
 
 		case B_RGB_COLOR_TYPE:
 		{
-			rgb_color data_rgbcolor;
-			fDataMessage->FindColor(fDataLabel, fDataIndex, &data_rgbcolor);
+			
+			const void *color_ptr;
+			ssize_t data_size = sizeof(rgb_color);
+			fDataMessage->FindData(fDataLabel, B_RGB_COLOR_TYPE, fDataIndex, &color_ptr, &data_size);
+			rgb_color data_rgbcolor = *(static_cast<const rgb_color*>(color_ptr));
 			
 			
 			fIntegerSpinner1->SetRange(0, 255);	
