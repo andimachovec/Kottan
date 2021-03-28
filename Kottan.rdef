@@ -10,6 +10,6 @@ resource app_version {
 	internal = 0,
 
 	short_info = "Kottan",
-	long_info = "a BMessage inspector"
+	long_info = "an editor for archived BMessages"
 };
 
