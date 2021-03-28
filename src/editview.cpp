@@ -224,7 +224,8 @@ EditView::setup_controls()
 		case B_UINT16_TYPE:
 		case B_UINT32_TYPE:
 		{
-			int32 range_min, range_max;
+			int32 range_min = 0;
+			int32 range_max = 0;
 			int32 data_int;
 		
 			switch(fDataType)
