@@ -150,7 +150,7 @@ App::MessageReceived(BMessage *msg)
 			}
 			
 			
-			EditWindow *edit_window = new EditWindow(BRect(0,0,300,200), ew_message, fSelectedType, fSelectedName, field_index);
+			EditWindow *edit_window = new EditWindow(BRect(0,0,220,200), ew_message, fSelectedType, fSelectedName, field_index);
 			edit_window->CenterOnScreen();
 			edit_window->Show();
 			
