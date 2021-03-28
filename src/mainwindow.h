@@ -25,6 +25,7 @@ enum
 	MW_ROW_SELECTED,
 	MW_WAS_EDITED,
 	MW_WAS_SAVED,
+	MW_DO_NOTHING,
 };
 
 class MainWindow : public BWindow {

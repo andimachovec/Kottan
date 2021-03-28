@@ -78,6 +78,11 @@ MainWindow::MessageReceived(BMessage *msg)
 			{
 				msg->what = MW_REF_MESSAGEFILE;
 			}
+			else
+			{
+				msg->what = MW_DO_NOTHING;
+			}
+		
 		}
 		else
 		{
@@ -227,6 +232,11 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 		
+		//do nothing and don´t forward to base class
+		case MW_DO_NOTHING:
+			break;
+		
+		//forward all unhandled messages to the base class
 		default:
 		{
 			BWindow::MessageReceived(msg);
