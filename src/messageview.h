@@ -20,7 +20,8 @@ enum
 class MessageView : public BColumnListView {
 public:
 	MessageView();
-	void SetDataMessage(BMessage *message);
+	void 			SetDataMessage(BMessage *message);
+	virtual	void	MessageDropped(BMessage* msg, BPoint point);
 
 private:
 	void create_data_rows(BMessage *message, BRow *parent = NULL);

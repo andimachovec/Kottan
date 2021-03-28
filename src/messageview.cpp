@@ -10,7 +10,8 @@
 
 #include <ColumnTypes.h>
 #include <Catalog.h>
-
+#include <Window.h>
+#include <iostream>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MessageView"
@@ -42,6 +43,13 @@ MessageView::SetDataMessage(BMessage *message)
 	fDataMessage = message;
 	create_data_rows(fDataMessage);
 	
+}
+
+
+void				
+MessageView::MessageDropped(BMessage *msg, BPoint point)
+{
+	Window()->PostMessage(msg);
 }
 
 
