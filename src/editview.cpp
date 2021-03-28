@@ -10,7 +10,6 @@
 #include <Catalog.h>
 #include <limits>
 
-
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "EditView"
 
@@ -180,8 +179,8 @@ EditView::SaveData()
 			data_rgbcolor.green = static_cast<uint8>(fIntegerSpinner2->Value());
 			data_rgbcolor.blue = static_cast<uint8>(fIntegerSpinner3->Value());
 			data_rgbcolor.alpha = static_cast<uint8>(fIntegerSpinner4->Value());
-			fDataMessage->ReplaceColor(fDataLabel, fDataIndex, data_rgbcolor);
-		
+			fDataMessage->ReplaceData(fDataLabel, B_RGB_COLOR_TYPE, fDataIndex, &data_rgbcolor, sizeof(data_rgbcolor));
+			
 			break;			
 		}
 		
