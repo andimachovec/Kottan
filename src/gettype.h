@@ -4,7 +4,6 @@
  *
  */
 
-
 #include <String.h>
 
 static BString 
@@ -15,7 +14,6 @@ get_type(type_code typecode)
 
 	switch(typecode)
 	{
-	
 		case B_AFFINE_TRANSFORM_TYPE:
 		{
 			typecode_name="B_AFFINE_TRANSFORM_TYPE";
@@ -322,7 +320,6 @@ get_type(type_code typecode)
 			typecode_name = "unidentified"; 
 		
 		}
-	
 	}
 
 	return typecode_name;

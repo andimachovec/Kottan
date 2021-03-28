@@ -4,14 +4,13 @@
  *
  */
 
-
 #include "messageview.h"
 #include "gettype.h"
 
 #include <ColumnTypes.h>
 #include <Catalog.h>
 #include <Window.h>
-#include <iostream>
+
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MessageView"
@@ -49,7 +48,9 @@ MessageView::SetDataMessage(BMessage *message)
 void				
 MessageView::MessageDropped(BMessage *msg, BPoint point)
 {
+	
 	Window()->PostMessage(msg);
+	
 }
 
 
@@ -85,7 +86,6 @@ MessageView::create_data_rows(BMessage *message, BRow *parent)
 			
 			for (int32 message_nr = 0; message_nr < count; ++message_nr)
 			{
-				
 				if (count > 1)
 				{
 					BRow *header_row = new BRow();
@@ -102,8 +102,6 @@ MessageView::create_data_rows(BMessage *message, BRow *parent)
 				create_data_rows(member_message, parent_row);
 			}
 		}
-
 	}
 
 }
-

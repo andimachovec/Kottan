@@ -56,6 +56,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 	.Layout();
 
 	fNotSaved = false;
+	
 }
 
 
@@ -63,6 +64,7 @@ MainWindow::~MainWindow()
 {
 
 	delete fOpenFilePanel;	
+	
 }
 
 
@@ -159,10 +161,8 @@ MainWindow::MessageReceived(BMessage *msg)
 				BMessage *data_message = static_cast<BMessage*>(data_msg_pointer);
 				fMessageInfoView->SetDataMessage(data_message);
 			}
-			
 			else 
 			{
-				
 				const char *error_text; 
 				msg->FindString("error_text", &error_text);
 				BAlert *message_open_alert = new BAlert("Kottan",
@@ -176,9 +176,9 @@ MainWindow::MessageReceived(BMessage *msg)
 		
 		case MV_ROW_CLICKED:
 		{
-		
 			BRow *selected_row = fMessageInfoView->CurrentSelection();
-			BString selected_row_typename(static_cast<BStringField*>(selected_row->GetField(2))->String());
+			BString selected_row_typename(
+								static_cast<BStringField*>(selected_row->GetField(2))->String());
 						
 			if (selected_row_typename != "B_MESSAGE_TYPE")
 			{
@@ -189,12 +189,15 @@ MainWindow::MessageReceived(BMessage *msg)
 			
 				while (fMessageInfoView->FindParent(current_row, &parent_row, NULL))
 				{
-					int32 field_index = static_cast<BIntegerField*>(current_row->GetField(0))->Value();
+					int32 field_index = 
+									static_cast<BIntegerField*>(current_row->GetField(0))->Value();
+									
 					selection_path_msg.AddInt32("selection_path",field_index);
 					current_row = parent_row;
 				}
 			
-				int32 top_parent_index = static_cast<BIntegerField*>(current_row->GetField(0))->Value();
+				int32 top_parent_index = 
+									static_cast<BIntegerField*>(current_row->GetField(0))->Value();
 				selection_path_msg.AddInt32("selection_path",top_parent_index);
 			
 				be_app->PostMessage(&selection_path_msg);	
@@ -242,8 +245,8 @@ MainWindow::MessageReceived(BMessage *msg)
 			BWindow::MessageReceived(msg);
 			break;
 		}
-
 	}
+	
 }
 
 
@@ -268,7 +271,6 @@ MainWindow::QuitRequested()
 bool
 MainWindow::continue_action()
 {
-
 	BAlert *not_saved_alert = new BAlert(
 		"", 
 		B_TRANSLATE("The message data was changed but not saved. Do you really want to continue?"),
@@ -286,9 +288,3 @@ MainWindow::continue_action()
 	return true;
 
 }
-
-
-
-
-
-

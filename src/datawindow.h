@@ -45,7 +45,6 @@ private:
 	BString 			fFieldName;
 	type_code			fFieldType;
 	int32				fItemCount;
-
 };
 
 #endif

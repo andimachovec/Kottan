@@ -4,12 +4,12 @@
  *
  */
 
-
 #ifndef MESSAGEVIEW_H
 #define MESSAGEVIEW_H
 
 #include <ColumnListView.h>
 #include <Message.h>
+
 
 enum
 {
@@ -26,7 +26,6 @@ public:
 private:
 	void create_data_rows(BMessage *message, BRow *parent = NULL);
 	BMessage *fDataMessage;
-
 };
 
 #endif

@@ -14,8 +14,6 @@
 #include <Path.h>
 #include <Application.h>
 
-#include <iostream>
-
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "DataWindow"
@@ -44,7 +42,6 @@ DataWindow::DataWindow(BRect frame,
 	fDataLabel = new BStringView("datalabel", datalabeltext.String());
 	BFont font(be_bold_font);
 	fDataLabel->SetFont(&font);
-	
 
 	fDataView = new BColumnListView("dataview",0);
 	fDataView->SetInvocationMessage(new BMessage(DW_ROW_CLICKED));
@@ -52,11 +49,9 @@ DataWindow::DataWindow(BRect frame,
 	BStringColumn *value_column = new BStringColumn(B_TRANSLATE("Value"),200,50,1000,0);
 	fDataView->AddColumn(index_column,0);
 	fDataView->AddColumn(value_column,1);
-	
 	display_data();
 	
 	fCloseButton = new BButton(B_TRANSLATE("Close"), new BMessage(DW_BUTTON_CLOSE));
-	
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL,0)
 		.SetInsets(5)
@@ -77,7 +72,6 @@ DataWindow::MessageReceived(BMessage *msg)
 
 	switch (msg->what)
 	{
-	
 		case DW_BUTTON_CLOSE:
 		{
 			Quit();
@@ -86,7 +80,6 @@ DataWindow::MessageReceived(BMessage *msg)
 		
 		case DW_ROW_CLICKED:
 		{
-			
 			BRow *selected_row = fDataView->CurrentSelection();
 			int32 field_index = static_cast<BIntegerField*>(selected_row->GetField(0))->Value();	
 			
@@ -111,7 +104,6 @@ DataWindow::MessageReceived(BMessage *msg)
 			BWindow::MessageReceived(msg);
 			break;
 		}
-
 	}
 
 }
@@ -125,12 +117,10 @@ DataWindow::display_data()
 			
 	for (int32 i=0; i < fItemCount; ++i)
 	{
-			
 		message_item_data = "";
 				
 		switch (fFieldType)
 		{
-				
 			case B_STRING_TYPE:
 				message_item_data=BString(fDataMessage->GetString(fFieldName, i, ""));
 				break;
@@ -266,11 +256,9 @@ DataWindow::display_data()
 				
 				if (result == B_OK)
 				{	
-					
 					BEntry file_entry(&file_ref);
 					BPath file_path(&file_entry);
-					message_item_data << file_path.Path();
-					
+					message_item_data << file_path.Path();					
 				}
 			
 				break;
@@ -288,9 +276,7 @@ DataWindow::display_data()
 		row->SetField(index_field,0);
 		row->SetField(value_field,1);
 		
-		fDataView->AddRow(row);		
-		
-				
+		fDataView->AddRow(row);				
 	}
 
 }

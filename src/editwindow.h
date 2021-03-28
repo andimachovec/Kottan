@@ -4,7 +4,6 @@
  *
  */
 
-
 #ifndef EDITWINDOW_H
 #define EDITWINDOW_H
 
@@ -32,7 +31,6 @@ private:
 	BButton		*fCancelButton;
 	BButton		*fSaveButton;
 	EditView	*fEditView;
-
 };
 
 #endif

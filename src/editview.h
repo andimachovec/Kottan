@@ -4,7 +4,6 @@
  *
  */
 
-
 #ifndef EDITVIEW_H
 #define EDITVIEW_H
 
@@ -57,8 +56,6 @@ private:
 	BTextControl		*fTextCtrl2;
 	BTextControl		*fTextCtrl3;
 	BTextControl		*fTextCtrl4;
-
-
 };
 
 #endif

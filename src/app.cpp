@@ -15,7 +15,6 @@
 #include <AppFileInfo.h>
 #include <Path.h>
 #include <File.h>
-#include <iostream>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -54,7 +53,7 @@ App::MessageReceived(BMessage *msg)
 
 	switch(msg->what)
 	{
-
+		//receive file reference, read the file and extract into message
 		case MW_INSPECTMESSAGEFILE:
 		{
 			entry_ref ref;
@@ -64,7 +63,6 @@ App::MessageReceived(BMessage *msg)
 
 			BString error_text;	
 			bool message_read_success = false;
-			
 			
 			if (fileopen_result == B_OK)
 			{
@@ -84,7 +82,6 @@ App::MessageReceived(BMessage *msg)
 				error_text = B_TRANSLATE("Error opening the message file!");
 			}
 
-
 			BMessage open_reply_msg(MW_OPEN_REPLY);
 			open_reply_msg.AddBool("success", message_read_success);
 
@@ -102,11 +99,10 @@ App::MessageReceived(BMessage *msg)
 			break;
 		}
 
-		// a row was clicked in MessageView and we get the index path
+		// get info about clicked row and open data window
 		case MW_ROW_SELECTED:
 		{	
 			get_selection_data(msg);
-			
 				
 			BMessage *dw_message;
 			
@@ -130,13 +126,12 @@ App::MessageReceived(BMessage *msg)
 			
 			break;
 		}
-					
+
+		// get info about clicked row in DataWindow and open EditWindow
 		case DW_ROW_CLICKED:	
 		{	
-			
 			int32 field_index;
 			msg->FindInt32("field_index", &field_index);
-			
 			
 			BMessage *ew_message;
 			
@@ -149,14 +144,18 @@ App::MessageReceived(BMessage *msg)
 				ew_message = fDataMessage;
 			}
 			
-			
-			EditWindow *edit_window = new EditWindow(BRect(0,0,220,200), ew_message, fSelectedType, fSelectedName, field_index);
+			EditWindow *edit_window = new EditWindow(BRect(0,0,220,200), 
+													ew_message,
+													fSelectedType,
+													fSelectedName,
+													field_index);
 			edit_window->CenterOnScreen();
 			edit_window->Show();
 			
 			break;
 		}
 
+		// save edited data to the main data message
 		case EW_BUTTON_SAVE:
 		{			
 			if (fMessageList->CountItems() > 0)
@@ -164,9 +163,9 @@ App::MessageReceived(BMessage *msg)
 				for( int32 i = 1; i < fMessageList->CountItems(); ++i)
 				{
 					fMessageList->ItemAt(i)->message->ReplaceMessage(
-																fMessageList->ItemAt(i-1)->field_name,
-																fMessageList->ItemAt(i-1)->field_index,
-																fMessageList->ItemAt(i-1)->message);											
+														fMessageList->ItemAt(i-1)->field_name,
+														fMessageList->ItemAt(i-1)->field_index,
+														fMessageList->ItemAt(i-1)->message);											
 				}	
 	
 				fDataMessage->ReplaceMessage(fMessageList->LastItem()->field_name,
@@ -180,9 +179,9 @@ App::MessageReceived(BMessage *msg)
 			break;
 		}
 
+		// save message data to file
 		case MW_SAVE_MESSAGEFILE:
 		{
-			
 			fMessageFile->Seek(0, SEEK_SET);
 			status_t flatten_result = fDataMessage->Flatten(fMessageFile);
 			
@@ -196,13 +195,14 @@ App::MessageReceived(BMessage *msg)
 			break;
 		}
 
+		// delegate all unhandled messages to the base class
 		default:
 		{
 			BApplication::MessageReceived(msg);
 			break;
 		}
-
 	}
+	
 }
 
 
@@ -227,7 +227,6 @@ App::AboutRequested()
 	version_string<<appversion->middle;
 	version_string+=".";
 	version_string<<appversion->minor;
-	
 
 	aboutwindow->AddCopyright(2019, "Andi Machovec");
 	aboutwindow->AddAuthors(authors);
@@ -261,6 +260,7 @@ App::ReadyToRun()
 void
 App::get_selection_data(BMessage *selection_path_message)
 {
+
 	// follow the index path to the selected data		
 	BMessage *current_message = fDataMessage;	
 
@@ -273,7 +273,7 @@ App::get_selection_data(BMessage *selection_path_message)
 	char *current_name;
 	int32 current_item_count;
 			
-	for (int32 path_index = path_items_count-1;  // we loop through the index values in 
+	for (int32 path_index = path_items_count-1;  // loop through the index values in 
 		 path_index >= 0;				   		 // in reverse order
 		 --path_index)
 	{
@@ -324,7 +324,6 @@ main(int argc, char** argv)
 	haiku_app->Run();
 
 	delete haiku_app;
-
 	return 0;
 
 }

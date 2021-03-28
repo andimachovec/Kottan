@@ -13,6 +13,7 @@
 
 #include "messageview.h"
 
+
 enum
 {
 	MW_MENU_ABOUT ='mw00',

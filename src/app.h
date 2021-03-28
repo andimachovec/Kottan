@@ -15,13 +15,13 @@
 class DataWindow;
 class MainWindow;
 
+
 class IndexMessage {
 public:
 	BMessage 	*message;
 	int32		field_index;
 	const char  *field_name;
 };
-
 
 
 class App : public BApplication {
