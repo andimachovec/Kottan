@@ -1,9 +1,7 @@
-1	English	application/x-vnd.BlueSky-Kottan	3402679833
+1	English	application/x-vnd.BlueSky-Kottan	2407178019
 Name	MessageView		Naam
 Blue:	EditView		Blue:
 About	MainWindow		Over
-Open Message File	MainWindow		Open Message File
-Save Message File	MainWindow		Save Message File
 Top:	EditView		Top:
 Number of Items	MessageView		Aantal Items
 data cannot be displayed	DataWindow		data cannot be displayed
@@ -22,7 +20,9 @@ The message data was changed but not saved. Do you really want to continue?	Main
 Left:	EditView		Left:
 Width:	EditView		Width:
 Height:	EditView		Height:
+Save	MainWindow		Save
 File	MainWindow		Bestand
+Open	MainWindow		Open
 Right:	EditView		Right:
 Value	DataWindow		Waarde
 Cancel	EditWindow		Cancel
