@@ -4,7 +4,7 @@ resource app_signature "application/x-vnd.BlueSky-Kottan";
 resource app_version {
 	major  = 0,
 	middle = 10,
-	minor  = 3,
+	minor  = 4,
 
 	variety = B_APPV_DEVELOPMENT,
 	internal = 0,
