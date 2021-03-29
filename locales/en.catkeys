@@ -1,4 +1,4 @@
-1	English	application/x-vnd.BlueSky-Kottan	1453004971
+1	English	application/x-vnd.BlueSky-Kottan	1842889762
 Name	MessageView		Name
 Blue:	EditView		Blue:
 About	MainWindow		About
@@ -25,11 +25,12 @@ File	MainWindow		File
 Open	MainWindow		Open
 Right:	EditView		Right:
 Value	DataWindow		Value
-Cancel	EditWindow		Cancel
 Edit	EditWindow		Edit
+Cancel	EditWindow		Cancel
 Close	DataWindow		Close
 Alpha:	EditView		Alpha:
 Save	EditWindow		Save
+not editable	EditView		not editable
 Error reading the message from the file!	App		Error reading the message from the file!
 Message Data	DataWindow		Message Data
 An editor for archived BMessages	App		An editor for archived BMessages
