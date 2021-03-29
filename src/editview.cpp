@@ -429,7 +429,7 @@ EditView::setup_controls()
 		
 		default:
 		{
-			BStringView *not_editable_text = new BStringView("","not editable");
+			BStringView *not_editable_text = new BStringView("",B_TRANSLATE("not editable"));
 			fMainLayout->AddView(not_editable_text);
 			fEditable=false;
 			break;
