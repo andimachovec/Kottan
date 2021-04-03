@@ -144,7 +144,7 @@ App::MessageReceived(BMessage *msg)
 				ew_message = fDataMessage;
 			}
 			
-			EditWindow *edit_window = new EditWindow(BRect(0,0,220,200), 
+			EditWindow *edit_window = new EditWindow(BRect(0,0,0,0), 
 													ew_message,
 													fSelectedType,
 													fSelectedName,

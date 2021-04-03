@@ -51,7 +51,7 @@ MainWindow::MainWindow(float left, float top, float right, float bottom)
 		.SetInsets(0)
 		.Add(fTopMenuBar)
 		.AddGroup(B_HORIZONTAL)
-			.SetInsets(5,3,3,3)
+			.SetInsets(-1,-1,-1,-1)
 			.Add(fMessageInfoView,20)		
 	.Layout();
 
@@ -273,9 +273,9 @@ MainWindow::continue_action()
 {
 	BAlert *not_saved_alert = new BAlert(
 		"", 
-		B_TRANSLATE("The message data was changed but not saved. Do you really want to continue?"),
-		B_TRANSLATE("No"),
-		B_TRANSLATE("Yes"),
+		B_TRANSLATE("The message data was changed but not saved. Do you really want to quit?"),
+		B_TRANSLATE("Cancel"),
+		B_TRANSLATE("Quit"),
 		NULL,
 		B_WIDTH_AS_USUAL,
 		B_WARNING_ALERT);

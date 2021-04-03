@@ -25,7 +25,7 @@ MessageView::MessageView()
 	BIntegerColumn *index_column = new BIntegerColumn(B_TRANSLATE("Index"),70,10,100);
 	BStringColumn *name_column = new BStringColumn(B_TRANSLATE("Name"),200,50,1000,0);
 	BStringColumn *type_column = new BStringColumn(B_TRANSLATE("Type"),200,50,1000,0);
-	BIntegerColumn *count_column = new BIntegerColumn(B_TRANSLATE("Number of Items"),120,10,150);
+	BIntegerColumn *count_column = new BIntegerColumn(B_TRANSLATE("Number of items"),120,10,150);
 
 	AddColumn(index_column,0);
 	AddColumn(name_column,1);
