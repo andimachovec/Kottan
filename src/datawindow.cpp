@@ -25,7 +25,7 @@ DataWindow::DataWindow(BRect frame,
 					type_code field_type,
 					int32 item_count)
 	:
-	BWindow(frame, B_TRANSLATE("Message Data"), B_TITLED_WINDOW, B_CLOSE_ON_ESCAPE),
+	BWindow(frame, B_TRANSLATE("Message data"), B_TITLED_WINDOW, B_CLOSE_ON_ESCAPE),
 	fDataMessage(data_message),
 	fFieldName(field_name),
 	fFieldType(field_type),
@@ -53,12 +53,9 @@ DataWindow::DataWindow(BRect frame,
 	
 	fCloseButton = new BButton(B_TRANSLATE("Close"), new BMessage(DW_BUTTON_CLOSE));
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL,0)
-		.SetInsets(5)
-		.AddGroup(B_HORIZONTAL)
-			.SetInsets(5)
-			.Add(fDataLabel)
-		.End()	
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_SMALL_SPACING)
+		.SetInsets(B_USE_SMALL_SPACING)
+		.Add(fDataLabel)
 		.Add(fDataView)
 		.Add(fCloseButton)
 	.Layout();
