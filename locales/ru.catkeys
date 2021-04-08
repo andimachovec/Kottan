@@ -1,37 +1,37 @@
-1	English	application/x-vnd.BlueSky-Kottan	1453004971
+1	English	application/x-vnd.BlueSky-Kottan	2960400911
 Name	MessageView		Имя
 Blue:	EditView		Синий:
 About	MainWindow		О программе
 Top:	EditView		Верх:
-Number of Items	MessageView		Количество элементов
 data cannot be displayed	DataWindow		невозможно показать данные
 Quit	MainWindow		Выход
-No	MainWindow		Нет
 Index	DataWindow		№ п/п
 Bottom:	EditView		Низ:
+The message data was changed but not saved. Do you really want to quit?	MainWindow		The message data was changed but not saved. Do you really want to quit?
+Message data	DataWindow		Message data
 Type	MessageView		Тип данных
-Yes	MainWindow		Да
 Red:	EditView		Красный:
 Error opening the message file!	App		Ошибка при открытии файла BMessage!
+true	EditView		true
 Help	MainWindow		Помощь
 Green:	EditView		Зелёный:
+false	EditView		false
 Index	MessageView		№ п/п
-The message data was changed but not saved. Do you really want to continue?	MainWindow		Данные в BMessage были изменены, но изменения не были сохранены. Вы уверены, что хотите продолжать?
 Left:	EditView		Левая граница:
+Cancel	MainWindow		Cancel
 Width:	EditView		Ширина:
-Height:	EditView		Высота:
 Save	MainWindow		Сохранить
+Height:	EditView		Высота:
 File	MainWindow		Файл
 Open	MainWindow		Открыть
+Number of items	MessageView		Number of items
 Right:	EditView		Правая граница:
 Value	DataWindow		Значение
-Cancel	EditWindow		Отмена
 Edit	EditWindow		Редактировать
+Cancel	EditWindow		Отмена
 Close	DataWindow		Закрыть
 Alpha:	EditView		Альфа-канал:
 Save	EditWindow		Сохранить
+not editable	EditView		not editable
 Error reading the message from the file!	App		Ошибка при чтении BMessage из файла!
-Message Data	DataWindow		Данные BMessage
 An editor for archived BMessages	App		Редактор сохранённых файлов BMessage
-essage
-essage

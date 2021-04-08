@@ -206,8 +206,8 @@ EditView::setup_controls()
 			fDataMessage->FindBool(fDataLabel, fDataIndex, &data_bool);	
 			int32 default_item = static_cast<int32>(data_bool);
 		
-			fPopUpMenu->AddItem(new BMenuItem("false", new BMessage(EV_DATA_CHANGED)));
-			fPopUpMenu->AddItem(new BMenuItem("true", new BMessage(EV_DATA_CHANGED)));
+			fPopUpMenu->AddItem(new BMenuItem(B_TRANSLATE("false"), new BMessage(EV_DATA_CHANGED)));
+			fPopUpMenu->AddItem(new BMenuItem(B_TRANSLATE("true"), new BMessage(EV_DATA_CHANGED)));
 			fPopUpMenu->ItemAt(default_item)->SetMarked(true);
 			
 			BMenuField *bool_select = new BMenuField("",fPopUpMenu);

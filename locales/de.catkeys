@@ -1,4 +1,4 @@
-1	English	application/x-vnd.BlueSky-Kottan	2464514700
+1	German	application/x-vnd.BlueSky-Kottan	2960400911
 Name	MessageView		Name
 Blue:	EditView		Blau:
 About	MainWindow		Über
@@ -7,22 +7,24 @@ data cannot be displayed	DataWindow		Daten können nicht angezeigt werden
 Quit	MainWindow		Beenden
 Index	DataWindow		Index
 Bottom:	EditView		Unten:
-The message data was changed but not saved. Do you really want to quit?	MainWindow		Die Messagedaten wurden noch nicht gespeichert? Wollen Sie wirklich beenden?
-Message data	DataWindow		Messagedaten
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Die geänderten Message-Daten wurden noch nicht gespeichert. Trotzdem beenden?
+Message data	DataWindow		Message-Daten
 Type	MessageView		Datentyp
 Red:	EditView		Rot:
 Error opening the message file!	App		Fehler beim Öffnen der Message-Datei!
+true	EditView		wahr
 Help	MainWindow		Hilfe
 Green:	EditView		Grün:
+false	EditView		falsch
 Index	MessageView		Index
 Left:	EditView		Links:
 Cancel	MainWindow		Abbrechen
 Width:	EditView		Breite:
-Height:	EditView		Höhe:
 Save	MainWindow		Speichern
+Height:	EditView		Höhe:
 File	MainWindow		Datei
 Open	MainWindow		Öffnen
-Number of items	MessageView		Anzahl Items
+Number of items	MessageView		Anzahl der Elemente
 Right:	EditView		Rechts:
 Value	DataWindow		Wert
 Edit	EditWindow		Bearbeiten
@@ -33,4 +35,3 @@ Save	EditWindow		Speichern
 not editable	EditView		nicht bearbeitbar
 Error reading the message from the file!	App		Fehler beim Lesen der Message-Datei!
 An editor for archived BMessages	App		Ein Editor für archivierte BMessages
-es
