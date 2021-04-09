@@ -72,11 +72,20 @@ void
 MainWindow::MessageReceived(BMessage *msg)
 {
 
+	const char *notsaved_alert_text = 
+		B_TRANSLATE(
+		"The message data was changed but not saved. Do you really want to open another file?"
+		);
+	const char *notsaved_alert_cancel = B_TRANSLATE("Cancel");
+	const char *notsaved_alert_continue = B_TRANSLATE("Open file");
+
 	if(msg->WasDropped()) 
 	{
 		if(fNotSaved)
 		{
-			if(continue_action())
+			if(continue_action(notsaved_alert_text,
+							   notsaved_alert_cancel,
+							   notsaved_alert_continue))
 			{
 				msg->what = MW_REF_MESSAGEFILE;
 			}
@@ -94,7 +103,6 @@ MainWindow::MessageReceived(BMessage *msg)
 
 	switch(msg->what)
 	{
-
 		// Help/About was clicked
 		case MW_MENU_ABOUT:
 		{
@@ -107,7 +115,9 @@ MainWindow::MessageReceived(BMessage *msg)
 		{
 			if (fNotSaved)
 			{
-				if (!continue_action())
+				if(!continue_action(notsaved_alert_text,
+									notsaved_alert_cancel,
+									notsaved_alert_continue))
 				{
 					break;
 				}
@@ -256,7 +266,10 @@ MainWindow::QuitRequested()
 
 	if (fNotSaved)
 	{
-		if (!continue_action())
+		if (!continue_action(
+			B_TRANSLATE("The message data was changed but not saved. Do you really want to quit?"),
+			B_TRANSLATE("Cancel"),
+			B_TRANSLATE("Quit")))
 		{
 			return false;
 		}	
@@ -269,13 +282,15 @@ MainWindow::QuitRequested()
 
 
 bool
-MainWindow::continue_action()
+MainWindow::continue_action(const char *alert_text, 
+							const char *button_label_cancel,
+							const char *button_label_continue)
 {
 	BAlert *not_saved_alert = new BAlert(
 		"", 
-		B_TRANSLATE("The message data was changed but not saved. Do you really want to quit?"),
-		B_TRANSLATE("Cancel"),
-		B_TRANSLATE("Quit"),
+		alert_text,
+		button_label_cancel,
+		button_label_continue,
 		NULL,
 		B_WIDTH_AS_USUAL,
 		B_WARNING_ALERT);

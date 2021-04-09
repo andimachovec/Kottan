@@ -37,7 +37,9 @@ public:
 	bool QuitRequested();
 
 private:
-	bool continue_action();
+	bool continue_action(const char *alert_text, 
+						 const char *button_label_cancel,
+						 const char *button_label_continue);
 	
 	BMenuBar			*fTopMenuBar;
 	MessageView			*fMessageInfoView;
