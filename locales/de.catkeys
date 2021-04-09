@@ -1,7 +1,9 @@
-1	English	application/x-vnd.BlueSky-Kottan	217684506
+1	English	application/x-vnd.BlueSky-Kottan	2560445610
 Name	MessageView		Name
 Blue:	EditView		Blau:
+Open file	MainWindow		Datei öffnen
 About	MainWindow		Über
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Die geänderten Message-Daten wurden noch nicht gesichert. Trotzdem eine neue Datei öffnen?
 Top:	EditView		Oben:
 Code contributions by:	App		Codebeiträge von:
 data cannot be displayed	DataWindow		Daten können nicht angezeigt werden
@@ -39,4 +41,3 @@ Save	EditWindow		Speichern
 not editable	EditView		nicht bearbeitbar
 Error reading the message from the file!	App		Fehler beim Lesen der Message-Datei!
 An editor for archived BMessages	App		Ein Editor für archivierte BMessages
-

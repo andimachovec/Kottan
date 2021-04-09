@@ -1,7 +1,9 @@
-1	English	application/x-vnd.BlueSky-Kottan	217684506
+1	English	application/x-vnd.BlueSky-Kottan	2560445610
 Name	MessageView		Name
 Blue:	EditView		Blue:
+Open file	MainWindow		Open file
 About	MainWindow		About
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		The message data was changed but not saved. Do you really want to open another file?
 Top:	EditView		Top:
 Code contributions by:	App		Code contributions by:
 data cannot be displayed	DataWindow		data cannot be displayed
