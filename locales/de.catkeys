@@ -1,8 +1,9 @@
-1	English	application/x-vnd.BlueSky-Kottan	2344751460
+1	English	application/x-vnd.BlueSky-Kottan	217684506
 Name	MessageView		Name
 Blue:	EditView		Blau:
 About	MainWindow		Über
 Top:	EditView		Oben:
+Code contributions by:	App		Codebeiträge von:
 data cannot be displayed	DataWindow		Daten können nicht angezeigt werden
 Quit	MainWindow		Beenden
 Index	DataWindow		Index
@@ -18,6 +19,7 @@ Green:	EditView		Grün:
 false	EditView		falsch
 true	DataWindow		wahr
 Index	MessageView		Index
+Translations by:	App		Übersetzungen von:
 Left:	EditView		Links:
 Cancel	MainWindow		Abbrechen
 Width:	EditView		Breite:
@@ -26,8 +28,8 @@ Height:	EditView		Höhe:
 File	MainWindow		Datei
 Open	MainWindow		Öffnen
 Number of items	MessageView		Anzahl der Elemente
-Right:	EditView		Rechts:
 false	DataWindow		falsch
+Right:	EditView		Rechts:
 Value	DataWindow		Wert
 Edit	EditWindow		Bearbeiten
 Cancel	EditWindow		Abbrechen
@@ -37,3 +39,4 @@ Save	EditWindow		Speichern
 not editable	EditView		nicht bearbeitbar
 Error reading the message from the file!	App		Fehler beim Lesen der Message-Datei!
 An editor for archived BMessages	App		Ein Editor für archivierte BMessages
+
