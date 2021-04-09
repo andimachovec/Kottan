@@ -184,7 +184,17 @@ DataWindow::display_data()
 	
 			case B_BOOL_TYPE:
 			{
-				message_item_data=bool2bstring(fDataMessage->GetBool(fFieldName, i, false));
+				bool bool_value = fDataMessage->GetBool(fFieldName, i, false);	
+				
+				if (bool_value)
+				{
+					message_item_data=B_TRANSLATE("true");
+				}
+				else
+				{
+					message_item_data=B_TRANSLATE("false");
+				}		
+				
 				break;
 			}
 
