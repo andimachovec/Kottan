@@ -1,4 +1,4 @@
-1	English	application/x-vnd.BlueSky-Kottan	2464514700
+1	English	application/x-vnd.BlueSky-Kottan	2960400911
 Name	MessageView		Name
 Blue:	EditView		Blue:
 About	MainWindow		About
@@ -12,14 +12,16 @@ Message data	DataWindow		Message data
 Type	MessageView		Type
 Red:	EditView		Red:
 Error opening the message file!	App		Error opening the message file!
+true	EditView		true
 Help	MainWindow		Help
 Green:	EditView		Green:
+false	EditView		false
 Index	MessageView		Index
 Left:	EditView		Left:
 Cancel	MainWindow		Cancel
 Width:	EditView		Width:
-Height:	EditView		Height:
 Save	MainWindow		Save
+Height:	EditView		Height:
 File	MainWindow		File
 Open	MainWindow		Open
 Number of items	MessageView		Number of items

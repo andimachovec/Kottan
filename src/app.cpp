@@ -120,9 +120,11 @@ App::MessageReceived(BMessage *msg)
 										fSelectedName,
 										fSelectedType,
 								        fSelectedItemCount);
-													 
-			fDataWindow->CenterOnScreen();
-			fDataWindow->Show();		
+
+			fDataWindow->CenterIn(fMainWindow->Frame());
+			fDataWindow->MoveBy(0, 128);
+			fDataWindow->MoveOnScreen(B_MOVE_IF_PARTIALLY_OFFSCREEN);
+			fDataWindow->Show();
 			
 			break;
 		}
@@ -149,7 +151,7 @@ App::MessageReceived(BMessage *msg)
 													fSelectedType,
 													fSelectedName,
 													field_index);
-			edit_window->CenterOnScreen();
+			edit_window->CenterIn(fDataWindow->Frame());
 			edit_window->Show();
 			
 			break;
