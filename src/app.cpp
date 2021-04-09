@@ -220,6 +220,23 @@ App::AboutRequested()
 		NULL
 	};
 
+	BString code_contributors;
+	BString translators;
+
+	code_contributors << B_TRANSLATE("Code contributions by:");
+	code_contributors << "\n" 
+					  << "Humdinger\n";
+
+	translators << B_TRANSLATE("Translators:");
+	translators << "\n"
+				<< "Begasus\n"
+				<< "Alex Hitech\n";
+
+	BString extra_info;
+	extra_info.Append(code_contributors);
+	extra_info.Append("\n");
+	extra_info.Append(translators);
+
 	BResources *appresource = BApplication::AppResources();
 	size_t size;
 	version_info *appversion = (version_info *)appresource->LoadResource('APPV',1,&size);
@@ -234,7 +251,7 @@ App::AboutRequested()
 	aboutwindow->AddAuthors(authors);
 	aboutwindow->SetVersion(version_string.String());
 	aboutwindow->AddDescription(B_TRANSLATE("An editor for archived BMessages"));
-	aboutwindow->AddExtraInfo("");
+	aboutwindow->AddExtraInfo(extra_info.String());
 	aboutwindow->Show();
 
 }
