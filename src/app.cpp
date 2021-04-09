@@ -227,7 +227,7 @@ App::AboutRequested()
 	code_contributors << "\n" 
 					  << "Humdinger\n";
 
-	translators << B_TRANSLATE("Translators:");
+	translators << B_TRANSLATE("Translations by:");
 	translators << "\n"
 				<< "Begasus\n"
 				<< "Alex Hitech\n";
