@@ -14,5 +14,9 @@ and *make bindcatalogs* adds the translations for other languages than English.
 
 After that, you can run *Kottan* from the generated *objects.xxxxx* directory. 
 
+## Contributing 
+Pull requests for bugfixes and functional enhancements are very welcome. For language translations please
+use Haiku´s Polyglot tool at https://i18n.kacperkasper.pl
+
 ## Trivia
 In case anyone is wondering: Kottan is named after a somewhat whacky police inspector in an austrian TV series of the same name from the 1980ies. 
