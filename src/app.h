@@ -11,6 +11,8 @@
 #include <Message.h>
 #include <ObjectList.h>
 #include <File.h>
+#include <String.h>
+
 
 class DataWindow;
 class MainWindow;
@@ -41,6 +43,7 @@ private:
 		BMessage					*fDataMessage;
 		BObjectList<IndexMessage>	*fMessageList;
 		BFile						*fMessageFile;
+		BString						fSettingsFileName;
 
 		const char 					*fSelectedName;
 		type_code 					fSelectedType;
