@@ -19,9 +19,9 @@
 #define B_TRANSLATION_CONTEXT "MainWindow"
 
 
-MainWindow::MainWindow(float left, float top, float right, float bottom)
+MainWindow::MainWindow(BRect geometry)
 	: 
-	BWindow(BRect(left,top,right,bottom), "Kottan", B_TITLED_WINDOW, B_ASYNCHRONOUS_CONTROLS)
+	BWindow(geometry, "Kottan", B_TITLED_WINDOW, B_ASYNCHRONOUS_CONTROLS)
 {
 
 	//initialize GUI objects

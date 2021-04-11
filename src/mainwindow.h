@@ -31,7 +31,7 @@ enum
 
 class MainWindow : public BWindow {
 public:
-	MainWindow(float left, float top, float right, float bottom);
+	MainWindow(BRect geometry);
 	~MainWindow();
 	void MessageReceived(BMessage *msg);
 	bool QuitRequested();
