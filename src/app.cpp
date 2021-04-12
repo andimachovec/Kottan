@@ -330,6 +330,23 @@ App::ReadyToRun()
 
 
 void
+App::ArgvReceived(int32 argc, char **argv)
+{
+
+	// construct file ref for the specified file
+	BEntry entry(argv[1]);
+	entry_ref ref;
+	entry.GetRef(&ref);
+
+	// send inspect message to open the file
+	BMessage inspect_message(MW_INSPECTMESSAGEFILE);
+	inspect_message.AddRef("msgfile",&ref);
+	PostMessage(&inspect_message);
+
+}
+
+
+void
 App::get_selection_data(BMessage *selection_path_message)
 {
 

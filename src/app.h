@@ -34,10 +34,11 @@ public:
 	void AboutRequested();
 	bool QuitRequested();
 	void ReadyToRun();
+	void ArgvReceived(int32 argc, char **argv);
 
 private:
 		void get_selection_data(BMessage *selection_path_message);
-		
+
 		MainWindow					*fMainWindow;
 		DataWindow					*fDataWindow;
 		BMessage					*fDataMessage;
