@@ -271,6 +271,13 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
+		// update MessageView with newly loaded data
+		case MW_UPDATE_MESSAGEVIEW:
+		{
+			fMessageInfoView->UpdateData();
+			break;
+		}
+
 		//do nothing and don´t forward to base class
 		case MW_DO_NOTHING:
 			break;

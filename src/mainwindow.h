@@ -28,6 +28,7 @@ enum
 	MW_WAS_SAVED,
 	MW_DO_NOTHING,
 	MW_RELOAD_FROM_FILE,
+	MW_UPDATE_MESSAGEVIEW
 };
 
 class MainWindow : public BWindow {

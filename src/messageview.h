@@ -22,6 +22,7 @@ public:
 	MessageView();
 	void 			SetDataMessage(BMessage *message);
 	virtual	void	MessageDropped(BMessage* msg, BPoint point);
+	void 			UpdateData();
 
 private:
 	void create_data_rows(BMessage *message, BRow *parent = NULL);

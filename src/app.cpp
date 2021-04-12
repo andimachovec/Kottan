@@ -212,7 +212,10 @@ App::MessageReceived(BMessage *msg)
 		// reload message data from file
 		case MW_RELOAD_FROM_FILE:
 		{
-			std::cout << "reload message received" << std::endl;
+			fDataMessage->Unflatten(fMessageFile);
+			BMessage mainwindow_update_message(MW_UPDATE_MESSAGEVIEW);
+			fMainWindow->PostMessage(&mainwindow_update_message);
+
 			break;
 		}
 
