@@ -16,7 +16,9 @@
 #include <Path.h>
 #include <File.h>
 #include <FindDirectory.h>
+#include <NodeMonitor.h>
 #include <iostream>
+
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "App"
@@ -57,6 +59,9 @@ App::MessageReceived(BMessage *msg)
 		//receive file reference, read the file and extract into message
 		case MW_INSPECTMESSAGEFILE:
 		{
+
+			stop_watching(be_app_messenger); //stop watching file nodes
+
 			entry_ref ref;
 			msg->FindRef("msgfile", &ref);
 
@@ -89,6 +94,12 @@ App::MessageReceived(BMessage *msg)
 			if (message_read_success)
 			{
 				open_reply_msg.AddPointer("data_msg_pointer", fDataMessage);
+
+				// start watching the file for changes
+				BEntry entry(&ref);
+				node_ref nref;
+				entry.GetNodeRef(&nref);
+				watch_node(&nref, B_WATCH_STAT, be_app_messenger);
 			}
 			else
 			{
@@ -194,6 +205,14 @@ App::MessageReceived(BMessage *msg)
 			}
 
 			fMainWindow->PostMessage(MW_WAS_SAVED);
+
+			break;
+		}
+
+
+		//message file was changed
+		case B_NODE_MONITOR:
+		{
 
 			break;
 		}
