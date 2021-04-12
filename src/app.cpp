@@ -60,7 +60,7 @@ App::MessageReceived(BMessage *msg)
 		case MW_INSPECTMESSAGEFILE:
 		{
 
-			stop_watching(be_app_messenger); //stop watching file nodes
+			stop_watching(fMainWindow); //stop watching file nodes
 
 			entry_ref ref;
 			msg->FindRef("msgfile", &ref);
@@ -99,7 +99,7 @@ App::MessageReceived(BMessage *msg)
 				BEntry entry(&ref);
 				node_ref nref;
 				entry.GetNodeRef(&nref);
-				watch_node(&nref, B_WATCH_STAT, be_app_messenger);
+				watch_node(&nref, B_WATCH_STAT, fMainWindow);
 			}
 			else
 			{
@@ -209,11 +209,10 @@ App::MessageReceived(BMessage *msg)
 			break;
 		}
 
-
-		//message file was changed
-		case B_NODE_MONITOR:
+		// reload message data from file
+		case MW_RELOAD_FROM_FILE:
 		{
-
+			std::cout << "reload message received" << std::endl;
 			break;
 		}
 

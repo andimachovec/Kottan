@@ -27,6 +27,7 @@ enum
 	MW_WAS_EDITED,
 	MW_WAS_SAVED,
 	MW_DO_NOTHING,
+	MW_RELOAD_FROM_FILE,
 };
 
 class MainWindow : public BWindow {
@@ -37,10 +38,10 @@ public:
 	bool QuitRequested();
 
 private:
-	bool continue_action(const char *alert_text, 
+	bool continue_action(const char *alert_text,
 						 const char *button_label_cancel,
 						 const char *button_label_continue);
-	
+
 	BMenuBar			*fTopMenuBar;
 	MessageView			*fMessageInfoView;
 	BFilePanel			*fOpenFilePanel;
