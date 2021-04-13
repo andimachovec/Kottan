@@ -215,8 +215,9 @@ App::MessageReceived(BMessage *msg)
 			fMessageFile->Seek(0, SEEK_SET);
 			fDataMessage->Unflatten(fMessageFile);
 
-			BMessage mainwindow_update_message(MW_UPDATE_MESSAGEVIEW);
-			fMainWindow->PostMessage(&mainwindow_update_message);
+			fMainWindow->PostMessage(MW_UPDATE_MESSAGEVIEW);
+			fDataWindow->PostMessage(DW_UPDATE);
+
 			break;
 		}
 
