@@ -1,43 +1,46 @@
-1	English	application/x-vnd.BlueSky-Kottan	2560445610
-Name	MessageView		Name
-Blue:	EditView		Blau:
-Open file	MainWindow		Datei öffnen
+1	German	application/x-vnd.BlueSky-Kottan	2441099929
 About	MainWindow		Über
-The message data was changed but not saved. Do you really want to open another file?	MainWindow		Die geänderten Message-Daten wurden noch nicht gesichert. Trotzdem eine neue Datei öffnen?
-Top:	EditView		Oben:
-Code contributions by:	App		Codebeiträge von:
-data cannot be displayed	DataWindow		Daten können nicht angezeigt werden
-Quit	MainWindow		Beenden
-Index	DataWindow		Index
-Bottom:	EditView		Unten:
-The message data was changed but not saved. Do you really want to quit?	MainWindow		Die geänderten Message-Daten wurden noch nicht gespeichert. Trotzdem beenden?
-Message data	DataWindow		Message-Daten
-Type	MessageView		Datentyp
-Red:	EditView		Rot:
-Error opening the message file!	App		Fehler beim Öffnen der Message-Datei!
-true	EditView		wahr
-Help	MainWindow		Hilfe
-Green:	EditView		Grün:
-false	EditView		falsch
-true	DataWindow		wahr
-Index	MessageView		Index
-Translations by:	App		Übersetzungen von:
-Left:	EditView		Links:
 Cancel	MainWindow		Abbrechen
-Width:	EditView		Breite:
-Save	MainWindow		Speichern
-Height:	EditView		Höhe:
 File	MainWindow		Datei
+Help	MainWindow		Hilfe
 Open	MainWindow		Öffnen
-Number of items	MessageView		Anzahl der Elemente
-false	DataWindow		falsch
-Right:	EditView		Rechts:
-Value	DataWindow		Wert
-Edit	EditWindow		Bearbeiten
-Cancel	EditWindow		Abbrechen
-Close	DataWindow		Schliessen
+Open file	MainWindow		Datei öffnen
+Quit	MainWindow		Beenden
+Reload	MainWindow		Neu laden
+Save	MainWindow		Speichern
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Die geänderten Message-Daten wurden noch nicht gesichert. Trotzdem eine neue Datei öffnen?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Die geänderten Message-Daten wurden noch nicht gespeichert. Trotzdem beenden?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Die geänderten Message-Daten wurden noch nicht gespeichert. Trotzdem neu laden?
+The message file has changed. Do you want to reload it?	MainWindow		Die Messagedatei wurde verändert.  Neu laden?
 Alpha:	EditView		Alpha:
-Save	EditWindow		Speichern
+Blue:	EditView		Blau:
+Bottom:	EditView		Unten:
+false	EditView		falsch
+Green:	EditView		Grün:
+Height:	EditView		Höhe:
+Left:	EditView		Links:
 not editable	EditView		nicht bearbeitbar
-Error reading the message from the file!	App		Fehler beim Lesen der Message-Datei!
+Red:	EditView		Rot:
+Right:	EditView		Rechts:
+Top:	EditView		Oben:
+true	EditView		wahr
+Width:	EditView		Breite:
 An editor for archived BMessages	App		Ein Editor für archivierte BMessages
+Code contributions by:	App		Codebeiträge von:
+Error opening the message file!	App		Fehler beim Öffnen der Message-Datei!
+Error reading the message from the file!	App		Fehler beim Lesen der Message-Datei!
+Translations by:	App		Übersetzungen von:
+Cancel	EditWindow		Abbrechen
+Edit	EditWindow		Bearbeiten
+Save	EditWindow		Speichern
+Close	DataWindow		Schliessen
+data cannot be displayed	DataWindow		Daten können nicht angezeigt werden
+false	DataWindow		falsch
+Index	DataWindow		Index
+Message data	DataWindow		Message-Daten
+true	DataWindow		wahr
+Value	DataWindow		Wert
+Index	MessageView		Index
+Name	MessageView		Name
+Number of items	MessageView		Anzahl der Elemente
+Type	MessageView		Datentyp
