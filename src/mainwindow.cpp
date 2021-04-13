@@ -185,9 +185,15 @@ MainWindow::MessageReceived(BMessage *msg)
 		case MV_ROW_CLICKED:
 		{
 			BRow *selected_row = fMessageInfoView->CurrentSelection();
-			BString selected_row_typename(
-								static_cast<BStringField*>(selected_row->GetField(2))->String());
 
+
+			BStringField *type_field = static_cast<BStringField*>(selected_row->GetField(2));
+			if (type_field == NULL)
+			{
+				break;
+			}
+
+			BString selected_row_typename(type_field->String());
 			if (selected_row_typename != "B_MESSAGE_TYPE")
 			{
 				//get index path to data of selected field
