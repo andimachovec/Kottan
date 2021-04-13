@@ -1,8 +1,10 @@
-1	English	application/x-vnd.BlueSky-Kottan	2560445610
+1	English	application/x-vnd.BlueSky-Kottan	2441099929
 Name	MessageView		Name
 Blue:	EditView		Blue:
+Reload	MainWindow		Reload
 Open file	MainWindow		Open file
 About	MainWindow		About
+The message data was changed but not saved. Do you really want to reload?	MainWindow		The message data was changed but not saved. Do you really want to reload?
 The message data was changed but not saved. Do you really want to open another file?	MainWindow		The message data was changed but not saved. Do you really want to open another file?
 Top:	EditView		Top:
 Code contributions by:	App		Code contributions by:
@@ -17,6 +19,7 @@ Red:	EditView		Red:
 Error opening the message file!	App		Error opening the message file!
 true	EditView		true
 Help	MainWindow		Help
+The message file has changed. Do you want to reload it?	MainWindow		The message file has changed. Do you want to reload it?
 Green:	EditView		Green:
 false	EditView		false
 true	DataWindow		true
