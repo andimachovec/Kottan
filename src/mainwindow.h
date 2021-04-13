@@ -42,11 +42,12 @@ private:
 	bool continue_action(const char *alert_text,
 						 const char *button_label_cancel,
 						 const char *button_label_continue);
+	void switch_unsaved_state(bool unsaved_state);
 
 	BMenuBar			*fTopMenuBar;
 	MessageView			*fMessageInfoView;
 	BFilePanel			*fOpenFilePanel;
-	bool				fNotSaved;
+	bool				fUnsaved;
 };
 
 #endif

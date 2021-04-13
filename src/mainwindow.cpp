@@ -55,7 +55,7 @@ MainWindow::MainWindow(BRect geometry)
 			.Add(fMessageInfoView,20)
 	.Layout();
 
-	fNotSaved = false;
+	fUnsaved = false;
 
 }
 
@@ -81,7 +81,7 @@ MainWindow::MessageReceived(BMessage *msg)
 
 	if(msg->WasDropped())
 	{
-		if(fNotSaved)
+		if(fUnsaved)
 		{
 			if(continue_action(notsaved_alert_text,
 							   notsaved_alert_cancel,
@@ -113,7 +113,7 @@ MainWindow::MessageReceived(BMessage *msg)
 		// Open file menu was selected
 		case MW_OPEN_MESSAGEFILE:
 		{
-			if (fNotSaved)
+			if (fUnsaved)
 			{
 				if(!continue_action(notsaved_alert_text,
 									notsaved_alert_cancel,
@@ -156,8 +156,6 @@ MainWindow::MessageReceived(BMessage *msg)
 		//get back the data message from the app object
 		case MW_OPEN_REPLY:
 		{
-			fNotSaved = false;
-
 			bool open_success;
 			msg->FindBool("success", &open_success);
 
@@ -218,29 +216,14 @@ MainWindow::MessageReceived(BMessage *msg)
 
 		case MW_WAS_EDITED:
 		{
-			if(!fNotSaved)
-			{
-				BString title(Title());
-				title.Prepend("*");
-				SetTitle(title.String());
-
-				fNotSaved = true;
-			}
+			switch_unsaved_state(true);
 
 			break;
 		}
 
 		case MW_WAS_SAVED:
 		{
-			if (fNotSaved)
-			{
-				BString title(Title());
-				title.RemoveChars(0,1);
-				SetTitle(title.String());
-
-				fNotSaved = false;
-			}
-
+			switch_unsaved_state(false);
 			break;
 		}
 
@@ -252,7 +235,7 @@ MainWindow::MessageReceived(BMessage *msg)
 				B_TRANSLATE("Cancel"),
 				B_TRANSLATE("Reload")))
 			{
-				if (fNotSaved)
+				if (fUnsaved)
 				{
 					if (!continue_action(
 						B_TRANSLATE("The message data was changed but not saved. Do you really want to reload?"),
@@ -275,6 +258,7 @@ MainWindow::MessageReceived(BMessage *msg)
 		case MW_UPDATE_MESSAGEVIEW:
 		{
 			fMessageInfoView->UpdateData();
+			switch_unsaved_state(false);
 			break;
 		}
 
@@ -297,7 +281,7 @@ bool
 MainWindow::QuitRequested()
 {
 
-	if (fNotSaved)
+	if (fUnsaved)
 	{
 		if (!continue_action(
 			B_TRANSLATE("The message data was changed but not saved. Do you really want to quit?"),
@@ -334,5 +318,35 @@ MainWindow::continue_action(const char *alert_text,
 	}
 
 	return true;
+
+}
+
+
+void
+MainWindow::switch_unsaved_state(bool unsaved_state)
+{
+
+	if (unsaved_state)
+	{
+		if(!fUnsaved)  // do nothing if unsaved state is already set
+		{
+			BString title(Title());
+			title.Prepend("*");
+			SetTitle(title.String());
+
+			fUnsaved = true;
+		}
+	}
+	else
+	{
+		if (fUnsaved)
+		{
+			BString title(Title());
+			title.RemoveChars(0,1);
+			SetTitle(title.String());
+
+			fUnsaved = false;
+		}
+	}
 
 }
