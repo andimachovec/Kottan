@@ -60,7 +60,7 @@ App::MessageReceived(BMessage *msg)
 		case MW_INSPECTMESSAGEFILE:
 		{
 
-			stop_watching(fMainWindow); //stop watching file nodes
+			stop_watching(be_app_messenger); //stop watching file nodes
 
 			entry_ref ref;
 			msg->FindRef("msgfile", &ref);
@@ -99,7 +99,7 @@ App::MessageReceived(BMessage *msg)
 				BEntry entry(&ref);
 				node_ref nref;
 				entry.GetNodeRef(&nref);
-				watch_node(&nref, B_WATCH_STAT, fMainWindow);
+				watch_node(&nref, B_WATCH_STAT|B_WATCH_INTERIM_STAT, be_app_messenger);
 			}
 			else
 			{
@@ -197,14 +197,37 @@ App::MessageReceived(BMessage *msg)
 		case MW_SAVE_MESSAGEFILE:
 		{
 			fMessageFile->Seek(0, SEEK_SET);
-			status_t flatten_result = fDataMessage->Flatten(fMessageFile);
-
-			if (flatten_result != B_OK)
-			{
-
-			}
-
+			fDataMessage->Flatten(fMessageFile);
 			fMainWindow->PostMessage(MW_WAS_SAVED);
+
+			break;
+		}
+
+		// triggered by the node monitor if one of the stat parameters changes
+		case B_NODE_MONITOR:
+		{
+			std::cout << "node monitor triggered" << std::endl;
+
+			int32 stat_changed_flags;
+			msg->FindInt32("fields", &stat_changed_flags);
+
+			// only compare messages when the file was modified
+			if ((stat_changed_flags & B_STAT_MODIFICATION_TIME) != 0)
+			{
+				std::cout << "message comparison triggered" << std::endl;
+				BMessage *temp_msg = new BMessage();
+				fMessageFile->Seek(0, SEEK_SET);
+				temp_msg->Unflatten(fMessageFile);
+
+				//only request reload if the data in the message has actually changed
+				if (!(temp_msg->HasSameData(*fDataMessage, false, true)))
+				{
+					std::cout << "message data is different -> request reload" << std::endl;
+					fMainWindow->PostMessage(MW_CONFIRM_RELOAD);
+				}
+
+				delete temp_msg;
+			}
 
 			break;
 		}

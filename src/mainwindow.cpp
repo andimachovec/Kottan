@@ -234,7 +234,7 @@ MainWindow::MessageReceived(BMessage *msg)
 		}
 
 		//message file was changed
-		case B_NODE_MONITOR:
+		case MW_CONFIRM_RELOAD:
 		{
 			if (continue_action(
 				B_TRANSLATE("The message file has changed. Do you want to reload it?"),
