@@ -47,6 +47,9 @@ MainWindow::MainWindow(BRect geometry)
 		.End()
 	.End();
 
+	fTopMenuBar->FindItem(MW_SAVE_MESSAGEFILE)->SetEnabled(false);
+	fTopMenuBar->FindItem(MW_RELOAD_FROM_FILE)->SetEnabled(false);
+
 	//define main layout
 	BLayoutBuilder::Group<>(this, B_VERTICAL,0)
 		.SetInsets(0)
@@ -169,6 +172,7 @@ MainWindow::MessageReceived(BMessage *msg)
 
 				BMessage *data_message = static_cast<BMessage*>(data_msg_pointer);
 				fMessageInfoView->SetDataMessage(data_message);
+				fTopMenuBar->FindItem(MW_RELOAD_FROM_FILE)->SetEnabled(true);
 			}
 			else
 			{
@@ -338,6 +342,8 @@ MainWindow::continue_action(const char *alert_text,
 void
 MainWindow::switch_unsaved_state(bool unsaved_state)
 {
+
+	fTopMenuBar->FindItem(MW_SAVE_MESSAGEFILE)->SetEnabled(unsaved_state);
 
 	if (unsaved_state)
 	{
