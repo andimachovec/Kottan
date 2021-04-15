@@ -273,7 +273,9 @@ App::AboutRequested()
 	translators << B_TRANSLATE("Translations by:");
 	translators << "\n"
 				<< "Begasus\n"
-				<< "Alex Hitech\n";
+				<< "Alex Hitech\n"
+				<< "Davidmp\n"
+				<< "Florentina Musat\n";
 
 	BString extra_info;
 	extra_info.Append(code_contributors);
