@@ -1,0 +1,46 @@
+1	Romanian	application/x-vnd.BlueSky-Kottan	2441099929
+About	MainWindow		Despre
+Cancel	MainWindow		Anulează
+File	MainWindow		Fișier
+Help	MainWindow		Ajutor
+Open	MainWindow		Deschide
+Open file	MainWindow		Deschide un fișier
+Quit	MainWindow		Ieșire
+Reload	MainWindow		Reîncarcă
+Save	MainWindow		Salvează
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Datele mesajului au fost modificate dar nu salvate. Sigur doriți să deschideți un alt fișier?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Datele mesajului au fost modificate dar nu salvate. Sigur doriți să ieșiți?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Datele mesajului au fost modificate dar nu salvate. Sigur doriți să reîncărcați?
+The message file has changed. Do you want to reload it?	MainWindow		Fișierul mesajului a fost modificat. Doriți să îl reîncărcați?
+Alpha:	EditView		Alfa:
+Blue:	EditView		Albastru:
+Bottom:	EditView		Bază:
+false	EditView		fals
+Green:	EditView		Verde:
+Height:	EditView		Înălțime:
+Left:	EditView		Stânga:
+not editable	EditView		nu se poate edita
+Red:	EditView		Roșu:
+Right:	EditView		Dreapta:
+Top:	EditView		Vârf:
+true	EditView		adevărat
+Width:	EditView		Lățime:
+An editor for archived BMessages	App		Un editor pentru BMessage arhivate
+Code contributions by:	App		Contribuții la cod de:
+Error opening the message file!	App		Eroare la deschiderea fișierului mesajului!
+Error reading the message from the file!	App		Eroare la citirea mesajului din fișier!
+Translations by:	App		Traduceri de:
+Cancel	EditWindow		Anulează
+Edit	EditWindow		Editează
+Save	EditWindow		Salvează
+Close	DataWindow		Închide
+data cannot be displayed	DataWindow		datele nu pot fi afișate
+false	DataWindow		fals
+Index	DataWindow		Indice
+Message data	DataWindow		Date mesaj
+true	DataWindow		adevărat
+Value	DataWindow		Valoare
+Index	MessageView		Indice
+Name	MessageView		Nume
+Number of items	MessageView		Număr de elemente
+Type	MessageView		Tip

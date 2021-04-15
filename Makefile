@@ -1,4 +1,4 @@
-## Haiku Generic Makefile v2.6 ## 
+## Haiku Generic Makefile v2.6 ##
 
 
 NAME = Kottan
@@ -6,7 +6,7 @@ TYPE = APP
 APP_MIME_SIG = application/x-vnd.BlueSky-Kottan
 
 #%{
-# @src->@ 
+# @src->@
 SRCS = \
 	 src/editview.cpp  \
 	 src/editwindow.cpp  \
@@ -21,7 +21,7 @@ RDEFS = \
 
 RSRC = \
 
-# @<-src@ 
+# @<-src@
 #%}
 
 #%}
@@ -39,15 +39,15 @@ RSRC = \
 #%}
 
 LIBS = $(STDCPPLIBS) be root localestub tracker
-LIBPATHS = 
+LIBPATHS =
 SYSTEM_INCLUDE_PATHS = /boot/system/develop/headers/private/interface
 LOCAL_INCLUDE_PATHS =
-OPTIMIZE := 
-LOCALES = en de nl ru
+OPTIMIZE :=
+LOCALES = en de nl ru ca ro
 DEFINES=
 WARNINGS = ALL
-SYMBOLS := 
-DEBUGGER := 
+SYMBOLS :=
+DEBUGGER :=
 COMPILER_FLAGS = -std=c++11
 LINKER_FLAGS =
 APP_VERSION :=
