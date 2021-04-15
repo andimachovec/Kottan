@@ -39,6 +39,7 @@ MainWindow::MainWindow(BRect geometry)
 		.AddMenu(B_TRANSLATE("File"))
 			.AddItem(B_TRANSLATE("Open"), MW_OPEN_MESSAGEFILE, 'O')
 			.AddItem(B_TRANSLATE("Save"), MW_SAVE_MESSAGEFILE, 'S')
+			.AddItem(B_TRANSLATE("Reload"), MW_RELOAD_FROM_FILE, 'R')
 			.AddItem(B_TRANSLATE("Quit"), B_QUIT_REQUESTED, 'Q')
 		.End()
 		.AddMenu(B_TRANSLATE("Help"))
@@ -241,21 +242,27 @@ MainWindow::MessageReceived(BMessage *msg)
 				B_TRANSLATE("Cancel"),
 				B_TRANSLATE("Reload")))
 			{
-				if (fUnsaved)
-				{
-					if (!continue_action(
-						B_TRANSLATE("The message data was changed but not saved. Do you really want to reload?"),
-						B_TRANSLATE("Cancel"),
-						B_TRANSLATE("Reload")))
-					{
-						break;
-					}
-				}
-
-				//send message to app to reload
-				BMessage reload_message(MW_RELOAD_FROM_FILE);
-				be_app->PostMessage(&reload_message);
+				//trigger reload
+				PostMessage(MW_RELOAD_FROM_FILE);
 			}
+
+			break;
+		}
+
+		// notify App() to reload the message from file
+		case MW_RELOAD_FROM_FILE:
+		{
+			if (fUnsaved)
+			{
+				if (!continue_action(
+					B_TRANSLATE("The message data was changed but not saved. Do you really want to reload?"),
+					B_TRANSLATE("Cancel"),
+					B_TRANSLATE("Reload")))
+				{
+					break;
+				}
+			}
+			be_app->PostMessage(msg);
 
 			break;
 		}
