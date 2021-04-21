@@ -17,7 +17,6 @@
 #include <File.h>
 #include <FindDirectory.h>
 #include <NodeMonitor.h>
-#include <iostream>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -37,7 +36,7 @@ App::App()
 	fDataMessage = new BMessage();
 	fMessageList = new BObjectList<IndexMessage>(20, false);
 	fMessageFile = new BFile();
-
+	fDataWindow = NULL;
 }
 
 
@@ -228,14 +227,18 @@ App::MessageReceived(BMessage *msg)
 			break;
 		}
 
-		// reload message data from file
+		// reload message data from file and update main and data window
 		case MW_RELOAD_FROM_FILE:
 		{
 			fMessageFile->Seek(0, SEEK_SET);
 			fDataMessage->Unflatten(fMessageFile);
 
 			fMainWindow->PostMessage(MW_UPDATE_MESSAGEVIEW);
-			fDataWindow->PostMessage(DW_UPDATE);
+
+			if (fDataWindow != NULL)
+			{
+				fDataWindow->PostMessage(DW_UPDATE);
+			}
 
 			break;
 		}
