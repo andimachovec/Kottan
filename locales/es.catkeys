@@ -1,0 +1,46 @@
+1	Spanish	application/x-vnd.BlueSky-Kottan	2441099929
+About	MainWindow		Acerca de...
+Cancel	MainWindow		Cancelar
+File	MainWindow		Archivo
+Help	MainWindow		Ayuda
+Open	MainWindow		Abrir
+Open file	MainWindow		Abrir archivo
+Quit	MainWindow		Salir
+Reload	MainWindow		Recargar
+Save	MainWindow		Guardar
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Los datos del mensaje fueron modificados pero no guardados. ¿Desea aún así abrir otro archivo?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Los datos del mensaje fueron modificados pero no guardados. ¿Desea aún así salir?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Los datos del mensaje fueron modificados pero no guardados. ¿Desea recargar?
+The message file has changed. Do you want to reload it?	MainWindow		El archivo de mensajes ha sido modificado. ¿Desea recargarlo?
+Alpha:	EditView		Alfa:
+Blue:	EditView		Azul:
+Bottom:	EditView		Abajo:
+false	EditView		falso
+Green:	EditView		Verde:
+Height:	EditView		Altura:
+Left:	EditView		Izquierda:
+not editable	EditView		no editable
+Red:	EditView		Rojo:
+Right:	EditView		Derecha:
+Top:	EditView		Arriba:
+true	EditView		verdadero
+Width:	EditView		Anchura:
+An editor for archived BMessages	App		Un editor de BMessages archivados
+Code contributions by:	App		Aportes de código de:
+Error opening the message file!	App		Error al abrir el archivo de mensajes.
+Error reading the message from the file!	App		Error al leer el mensaje desde el archivo.
+Translations by:	App		Traducciones de:
+Cancel	EditWindow		Cancelar
+Edit	EditWindow		Editar
+Save	EditWindow		Guardar
+Close	DataWindow		Cerrar
+data cannot be displayed	DataWindow		no se puede mostrar los datos
+false	DataWindow		falso
+Index	DataWindow		Índice
+Message data	DataWindow		Datos del mensaje
+true	DataWindow		verdadero
+Value	DataWindow		Valor
+Index	MessageView		Índice
+Name	MessageView		Nombre
+Number of items	MessageView		Número de elementos
+Type	MessageView		Tipo

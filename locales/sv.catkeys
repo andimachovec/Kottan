@@ -1,0 +1,46 @@
+1	Swedish	application/x-vnd.BlueSky-Kottan	2441099929
+About	MainWindow		Om
+Cancel	MainWindow		Avbryt
+File	MainWindow		Fil
+Help	MainWindow		Hjälp
+Open	MainWindow		Öppen
+Open file	MainWindow		Öppna fil
+Quit	MainWindow		Avsluta
+Reload	MainWindow		Ladda om
+Save	MainWindow		Spara
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Meddelandedata ändrades men sparades inte. Vill du verkligen öppna en annan fil?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Meddelandedata ändrades men sparades inte. Vill du verkligen sluta?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Meddelandedata ändrades men sparades inte. Vill du verkligen ladda om?
+The message file has changed. Do you want to reload it?	MainWindow		Meddelandefilen har ändrats. Vill du ladda om det?
+Alpha:	EditView		Alfa:
+Blue:	EditView		Blå:
+Bottom:	EditView		Botten:
+false	EditView		falsk
+Green:	EditView		Grön:
+Height:	EditView		Höjd:
+Left:	EditView		Vänster:
+not editable	EditView		kan inte redigeras
+Red:	EditView		Röd:
+Right:	EditView		Rätt:
+Top:	EditView		Topp:
+true	EditView		Sann
+Width:	EditView		Bredd:
+An editor for archived BMessages	App		En redigerare för arkiverade BMessages
+Code contributions by:	App		Kodbidrag av:
+Error opening the message file!	App		Fel vid öppning av meddelandefilen!
+Error reading the message from the file!	App		Fel vid läsning av meddelandet från filen!
+Translations by:	App		Översättningar av:
+Cancel	EditWindow		Avbryt
+Edit	EditWindow		Redigera
+Save	EditWindow		Spara
+Close	DataWindow		Stäng
+data cannot be displayed	DataWindow		data kan inte visas
+false	DataWindow		falsk
+Index	DataWindow		Index
+Message data	DataWindow		Meddelandedata
+true	DataWindow		Sann
+Value	DataWindow		Värde
+Index	MessageView		Index
+Name	MessageView		Namn
+Number of items	MessageView		Antal artiklar
+Type	MessageView		Typ
