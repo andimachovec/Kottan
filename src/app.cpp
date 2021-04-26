@@ -278,7 +278,10 @@ App::AboutRequested()
 				<< "Begasus\n"
 				<< "Alex Hitech\n"
 				<< "Davidmp\n"
-				<< "Florentina Musat\n";
+				<< "Florentina Mușat\n"
+				<< "cafeina\n"
+				<< "Fredrik Modéen\n"
+				<< "Emir Sarı\n";
 
 	BString extra_info;
 	extra_info.Append(code_contributors);
