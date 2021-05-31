@@ -388,6 +388,21 @@ App::ArgvReceived(int32 argc, char **argv)
 	entry_ref ref;
 	entry.GetRef(&ref);
 
+	BMessage refMsg(B_REFS_RECEIVED);
+	refMsg.AddRef("refs", &ref);
+
+	RefsReceived(&refMsg);
+
+}
+
+
+void
+App::RefsReceived(BMessage *msg)
+{
+
+	entry_ref ref;
+	msg->FindRef("refs", &ref);
+
 	// send inspect message to open the file
 	BMessage inspect_message(MW_INSPECTMESSAGEFILE);
 	inspect_message.AddRef("msgfile",&ref);
