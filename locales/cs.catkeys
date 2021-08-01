@@ -1,0 +1,46 @@
+1	Czech	application/x-vnd.BlueSky-Kottan	2441099929
+About	MainWindow		O aplikaci
+Cancel	MainWindow		Zrušit
+File	MainWindow		Soubor
+Help	MainWindow		Nápověda
+Open	MainWindow		Otevřít
+Open file	MainWindow		Výstupní soubor
+Quit	MainWindow		Ukončit
+Reload	MainWindow		Znovu načíst
+Save	MainWindow		Uložit
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Data zprávy byla změněna, ale nejsou uložena. Opravdu otevřít jiný soubor?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Data zprávy byla změněna, ale nejsou uložena. Opravdu ukončit?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Data zprávy byla změněna, ale nejsou uložena. Opravdu znovu načíst?
+The message file has changed. Do you want to reload it?	MainWindow		Soubor zprávy byl změněn. Znovu načíst?
+Alpha:	EditView		Alfa:
+Blue:	EditView		Modrá:
+Bottom:	EditView		Dolní:
+false	EditView		nepravda
+Green:	EditView		Zelená:
+Height:	EditView		Výška:
+Left:	EditView		Vlevo:
+not editable	EditView		nelze upravovat
+Red:	EditView		Červená:
+Right:	EditView		Vpravo:
+Top:	EditView		Horní:
+true	EditView		pravda
+Width:	EditView		Šířka:
+An editor for archived BMessages	App		Editor pro archivované Bzprávy
+Code contributions by:	App		Příspěvky kódu od:
+Error opening the message file!	App		Chyba otevření souboru zprávy!
+Error reading the message from the file!	App		Chyba načtení zprávy ze souboru!
+Translations by:	App		Překlady od:
+Cancel	EditWindow		Zrušit
+Edit	EditWindow		Upravit
+Save	EditWindow		Uložit
+Close	DataWindow		Zavřít
+data cannot be displayed	DataWindow		data nelze zobrazit
+false	DataWindow		nepravda
+Index	DataWindow		Index
+Message data	DataWindow		Data zprávy
+true	DataWindow		pravda
+Value	DataWindow		Hodnota
+Index	MessageView		Index
+Name	MessageView		Název
+Number of items	MessageView		Počet položek
+Type	MessageView		Datový typ
