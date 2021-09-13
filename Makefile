@@ -38,7 +38,7 @@ RSRC = \
 
 #%}
 
-LIBS = $(STDCPPLIBS) be root localestub tracker
+LIBS = $(STDCPPLIBS) be root localestub columnlistview tracker
 LIBPATHS =
 SYSTEM_INCLUDE_PATHS = /boot/system/develop/headers/private/interface
 LOCAL_INCLUDE_PATHS =
