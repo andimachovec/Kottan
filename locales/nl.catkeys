@@ -1,43 +1,46 @@
-1	English	application/x-vnd.BlueSky-Kottan	2560445610
-Name	MessageView		Naam
-Blue:	EditView		Blue:
-Open file	MainWindow		Open file
+1	Dutch	application/x-vnd.BlueSky-Kottan	2441099929
 About	MainWindow		Over
-The message data was changed but not saved. Do you really want to open another file?	MainWindow		The message data was changed but not saved. Do you really want to open another file?
-Top:	EditView		Top:
-Code contributions by:	App		Code contributions by:
-data cannot be displayed	DataWindow		data cannot be displayed
-Quit	MainWindow		Sluiten
-Index	DataWindow		Index
-Bottom:	EditView		Bottom:
-The message data was changed but not saved. Do you really want to quit?	MainWindow		The message data was changed but not saved. Do you really want to quit?
-Message data	DataWindow		Message data
-Type	MessageView		Type
-Red:	EditView		Red:
-Error opening the message file!	App		Error opening the message file!
-true	EditView		true
-Help	MainWindow		Help
-Green:	EditView		Green:
-false	EditView		false
-true	DataWindow		true
-Index	MessageView		Index
-Translations by:	App		Translations by:
-Left:	EditView		Left:
-Cancel	MainWindow		Cancel
-Width:	EditView		Width:
-Save	MainWindow		Save
-Height:	EditView		Height:
+Cancel	MainWindow		Annuleer
 File	MainWindow		Bestand
+Help	MainWindow		Help
 Open	MainWindow		Open
-Number of items	MessageView		Number of items
-false	DataWindow		false
-Right:	EditView		Right:
-Value	DataWindow		Waarde
-Edit	EditWindow		Edit
-Cancel	EditWindow		Cancel
-Close	DataWindow		Sluiten
+Open file	MainWindow		Open bestand
+Quit	MainWindow		Sluiten
+Reload	MainWindow		Herladen
+Save	MainWindow		Opslaan
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		De message data is veranderd maar niet opgeslagen. Wil je echt een ander bestand openen?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		De message data is veranderd maar niet opgeslagen. Wil je echt afsluiten?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		De message data is veranderd maar niet opgeslagen. Wil je echt herladen?
+The message file has changed. Do you want to reload it?	MainWindow		Het message bestand is veranderd. Wil je het herladen?
 Alpha:	EditView		Alpha:
-Save	EditWindow		Save
-not editable	EditView		not editable
-Error reading the message from the file!	App		Error reading the message from the file!
-An editor for archived BMessages	App		An editor for archived BMessages
+Blue:	EditView		Blauw:
+Bottom:	EditView		Onder:
+false	EditView		foutief
+Green:	EditView		Groen:
+Height:	EditView		Hoogte:
+Left:	EditView		Links:
+not editable	EditView		niet bewerkbaar
+Red:	EditView		Rood:
+Right:	EditView		Rechts:
+Top:	EditView		Boven:
+true	EditView		juist
+Width:	EditView		Breedte:
+An editor for archived BMessages	App		Een Editor voor gearchiveerde BMessages
+Code contributions by:	App		Code contributies door:
+Error opening the message file!	App		Fout bij het openen van het message bestand!
+Error reading the message from the file!	App		Fout bij het lezen van het message bestand!
+Translations by:	App		Vertaling door: Schrijvers Luc aka Begasus
+Cancel	EditWindow		Annuleer
+Edit	EditWindow		Bewerk
+Save	EditWindow		Opslaan
+Close	DataWindow		Sluiten
+data cannot be displayed	DataWindow		data kan niet getoond worden
+false	DataWindow		foutief
+Index	DataWindow		Index
+Message data	DataWindow		Message data
+true	DataWindow		juist
+Value	DataWindow		Waarde
+Index	MessageView		Index
+Name	MessageView		Naam
+Number of items	MessageView		Aantal items
+Type	MessageView		Type
