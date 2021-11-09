@@ -271,7 +271,8 @@ App::AboutRequested()
 
 	code_contributors << B_TRANSLATE("Code contributions by:");
 	code_contributors << "\n"
-					  << "Humdinger\n";
+					  << "Humdinger\n"
+					  << "Jaidyn Ann (JadedCtrl)\n";
 
 	translators << B_TRANSLATE("Translations by:");
 	translators << "\n"
