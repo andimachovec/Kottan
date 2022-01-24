@@ -5,7 +5,15 @@
 #include <File.h>
 #include <Handler.h>
 #include <Message.h>
+#include <ObjectList.h>
 
+
+class IndexMessage {
+public:
+	BMessage 	*message;
+	int32		field_index;
+	const char  *field_name;
+};
 
 
 class MessageFile : public BFile, public BHandler {
@@ -14,15 +22,21 @@ public:
 	~MessageFile();
 	status_t LoadMessage();
 	status_t SaveMessage();
+	BMessage* GetMessage();
+	BMessage* GetSubMessage(BMessage *path_message);
+	void MessageReceived(BMessage *msg);
 
 
 private:
 	void		start_monitoring();
 	void		stop_monitoring();
 
-	BMessage	*fMessage;
-	bool		fMessageLoaded;
-
+	BMessage					*fMessage;
+	bool						fMessageLoaded;
+	BObjectList<IndexMessage>	*fMessageList;
+	const char 					*fSelectedName;
+	type_code 					fSelectedType;
+	int32 						fSelectedItemCount;
 };
 
 #endif
