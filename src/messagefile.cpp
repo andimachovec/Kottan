@@ -142,6 +142,26 @@ MessageFile::MessageReceived(BMessage *msg)
 	switch(msg->what)
 	{
 		case B_NODE_MONITOR:
+			
+			int32 stat_changed_flags;
+			msg->FindInt32("fields", &stat_changed_flags);
+
+			// only compare messages when the file was modified
+			if ((stat_changed_flags & B_STAT_MODIFICATION_TIME) != 0)
+			{
+				BMessage *temp_msg = new BMessage();
+				Seek(0, SEEK_SET);
+				temp_msg->Unflatten(this);
+
+				//only request reload if the data in the message has actually changed
+				if (!(temp_msg->HasSameData(*fMessage, false, true)))
+				{
+					fMainWindow->PostMessage(MW_CONFIRM_RELOAD);
+				}
+
+				delete temp_msg;
+			}	
+			
 			break;
 
 		default:

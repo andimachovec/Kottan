@@ -6,6 +6,7 @@
 #include <Handler.h>
 #include <Message.h>
 #include <ObjectList.h>
+#include <Looper.h>
 
 
 class IndexMessage {
@@ -18,7 +19,7 @@ public:
 
 class MessageFile : public BFile, public BHandler {
 public:
-	MessageFile();
+	MessageFile(BLooper *target);
 	~MessageFile();
 	status_t LoadMessage();
 	status_t SaveMessage();
@@ -37,6 +38,7 @@ private:
 	const char 					*fSelectedName;
 	type_code 					fSelectedType;
 	int32 						fSelectedItemCount;
+	BLooper						fTarget;
 };
 
 #endif

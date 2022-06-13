@@ -8,6 +8,7 @@
 #include "mainwindow.h"
 #include "datawindow.h"
 #include "editwindow.h"
+#include "messagefile.h"
 
 #include <AboutWindow.h>
 #include <Catalog.h>
@@ -16,7 +17,6 @@
 #include <Path.h>
 #include <File.h>
 #include <FindDirectory.h>
-#include <NodeMonitor.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -412,63 +412,7 @@ App::RefsReceived(BMessage *msg)
 }
 
 
-void
-App::get_selection_data(BMessage *selection_path_message)
-{
 
-	// follow the index path to the selected data
-	BMessage *current_message = fDataMessage;
-
-	fMessageList->MakeEmpty();
-
-	int32 path_items_count;
-	selection_path_message->GetInfo("selection_path", NULL, &path_items_count);
-
-	type_code current_type;
-	char *current_name;
-	int32 current_item_count;
-
-	for (int32 path_index = path_items_count-1;  // loop through the index values in
-		 path_index >= 0;				   		 // in reverse order
-		 --path_index)
-	{
-		int32 current_index;
-		selection_path_message->FindInt32("selection_path", path_index, &current_index);
-
-		current_message->GetInfo(B_ANY_TYPE,
-								current_index,
-								&current_name,
-								&current_type,
-								&current_item_count);
-
-		if (current_type == B_MESSAGE_TYPE)
-		{
-			int32 member_index=0;
-
-			if (current_item_count > 1)
-			{
-				--path_index;
-				selection_path_message->FindInt32("selection_path", path_index, &member_index);
-			}
-
-			BMessage *temp_message = new BMessage();
-			current_message->FindMessage(current_name, member_index, temp_message);
-
-			IndexMessage *index_message = new IndexMessage();
-			index_message->message = new BMessage(*temp_message);
-			index_message->field_index = member_index;
-			index_message->field_name = current_name;
-			fMessageList->AddItem(index_message, 0);
-
-			current_message = temp_message;
-		}
-	}
-
-	fSelectedName = current_name;
-	fSelectedType = current_type;
-	fSelectedItemCount = current_item_count;
-
-}
 
 
 int

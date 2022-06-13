@@ -10,20 +10,12 @@
 #include <Application.h>
 #include <Message.h>
 #include <ObjectList.h>
-#include <File.h>
 #include <String.h>
 
 
 class DataWindow;
 class MainWindow;
-
-
-class IndexMessage {
-public:
-	BMessage 	*message;
-	int32		field_index;
-	const char  *field_name;
-};
+class MessageFile;
 
 
 class App : public BApplication {
@@ -38,18 +30,10 @@ public:
 	void RefsReceived(BMessage* msg);
 
 private:
-		void get_selection_data(BMessage *selection_path_message);
-
 		MainWindow					*fMainWindow;
 		DataWindow					*fDataWindow;
-		BMessage					*fDataMessage;
-		BObjectList<IndexMessage>	*fMessageList;
-		BFile						*fMessageFile;
+		MessageFile					*fMessageFile;
 		BString						fSettingsFileName;
-
-		const char 					*fSelectedName;
-		type_code 					fSelectedType;
-		int32 						fSelectedItemCount;
 };
 
 #endif
