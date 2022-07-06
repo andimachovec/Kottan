@@ -7,10 +7,10 @@ MessageFile::MessageFile(BLooper *target)
 	:
 	BFile(),
 	BHandler(),
+	BMessage(),
 	fTarget(target)
 {
 
-	fMessage = new BMessage();
 	fMessageLoaded = false;
 	fMessageList = new BObjectList<IndexMessage>(20, false);
 
@@ -20,7 +20,6 @@ MessageFile::MessageFile(BLooper *target)
 MessageFile::~MessageFile()
 {
 
-	delete fMessage;
 	delete fMessageList;
 }
 
@@ -29,7 +28,7 @@ status_t
 MessageFile::LoadMessage()
 {
 
-	status_t result = fMessage->Unflatten(this);
+	status_t result = this->Unflatten(this);
 	if (result == B_OK)
 	{
 		fMessageLoaded = true;
@@ -50,7 +49,7 @@ MessageFile::SaveMessage()
 {
 
 	Seek(0, SEEK_SET);
-	status_t result = fMessage->Flatten(this);
+	status_t result = this->Flatten(this);
 
 	return result;
 }
@@ -70,7 +69,7 @@ MessageFile::GetSubMessage(BMessage *path_message)
 {
 
 	// follow the index path to the selected data
-	BMessage *current_message = fMessage;
+	BMessage *current_message = this;
 
 	fMessageList->MakeEmpty();
 
@@ -128,7 +127,7 @@ MessageFile::GetSubMessage(BMessage *path_message)
 	}
 	else
 	{
-		sub_message = fMessage;
+		sub_message = this;
 	}
 
 	return sub_message;
@@ -155,7 +154,7 @@ MessageFile::MessageReceived(BMessage *msg)
 				temp_msg->Unflatten(this);
 
 				//only request reload if the data in the message has actually changed
-				if (!(temp_msg->HasSameData(*fMessage, false, true)))
+				if (!(temp_msg->HasSameData(*this, false, true)))
 				{
 					fTarget->PostMessage(MF_RELOADED);
 				}

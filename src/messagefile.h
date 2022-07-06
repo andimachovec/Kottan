@@ -24,7 +24,7 @@ public:
 };
 
 
-class MessageFile : public BFile, public BHandler {
+class MessageFile : public BFile, public BHandler, public BMessage {
 public:
 	MessageFile(BLooper *target);
 	~MessageFile();
@@ -39,7 +39,6 @@ private:
 	void		start_monitoring();
 	void		stop_monitoring();
 
-	BMessage					*fMessage;
 	bool						fMessageLoaded;
 	BObjectList<IndexMessage>	*fMessageList;
 	const char 					*fSelectedName;
