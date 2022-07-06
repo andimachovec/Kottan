@@ -3,10 +3,11 @@
 #include <NodeMonitor.h>
 
 
-MessageFile::MessageFile()
+MessageFile::MessageFile(BLooper *target)
 	:
 	BFile(),
-	BHandler()
+	BHandler(),
+	fTarget(target)
 {
 
 	fMessage = new BMessage();
@@ -156,7 +157,7 @@ MessageFile::MessageReceived(BMessage *msg)
 				//only request reload if the data in the message has actually changed
 				if (!(temp_msg->HasSameData(*fMessage, false, true)))
 				{
-					fMainWindow->PostMessage(MW_CONFIRM_RELOAD);
+					fTarget->PostMessage(MF_RELOADED);
 				}
 
 				delete temp_msg;

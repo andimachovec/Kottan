@@ -9,6 +9,13 @@
 #include <Looper.h>
 
 
+enum
+{
+	MF_RELOADED = 'mf00'
+
+};
+
+
 class IndexMessage {
 public:
 	BMessage 	*message;
