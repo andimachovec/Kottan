@@ -1,5 +1,5 @@
-#ifndef MESSAGEENGINE_H
-#define MESSAGEENGINE_H
+#ifndef MESSAGEFILE_H
+#define MESSAGEFILE_H
 
 
 #include <File.h>
