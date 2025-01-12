@@ -61,10 +61,9 @@ App::MessageReceived(BMessage *msg)
 
 			stop_watching(be_app_messenger); //stop watching file nodes
 
-			entry_ref ref;
-			msg->FindRef("msgfile", &ref);
+			msg->FindRef("msgfile", &fMessageFileRef);
 
-			status_t fileopen_result = fMessageFile->SetTo(&ref, B_READ_WRITE);
+			status_t fileopen_result = fMessageFile->SetTo(&fMessageFileRef, B_READ_ONLY);
 
 			BString error_text;
 			bool message_read_success = false;
@@ -95,7 +94,7 @@ App::MessageReceived(BMessage *msg)
 				open_reply_msg.AddPointer("data_msg_pointer", fDataMessage);
 
 				// start watching the file for changes
-				BEntry entry(&ref);
+				BEntry entry(&fMessageFileRef);
 				node_ref nref;
 				entry.GetNodeRef(&nref);
 				watch_node(&nref, B_WATCH_STAT|B_WATCH_INTERIM_STAT, be_app_messenger);
@@ -195,7 +194,7 @@ App::MessageReceived(BMessage *msg)
 		// save message data to file
 		case MW_SAVE_MESSAGEFILE:
 		{
-			fMessageFile->Seek(0, SEEK_SET);
+			fMessageFile->SetTo(&fMessageFileRef, B_WRITE_ONLY|B_ERASE_FILE);
 			fDataMessage->Flatten(fMessageFile);
 			fMainWindow->PostMessage(MW_WAS_SAVED);
 
@@ -212,7 +211,7 @@ App::MessageReceived(BMessage *msg)
 			if ((stat_changed_flags & B_STAT_MODIFICATION_TIME) != 0)
 			{
 				BMessage *temp_msg = new BMessage();
-				fMessageFile->Seek(0, SEEK_SET);
+				fMessageFile->SetTo(&fMessageFileRef, B_READ_ONLY);
 				temp_msg->Unflatten(fMessageFile);
 
 				//only request reload if the data in the message has actually changed
@@ -230,7 +229,7 @@ App::MessageReceived(BMessage *msg)
 		// reload message data from file and update main and data window
 		case MW_RELOAD_FROM_FILE:
 		{
-			fMessageFile->Seek(0, SEEK_SET);
+			fMessageFile->SetTo(&fMessageFileRef, B_READ_ONLY);
 			fDataMessage->Unflatten(fMessageFile);
 
 			fMainWindow->PostMessage(MW_UPDATE_MESSAGEVIEW);

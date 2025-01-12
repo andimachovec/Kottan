@@ -45,6 +45,7 @@ private:
 		BMessage					*fDataMessage;
 		BObjectList<IndexMessage>	*fMessageList;
 		BFile						*fMessageFile;
+		entry_ref					fMessageFileRef;
 		BString						fSettingsFileName;
 
 		const char 					*fSelectedName;
