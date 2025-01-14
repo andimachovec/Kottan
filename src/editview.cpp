@@ -9,9 +9,18 @@
 #include <FilePanel.h>
 #include <Catalog.h>
 #include <limits>
+#include <cstdlib>
+
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "EditView"
+
+
+static double
+roundTo(double value, uint32 n)
+{
+	return floor(value * pow(10.0, n) + 0.5) / pow(10.0, n);
+}
 
 
 EditView::EditView(BMessage *data_message,
@@ -124,7 +133,8 @@ EditView::SaveData()
 	
 		case B_FLOAT_TYPE:
 		{
-			fDataMessage->ReplaceFloat(fDataLabel, fDataIndex, fDecimalSpinner1->Value());
+			float float_data = roundTo(std::atof(fDecimalSpinner1->TextView()->Text()), fDecimalSpinner1->Precision());
+			fDataMessage->ReplaceFloat(fDataLabel, fDataIndex, float_data);
 			break;
 		}
 	
