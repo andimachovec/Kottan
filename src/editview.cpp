@@ -304,6 +304,8 @@ EditView::setup_controls()
 			
 			fDecimalSpinner1->SetRange(-(std::numeric_limits<float>::max()),
 									std::numeric_limits<float>::max()); 
+			fDecimalSpinner1->SetPrecision(4);
+			fDecimalSpinner1->SetStep(0.1);
 			fDecimalSpinner1->SetValue(data_float);
 			fMainLayout->AddView(fDecimalSpinner1);
 		
