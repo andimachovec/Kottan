@@ -1,4 +1,4 @@
-1	English	application/x-vnd.BlueSky-Kottan	2441099929
+1	English	application/x-vnd.BlueSky-Kottan	1173102517
 Name	MessageView		Name
 Blue:	EditView		Blue:
 Reload	MainWindow		Reload
@@ -13,6 +13,7 @@ Quit	MainWindow		Quit
 Index	DataWindow		Index
 Bottom:	EditView		Bottom:
 The message data was changed but not saved. Do you really want to quit?	MainWindow		The message data was changed but not saved. Do you really want to quit?
+Icon design by:	App		Icon design by:
 Message data	DataWindow		Message data
 Type	MessageView		Type
 Red:	EditView		Red:
@@ -36,9 +37,9 @@ Number of items	MessageView		Number of items
 false	DataWindow		false
 Right:	EditView		Right:
 Value	DataWindow		Value
+Close	DataWindow		Close
 Edit	EditWindow		Edit
 Cancel	EditWindow		Cancel
-Close	DataWindow		Close
 Alpha:	EditView		Alpha:
 Save	EditWindow		Save
 not editable	EditView		not editable
