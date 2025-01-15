@@ -266,12 +266,17 @@ App::AboutRequested()
 	};
 
 	BString code_contributors;
+	BString icon_designers;
 	BString translators;
 
 	code_contributors << B_TRANSLATE("Code contributions by:");
 	code_contributors << "\n"
 					  << "Humdinger\n"
 					  << "Jaidyn Ann (JadedCtrl)\n";
+
+	icon_designers 	<< B_TRANSLATE("Icon design by:");
+	icon_designers 	<< "\n"
+					<< "zuMi\n";
 
 	translators << B_TRANSLATE("Translations by:");
 	translators << "\n"
@@ -285,6 +290,8 @@ App::AboutRequested()
 
 	BString extra_info;
 	extra_info.Append(code_contributors);
+	extra_info.Append("\n");
+	extra_info.Append(icon_designers);
 	extra_info.Append("\n");
 	extra_info.Append(translators);
 
