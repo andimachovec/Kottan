@@ -174,7 +174,9 @@ DataWindow::display_data()
 
 			case B_DOUBLE_TYPE:
 			{
-				message_item_data<<fDataMessage->GetDouble(fFieldName,i,0);
+				std::stringstream convert_stream;
+				convert_stream << std::fixed << std::setprecision(4) << fDataMessage->GetDouble(fFieldName,i,0);
+				message_item_data = BString(convert_stream.str().c_str());
 				break;
 			}
 
