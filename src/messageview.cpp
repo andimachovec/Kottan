@@ -41,7 +41,10 @@ MessageView::SetDataMessage(BMessage *message)
 
 	fDataMessage = message;
 	create_data_rows(fDataMessage);
-
+	if (CountRows() == 1)
+	{
+		ExpandOrCollapse(RowAt(0), true);
+	}
 }
 
 
@@ -60,6 +63,10 @@ MessageView::UpdateData()
 
 	Clear();
 	create_data_rows(fDataMessage);
+	if (CountRows() == 1)
+	{
+		ExpandOrCollapse(RowAt(0), true);
+	}
 }
 
 void
