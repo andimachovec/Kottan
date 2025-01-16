@@ -43,11 +43,11 @@ LIBPATHS =
 SYSTEM_INCLUDE_PATHS = /boot/system/develop/headers/private/interface
 LOCAL_INCLUDE_PATHS =
 OPTIMIZE :=
-LOCALES = ca cs de en es nl ro ru sv tr
+LOCALES = en de nl ru ca ro es sv tr
 DEFINES=
 WARNINGS = ALL
-SYMBOLS :=
-DEBUGGER :=
+SYMBOLS := TRUE
+DEBUGGER := TRUE
 COMPILER_FLAGS = -std=c++11
 LINKER_FLAGS =
 APP_VERSION :=
@@ -55,3 +55,4 @@ APP_VERSION :=
 DEVEL_DIRECTORY := \
 	$(shell findpaths -r "makefile_engine" B_FIND_PATH_DEVELOP_DIRECTORY)
 include $(DEVEL_DIRECTORY)/etc/makefile-engine
+
