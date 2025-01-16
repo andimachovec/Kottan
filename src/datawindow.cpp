@@ -27,7 +27,7 @@ DataWindow::DataWindow(BRect frame,
 					type_code field_type,
 					int32 item_count)
 	:
-	BWindow(frame, B_TRANSLATE("Message data"), B_TITLED_WINDOW, B_CLOSE_ON_ESCAPE),
+	BWindow(frame, B_TRANSLATE("Message data"), B_DOCUMENT_WINDOW, B_CLOSE_ON_ESCAPE),
 	fDataMessage(data_message),
 	fFieldName(field_name),
 	fFieldType(field_type),

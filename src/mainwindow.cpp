@@ -21,7 +21,7 @@
 
 MainWindow::MainWindow(BRect geometry)
 	:
-	BWindow(geometry, "Kottan", B_TITLED_WINDOW, B_ASYNCHRONOUS_CONTROLS)
+	BWindow(geometry, "Kottan", B_DOCUMENT_WINDOW, B_ASYNCHRONOUS_CONTROLS)
 {
 
 	//initialize GUI objects
