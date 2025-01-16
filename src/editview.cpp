@@ -140,7 +140,8 @@ EditView::SaveData()
 
 		case B_DOUBLE_TYPE:
 		{
-			fDataMessage->ReplaceDouble(fDataLabel, fDataIndex, fDecimalSpinner1->Value());
+			double double_data = roundTo(std::atof(fDecimalSpinner1->TextView()->Text()), fDecimalSpinner1->Precision());
+			fDataMessage->ReplaceDouble(fDataLabel, fDataIndex, double_data);
 			break;
 		}
 
@@ -329,6 +330,8 @@ EditView::setup_controls()
 
 			fDecimalSpinner1->SetRange(-(std::numeric_limits<double>::max()),
 									std::numeric_limits<double>::max());
+			fDecimalSpinner1->SetPrecision(4);
+			fDecimalSpinner1->SetStep(0.1);
 			fDecimalSpinner1->SetValue(data_double);
 			fMainLayout->AddView(fDecimalSpinner1);
 
