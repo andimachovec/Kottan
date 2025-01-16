@@ -21,14 +21,14 @@ EditWindow::EditWindow(BRect frame,
 					const char *data_label,
 					int32 data_index)
 	:
-	BWindow(frame, B_TRANSLATE("Edit"), B_TITLED_WINDOW, B_CLOSE_ON_ESCAPE
+	BWindow(frame, B_TRANSLATE("Edit"), B_DOCUMENT_WINDOW, B_CLOSE_ON_ESCAPE
 		| B_NOT_ZOOMABLE | B_NOT_V_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 
 	fEditView = new EditView(data_message, data_type, data_label, data_index);
 	fCancelButton = new BButton(B_TRANSLATE("Cancel"), new BMessage(EW_BUTTON_CANCEL));
 	fSaveButton = new BButton(B_TRANSLATE("Save"), new BMessage(EW_BUTTON_SAVE));
-	
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_SMALL_SPACING)
 		.SetInsets(B_USE_SMALL_SPACING)
 		.Add(fEditView)
@@ -41,7 +41,7 @@ EditWindow::EditWindow(BRect frame,
 		.End()
 		.AddGlue(100)
 	.Layout();
-	
+
 }
 
 
@@ -54,24 +54,24 @@ EditWindow::MessageReceived(BMessage *msg)
 		case EW_BUTTON_SAVE:
 		{
 			fEditView->SaveData();
-			be_app->PostMessage(msg);	
+			be_app->PostMessage(msg);
 			Quit();
 			break;
 		}
-		
+
 		case EW_BUTTON_CANCEL:
 			Quit();
 			break;
-				
-		/* 	commented out for now since standard BTextControl gives no notification when 
+
+		/* 	commented out for now since standard BTextControl gives no notification when
 			characters are entered, only on Enter key. If the text controls are replaced by a
 			subclass of BTextControl that provides this, it can be re-enabled.
-		
+
 		case EV_DATA_CHANGED:
 			fSaveButton->SetEnabled(true);
 			break;
 		*/
-					
+
 		default:
 		{
 			BWindow::MessageReceived(msg);
