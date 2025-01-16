@@ -9,9 +9,18 @@
 #include <FilePanel.h>
 #include <Catalog.h>
 #include <limits>
+#include <cstdlib>
+
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "EditView"
+
+
+static double
+roundTo(double value, uint32 n)
+{
+	return floor(value * pow(10.0, n) + 0.5) / pow(10.0, n);
+}
 
 
 EditView::EditView(BMessage *data_message,
@@ -21,7 +30,7 @@ EditView::EditView(BMessage *data_message,
 	:
 	BView("editview", B_SUPPORTS_LAYOUT),
 	fDataMessage(data_message),
-	fDataType(data_type),	
+	fDataType(data_type),
 	fDataLabel(data_label),
 	fDataIndex(data_index)
 {
@@ -46,7 +55,7 @@ EditView::EditView(BMessage *data_message,
 	fTextCtrl2 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
 	fTextCtrl3 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
 	fTextCtrl4 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
-	
+
 	//fill the controls needed for the specified data type with values and add them to the layout
 	setup_controls();
 
@@ -62,28 +71,28 @@ EditView::IsEditable()
 }
 
 
-status_t 
+status_t
 EditView::SaveData()
 {
-		
+
 	switch(fDataType)
-	{	
+	{
 		case B_BOOL_TYPE:
 		{
 			fDataMessage->ReplaceBool(fDataLabel,
 									fDataIndex,
 									static_cast<bool>(fPopUpMenu->FindMarkedIndex()));
-			break;	
+			break;
 		}
-		
+
 		case B_INT8_TYPE:
 		{
 			fDataMessage->ReplaceInt8(fDataLabel,
 									fDataIndex,
 									static_cast<int8>(fIntegerSpinner1->Value()));
 			break;
-		}	
-		
+		}
+
 		case B_INT16_TYPE:
 		{
 			fDataMessage->ReplaceInt16(fDataLabel,
@@ -91,13 +100,13 @@ EditView::SaveData()
 									static_cast<int16>(fIntegerSpinner1->Value()));
 			break;
 		}
-		
+
 		case B_INT32_TYPE:
 		{
 			fDataMessage->ReplaceInt32(fDataLabel, fDataIndex, fIntegerSpinner1->Value());
 			break;
 		}
-		
+
 		case B_UINT8_TYPE:
 		{
 			fDataMessage->ReplaceUInt8(fDataLabel,
@@ -105,7 +114,7 @@ EditView::SaveData()
 									static_cast<uint8>(fIntegerSpinner1->Value()));
 			break;
 		}
-		
+
 		case B_UINT16_TYPE:
 		{
 			fDataMessage->ReplaceUInt16(fDataLabel,
@@ -113,27 +122,29 @@ EditView::SaveData()
 										static_cast<uint16>(fIntegerSpinner1->Value()));
 			break;
 		}
-		
+
 		case B_UINT32_TYPE:
 		{
 			fDataMessage->ReplaceUInt32(fDataLabel,
 										fDataIndex,
 										static_cast<uint32>(fIntegerSpinner1->Value()));
 			break;
-		}	
-	
+		}
+
 		case B_FLOAT_TYPE:
 		{
-			fDataMessage->ReplaceFloat(fDataLabel, fDataIndex, fDecimalSpinner1->Value());
+			float float_data = roundTo(std::atof(fDecimalSpinner1->TextView()->Text()), fDecimalSpinner1->Precision());
+			fDataMessage->ReplaceFloat(fDataLabel, fDataIndex, float_data);
 			break;
 		}
-	
+
 		case B_DOUBLE_TYPE:
 		{
-			fDataMessage->ReplaceDouble(fDataLabel, fDataIndex, fDecimalSpinner1->Value());
+			double double_data = roundTo(std::atof(fDecimalSpinner1->TextView()->Text()), fDecimalSpinner1->Precision());
+			fDataMessage->ReplaceDouble(fDataLabel, fDataIndex, double_data);
 			break;
 		}
-	
+
 		case B_SIZE_TYPE:
 		{
 			BSize data_size;
@@ -142,17 +153,17 @@ EditView::SaveData()
 			fDataMessage->ReplaceSize(fDataLabel, fDataIndex, data_size);
 			break;
 		}
-	
+
 		case B_POINT_TYPE:
 		{
 			BPoint data_point;
 			data_point.x = fDecimalSpinner1->Value();
 			data_point.y = fDecimalSpinner2->Value();
 			fDataMessage->ReplacePoint(fDataLabel, fDataIndex, data_point);
-			
+
 			break;
 		}
-		
+
 		case B_RECT_TYPE:
 		{
 			BRect data_rect;
@@ -161,17 +172,17 @@ EditView::SaveData()
 			data_rect.right = fDecimalSpinner3->Value();
 			data_rect.bottom = fDecimalSpinner4->Value();
 			fDataMessage->ReplaceRect(fDataLabel, fDataIndex, data_rect);
-		
+
 			break;
 		}
-		
+
 		case B_STRING_TYPE:
-		{		
+		{
 			fDataMessage->ReplaceString(fDataLabel, fDataIndex, fTextCtrl1->Text());
-		
-			break;	
+
+			break;
 		}
-	
+
 		case B_RGB_COLOR_TYPE:
 		{
 			rgb_color data_rgbcolor;
@@ -180,41 +191,41 @@ EditView::SaveData()
 			data_rgbcolor.blue = static_cast<uint8>(fIntegerSpinner3->Value());
 			data_rgbcolor.alpha = static_cast<uint8>(fIntegerSpinner4->Value());
 			fDataMessage->ReplaceData(fDataLabel, B_RGB_COLOR_TYPE, fDataIndex, &data_rgbcolor, sizeof(data_rgbcolor));
-			
-			break;			
+
+			break;
 		}
-		
+
 		default:
-			return B_BAD_DATA;			
+			return B_BAD_DATA;
 			break;
 	}
-	
+
 	return B_OK;
-	
+
 }
 
 
-void 
+void
 EditView::setup_controls()
 {
 
 	switch(fDataType)
 	{
 		case B_BOOL_TYPE:
-		{			
-			bool data_bool; 
-			fDataMessage->FindBool(fDataLabel, fDataIndex, &data_bool);	
+		{
+			bool data_bool;
+			fDataMessage->FindBool(fDataLabel, fDataIndex, &data_bool);
 			int32 default_item = static_cast<int32>(data_bool);
-		
+
 			fPopUpMenu->AddItem(new BMenuItem(B_TRANSLATE("false"), new BMessage(EV_DATA_CHANGED)));
 			fPopUpMenu->AddItem(new BMenuItem(B_TRANSLATE("true"), new BMessage(EV_DATA_CHANGED)));
 			fPopUpMenu->ItemAt(default_item)->SetMarked(true);
-			
+
 			BMenuField *bool_select = new BMenuField("",fPopUpMenu);
 			fMainLayout->AddView(bool_select);
 			break;
 		}
-		
+
 		//all integer types get the same input field but need different range constraints
 		case B_INT8_TYPE:
 		case B_INT16_TYPE:
@@ -226,36 +237,36 @@ EditView::setup_controls()
 			int32 range_min = 0;
 			int32 range_max = 0;
 			int32 data_int;
-		
+
 			switch(fDataType)
-			{			
+			{
 				case B_INT8_TYPE:
-				{		
+				{
 					range_min=-128;
 					range_max=127;
 					int8 data_int8;
 					fDataMessage->FindInt8(fDataLabel, fDataIndex, &data_int8);
 					data_int = static_cast<int32>(data_int8);
 					break;
-				}	
-	
+				}
+
 				case B_INT16_TYPE:
 					range_min=-32768;
 					range_max=32767;
-					
+
 					int16 data_int16;
 					fDataMessage->FindInt16(fDataLabel, fDataIndex, &data_int16);
 					data_int = static_cast<int32>(data_int16);
-					
+
 					break;
 
 				case B_INT32_TYPE:
 					range_min=-2147483648;
 					range_max=2147483647;
 					fDataMessage->FindInt32(fDataLabel, fDataIndex, &data_int);
-					
+
 					break;
-					
+
 				case B_UINT8_TYPE:
 				{
 					range_min=0;
@@ -263,10 +274,10 @@ EditView::setup_controls()
 					uint8 data_uint8;
 					fDataMessage->FindUInt8(fDataLabel, fDataIndex, &data_uint8);
 					data_int = static_cast<int32>(data_uint8);
-					
+
 					break;
 				}
-				
+
 				case B_UINT16_TYPE:
 				{
 					range_min=0;
@@ -274,10 +285,10 @@ EditView::setup_controls()
 					uint16 data_uint16;
 					fDataMessage->FindUInt16(fDataLabel, fDataIndex, &data_uint16);
 					data_int = static_cast<int32>(data_uint16);
-					
-					break;										
+
+					break;
 				}
-		
+
 				{
 				case B_UINT32_TYPE:
 					range_min=0;
@@ -285,28 +296,30 @@ EditView::setup_controls()
 					uint32 data_uint32;
 					fDataMessage->FindUInt32(fDataLabel, fDataIndex, &data_uint32);
 					data_int = static_cast<int32>(data_uint32);
-				
+
 					break;
-				}	
+				}
 			}
-			
-			fIntegerSpinner1->SetRange(range_min, range_max);			
+
+			fIntegerSpinner1->SetRange(range_min, range_max);
 			fIntegerSpinner1->SetValue(data_int);
 			fMainLayout->AddView(fIntegerSpinner1);
-			
+
 			break;
 		}
-		
+
 		case B_FLOAT_TYPE:
 		{
 			float data_float;
 			fDataMessage->FindFloat(fDataLabel, fDataIndex, &data_float);
-			
+
 			fDecimalSpinner1->SetRange(-(std::numeric_limits<float>::max()),
-									std::numeric_limits<float>::max()); 
+									std::numeric_limits<float>::max());
+			fDecimalSpinner1->SetPrecision(4);
+			fDecimalSpinner1->SetStep(0.1);
 			fDecimalSpinner1->SetValue(data_float);
 			fMainLayout->AddView(fDecimalSpinner1);
-		
+
 			break;
 		}
 
@@ -314,12 +327,14 @@ EditView::setup_controls()
 		{
 			double data_double;
 			fDataMessage->FindDouble(fDataLabel, fDataIndex, &data_double);
-			
+
 			fDecimalSpinner1->SetRange(-(std::numeric_limits<double>::max()),
-									std::numeric_limits<double>::max()); 
+									std::numeric_limits<double>::max());
+			fDecimalSpinner1->SetPrecision(4);
+			fDecimalSpinner1->SetStep(0.1);
 			fDecimalSpinner1->SetValue(data_double);
 			fMainLayout->AddView(fDecimalSpinner1);
-		
+
 			break;
 		}
 
@@ -327,50 +342,50 @@ EditView::setup_controls()
 		{
 			BSize data_size;
 			fDataMessage->FindSize(fDataLabel, fDataIndex, &data_size);
-			
+
 			fDecimalSpinner1->SetMaxValue(10000);
-			fDecimalSpinner2->SetMaxValue(10000);		
-			
+			fDecimalSpinner2->SetMaxValue(10000);
+
 			fDecimalSpinner1->SetLabel(B_TRANSLATE("Height:"));
 			fDecimalSpinner1->SetValue(data_size.height);
-			fDecimalSpinner2->SetLabel(B_TRANSLATE("Width:"));	
-			fDecimalSpinner2->SetValue(data_size.width);	
-			
+			fDecimalSpinner2->SetLabel(B_TRANSLATE("Width:"));
+			fDecimalSpinner2->SetValue(data_size.width);
+
 			fMainLayout->AddView(fDecimalSpinner1);
-			fMainLayout->AddView(fDecimalSpinner2);			
-			
+			fMainLayout->AddView(fDecimalSpinner2);
+
 			break;
 		}
-		
+
 		case B_POINT_TYPE:
 		{
 			BPoint data_point;
 			fDataMessage->FindPoint(fDataLabel, fDataIndex, &data_point);
-				
+
 			fDecimalSpinner1->SetMaxValue(10000);
-			fDecimalSpinner2->SetMaxValue(10000);			
-				
+			fDecimalSpinner2->SetMaxValue(10000);
+
 			fDecimalSpinner1->SetLabel("X:");
 			fDecimalSpinner1->SetValue(data_point.x);
 			fDecimalSpinner2->SetLabel("Y:");
 			fDecimalSpinner2->SetValue(data_point.y);
-			
+
 			fMainLayout->AddView(fDecimalSpinner1);
-			fMainLayout->AddView(fDecimalSpinner2);	
-			
+			fMainLayout->AddView(fDecimalSpinner2);
+
 			break;
 		}
-	
+
 		case B_RECT_TYPE:
-		{	
+		{
 			BRect data_rect;
 			fDataMessage->FindRect(fDataLabel, fDataIndex, &data_rect);
-			
+
 			fDecimalSpinner1->SetMaxValue(10000);
-			fDecimalSpinner2->SetMaxValue(10000);		
-			fDecimalSpinner3->SetMaxValue(10000);			
-			fDecimalSpinner4->SetMaxValue(10000);			
-			
+			fDecimalSpinner2->SetMaxValue(10000);
+			fDecimalSpinner3->SetMaxValue(10000);
+			fDecimalSpinner4->SetMaxValue(10000);
+
 			fDecimalSpinner1->SetLabel(B_TRANSLATE("Left:"));
 			fDecimalSpinner1->SetValue(data_rect.left);
 			fDecimalSpinner2->SetLabel(B_TRANSLATE("Top:"));
@@ -386,13 +401,13 @@ EditView::setup_controls()
 			fMainLayout->AddView(fDecimalSpinner4);
 
 			break;
-		} 
+		}
 
 		case B_STRING_TYPE:
 		{
-			const char *data_string; 
+			const char *data_string;
 			fDataMessage->FindString(fDataLabel, fDataIndex, &data_string);
-			
+
 			fTextCtrl1->SetText(data_string);
 			fMainLayout->AddView(fTextCtrl1);
 			break;
@@ -404,29 +419,29 @@ EditView::setup_controls()
 			ssize_t data_size = sizeof(rgb_color);
 			fDataMessage->FindData(fDataLabel, B_RGB_COLOR_TYPE, fDataIndex, &color_ptr, &data_size);
 			rgb_color data_rgbcolor = *(static_cast<const rgb_color*>(color_ptr));
-			
-			fIntegerSpinner1->SetRange(0, 255);	
-			fIntegerSpinner2->SetRange(0, 255);	
-			fIntegerSpinner3->SetRange(0, 255);	
-			fIntegerSpinner4->SetRange(0, 255);	
-			
+
+			fIntegerSpinner1->SetRange(0, 255);
+			fIntegerSpinner2->SetRange(0, 255);
+			fIntegerSpinner3->SetRange(0, 255);
+			fIntegerSpinner4->SetRange(0, 255);
+
 			fIntegerSpinner1->SetLabel(B_TRANSLATE("Red:"));
-			fIntegerSpinner1->SetValue(data_rgbcolor.red);	
+			fIntegerSpinner1->SetValue(data_rgbcolor.red);
 			fIntegerSpinner2->SetLabel(B_TRANSLATE("Green:"));
-			fIntegerSpinner2->SetValue(data_rgbcolor.green);		
+			fIntegerSpinner2->SetValue(data_rgbcolor.green);
 			fIntegerSpinner3->SetLabel(B_TRANSLATE("Blue:"));
-			fIntegerSpinner3->SetValue(data_rgbcolor.blue);	
-			fIntegerSpinner4->SetLabel(B_TRANSLATE("Alpha:"));	
+			fIntegerSpinner3->SetValue(data_rgbcolor.blue);
+			fIntegerSpinner4->SetLabel(B_TRANSLATE("Alpha:"));
 			fIntegerSpinner4->SetValue(data_rgbcolor.alpha);
-			
+
 			fMainLayout->AddView(fIntegerSpinner1);
 			fMainLayout->AddView(fIntegerSpinner2);
 			fMainLayout->AddView(fIntegerSpinner3);
 			fMainLayout->AddView(fIntegerSpinner4);
-		
+
 			break;
 		}
-		
+
 		default:
 		{
 			BStringView *not_editable_text = new BStringView("",B_TRANSLATE("not editable"));

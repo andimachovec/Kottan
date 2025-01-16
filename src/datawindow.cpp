@@ -13,6 +13,8 @@
 #include <Entry.h>
 #include <Path.h>
 #include <Application.h>
+#include <iomanip>
+#include <sstream>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -38,7 +40,7 @@ DataWindow::DataWindow(BRect frame,
 	datalabeltext+=" (";
 	datalabeltext+=fieldtypename;
 	datalabeltext+=")";
-	
+
 	fDataLabel = new BStringView("datalabel", datalabeltext.String());
 	BFont font(be_bold_font);
 	fDataLabel->SetFont(&font);
@@ -50,7 +52,7 @@ DataWindow::DataWindow(BRect frame,
 	fDataView->AddColumn(index_column,0);
 	fDataView->AddColumn(value_column,1);
 	display_data();
-	
+
 	fCloseButton = new BButton(B_TRANSLATE("Close"), new BMessage(DW_BUTTON_CLOSE));
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_SMALL_SPACING)
@@ -59,7 +61,7 @@ DataWindow::DataWindow(BRect frame,
 		.Add(fDataView)
 		.Add(fCloseButton)
 	.Layout();
-		
+
 }
 
 
@@ -74,28 +76,28 @@ DataWindow::MessageReceived(BMessage *msg)
 			Quit();
 			break;
 		}
-		
+
 		case DW_ROW_CLICKED:
 		{
 			BRow *selected_row = fDataView->CurrentSelection();
-			int32 field_index = static_cast<BIntegerField*>(selected_row->GetField(0))->Value();	
-			
-			msg->AddInt32("field_index", field_index); 
+			int32 field_index = static_cast<BIntegerField*>(selected_row->GetField(0))->Value();
+
+			msg->AddInt32("field_index", field_index);
 			msg->AddString("field_name", fFieldName);
 			msg->AddUInt32("field_type", fFieldType);
 			be_app->PostMessage(msg);
-			
+
 			break;
 		}
-		
+
 		case DW_UPDATE:
 		{
 			fDataView->Clear();
 			display_data();
-		
+
 			break;
 		}
-		
+
 		default:
 		{
 			BWindow::MessageReceived(msg);
@@ -106,22 +108,22 @@ DataWindow::MessageReceived(BMessage *msg)
 }
 
 
-void 
+void
 DataWindow::display_data()
 {
 
 	BString message_item_data;
-			
+
 	for (int32 i=0; i < fItemCount; ++i)
 	{
 		message_item_data = "";
-				
+
 		switch (fFieldType)
 		{
 			case B_STRING_TYPE:
 				message_item_data=BString(fDataMessage->GetString(fFieldName, i, ""));
 				break;
-						
+
 			case B_INT8_TYPE:
 			{
 				message_item_data<<fDataMessage->GetInt8(fFieldName,i,0);
@@ -169,23 +171,27 @@ DataWindow::display_data()
 				message_item_data<<fDataMessage->GetUInt64(fFieldName,i,0);
 				break;
 			}
-	
+
 			case B_DOUBLE_TYPE:
 			{
-				message_item_data<<fDataMessage->GetDouble(fFieldName,i,0);
+				std::stringstream convert_stream;
+				convert_stream << std::fixed << std::setprecision(4) << fDataMessage->GetDouble(fFieldName,i,0);
+				message_item_data = BString(convert_stream.str().c_str());
 				break;
 			}
 
 			case B_FLOAT_TYPE:
 			{
-				message_item_data<<fDataMessage->GetFloat(fFieldName,i,0);
+				std::stringstream convert_stream;
+				convert_stream << std::fixed << std::setprecision(4) << fDataMessage->GetFloat(fFieldName,i,0);
+				message_item_data = BString(convert_stream.str().c_str());
 				break;
 			}
-	
+
 			case B_BOOL_TYPE:
 			{
-				bool bool_value = fDataMessage->GetBool(fFieldName, i, false);	
-				
+				bool bool_value = fDataMessage->GetBool(fFieldName, i, false);
+
 				if (bool_value)
 				{
 					message_item_data=B_TRANSLATE("true");
@@ -193,8 +199,8 @@ DataWindow::display_data()
 				else
 				{
 					message_item_data=B_TRANSLATE("false");
-				}		
-				
+				}
+
 				break;
 			}
 
@@ -205,8 +211,8 @@ DataWindow::display_data()
 				const void *color_ptr;
 				ssize_t data_size = sizeof(rgb_color);
 				fDataMessage->FindData(fFieldName, B_RGB_COLOR_TYPE, i, &color_ptr, &data_size);
-				rgb_color color = *(static_cast<const rgb_color*>(color_ptr));	
-				
+				rgb_color color = *(static_cast<const rgb_color*>(color_ptr));
+
 				message_item_data<<color.red;
 				message_item_data+=", ";
 				message_item_data<<color.green;
@@ -214,10 +220,10 @@ DataWindow::display_data()
 				message_item_data<<color.blue;
 				message_item_data+=", ";
 				message_item_data<<color.alpha;
-			
+
 				break;
 			}
-			
+
 			case B_RECT_TYPE:
 			{
 				BRect default_rect;
@@ -229,10 +235,10 @@ DataWindow::display_data()
 				message_item_data<<rect.right;
 				message_item_data+=", ";
 				message_item_data<<rect.bottom;
-				
+
 				break;
 			}
-			
+
 			case B_SIZE_TYPE:
 			{
 				BSize default_size;
@@ -240,10 +246,10 @@ DataWindow::display_data()
 				message_item_data<<size.width;
 				message_item_data+=", ";
 				message_item_data<<size.height;
-				
+
 				break;
 			}
-			
+
 			case B_POINT_TYPE:
 			{
 				BPoint default_point;
@@ -251,39 +257,39 @@ DataWindow::display_data()
 				message_item_data<<point.x;
 				message_item_data+=", ";
 				message_item_data<<point.y;
-				
+
 				break;
 			}
-			
-			
+
+
 			case B_REF_TYPE:
 			{
-				entry_ref file_ref; 
+				entry_ref file_ref;
 				status_t result = fDataMessage->FindRef(fFieldName, &file_ref);
-				
+
 				if (result == B_OK)
-				{	
+				{
 					BEntry file_entry(&file_ref);
 					BPath file_path(&file_entry);
-					message_item_data << file_path.Path();					
+					message_item_data << file_path.Path();
 				}
-			
+
 				break;
 			}
-			
+
 			default:
 				message_item_data=B_TRANSLATE("data cannot be displayed");
 				break;
 		}
-				
+
 		BRow *row = new BRow();
-		
+
 		BIntegerField *index_field = new BIntegerField(i);
 		BStringField *value_field = new BStringField(message_item_data.String());
 		row->SetField(index_field,0);
 		row->SetField(value_field,1);
-		
-		fDataView->AddRow(row);				
+
+		fDataView->AddRow(row);
 	}
 
 }
