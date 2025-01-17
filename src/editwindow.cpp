@@ -21,7 +21,7 @@ EditWindow::EditWindow(BRect frame,
 					const char *data_label,
 					int32 data_index)
 	:
-	BWindow(frame, B_TRANSLATE("Edit"), B_DOCUMENT_WINDOW, B_CLOSE_ON_ESCAPE
+	BWindow(frame, B_TRANSLATE("Edit"), B_DOCUMENT_WINDOW_LOOK,B_MODAL_APP_WINDOW_FEEL, B_CLOSE_ON_ESCAPE
 		| B_NOT_ZOOMABLE | B_NOT_V_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 
@@ -60,6 +60,7 @@ EditWindow::MessageReceived(BMessage *msg)
 		}
 
 		case EW_BUTTON_CANCEL:
+			be_app->PostMessage(msg);
 			Quit();
 			break;
 
