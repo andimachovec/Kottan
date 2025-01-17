@@ -134,6 +134,7 @@ App::MessageReceived(BMessage *msg)
 			fDataWindow->CenterIn(fMainWindow->Frame());
 			fDataWindow->MoveBy(0, 128);
 			fDataWindow->MoveOnScreen(B_MOVE_IF_PARTIALLY_OFFSCREEN);
+			//fDataWindow->AddToSubset(fMainWindow);
 			fDataWindow->Show();
 
 			break;
@@ -162,6 +163,8 @@ App::MessageReceived(BMessage *msg)
 													fSelectedName,
 													field_index);
 			edit_window->CenterIn(fDataWindow->Frame());
+			fDataWindow->SetFeel(B_NORMAL_WINDOW_FEEL);
+			//edit_window->AddToSubset(fDataWindow);
 			edit_window->Show();
 
 			break;
@@ -170,6 +173,8 @@ App::MessageReceived(BMessage *msg)
 		// save edited data to the main data message
 		case EW_BUTTON_SAVE:
 		{
+			fDataWindow->SetFeel(B_MODAL_APP_WINDOW_FEEL);
+
 			if (fMessageList->CountItems() > 0)
 			{
 				for( int32 i = 1; i < fMessageList->CountItems(); ++i)
@@ -190,6 +195,14 @@ App::MessageReceived(BMessage *msg)
 
 			break;
 		}
+
+		// edit window closed, make data window modal again
+		case EW_BUTTON_CANCEL:
+		{
+			fDataWindow->SetFeel(B_MODAL_APP_WINDOW_FEEL);
+			break;
+		}
+
 
 		// save message data to file
 		case MW_SAVE_MESSAGEFILE:
