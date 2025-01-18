@@ -1,0 +1,47 @@
+1	French	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		À propos
+Cancel	MainWindow		Annuler
+File	MainWindow		Fichier
+Help	MainWindow		Aide
+Open	MainWindow		Ouvrir
+Open file	MainWindow		Ouvrir un fichier
+Quit	MainWindow		Quitter
+Reload	MainWindow		Recharger
+Save	MainWindow		Sauvegarder
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Le contenu du message a changé mais n’a pas été sauvegardé. Voulez-vous vraiment ouvrir un autre fichier ?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Le contenu du message a changé mais n’a pas été sauvegardé. Voulez-vous vraiment quitter ?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Le contenu du message a changé mais n’a pas été sauvegardé. Voulez-vous vraiment le recharger ?
+The message file has changed. Do you want to reload it?	MainWindow		Le fichier message a changé. Voulez-vous le recharger ?
+Alpha:	EditView		Alpha :
+Blue:	EditView		Bleu :
+Bottom:	EditView		Bas :
+false	EditView		faux
+Green:	EditView		Vert :
+Height:	EditView		Hauteur :
+Left:	EditView		Gauche :
+not editable	EditView		non modifiable
+Red:	EditView		Rouge :
+Right:	EditView		Droite :
+Top:	EditView		Haut :
+true	EditView		vrai
+Width:	EditView		Largeur :
+An editor for archived BMessages	App		Un éditeur pour les BMessages archivés
+Code contributions by:	App		Contributions au code par :
+Error opening the message file!	App		Erreur lors de l’ouverture du fichier message !
+Error reading the message from the file!	App		Erreur lors de la lecture du message depuis le fichier !
+Icon design by:	App		Icone par :
+Translations by:	App		Localisations par :
+Cancel	EditWindow		Annuler
+Edit	EditWindow		Éditer
+Save	EditWindow		Sauvegarder
+Close	DataWindow		Fermer
+data cannot be displayed	DataWindow		Le contenu ne peut être affiché
+false	DataWindow		faux
+Index	DataWindow		Index
+Message data	DataWindow		Contenu du message
+true	DataWindow		vrai
+Value	DataWindow		Valeur
+Index	MessageView		Index
+Name	MessageView		Nom
+Number of items	MessageView		Nombre d’éléments
+Type	MessageView		Type

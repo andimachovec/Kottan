@@ -1,0 +1,47 @@
+1	Norwegian	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		Om
+Cancel	MainWindow		Avbryt
+File	MainWindow		Fil
+Help	MainWindow		Hjelp
+Open	MainWindow		Åpne
+Open file	MainWindow		Åpne fil
+Quit	MainWindow		Avslutt
+Reload	MainWindow		Last på nytt
+Save	MainWindow		Lagre
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Meldingsdataene ble endret, men ikke lagret. Vil du virkelig åpne en annen fil?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Meldingsdataene ble endret, men ikke lagret. Vil du virkelig avslutte?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Meldingsdataene ble endret, men ikke lagret. Vil du virkelig laste på nytt?
+The message file has changed. Do you want to reload it?	MainWindow		Meldingsfilen er endret. Vil du laste den på nytt?
+Alpha:	EditView		Alpha:
+Blue:	EditView		Blå:
+Bottom:	EditView		Bunn:
+false	EditView		false
+Green:	EditView		Grønn:
+Height:	EditView		Høyde:
+Left:	EditView		Venstre:
+not editable	EditView		ikke redigerbar
+Red:	EditView		Rød:
+Right:	EditView		Høyre:
+Top:	EditView		Topp:
+true	EditView		true
+Width:	EditView		Bredde:
+An editor for archived BMessages	App		Et redigeringsverktøy for arkiverte BMessages
+Code contributions by:	App		Kodebidrag av:
+Error opening the message file!	App		Feil ved åpning av meldingsfilen!
+Error reading the message from the file!	App		Feil ved lesing av meldingen fra filen!
+Icon design by:	App		Icon design by:
+Translations by:	App		Oversettelser av:
+Cancel	EditWindow		Avbryt
+Edit	EditWindow		Rediger
+Save	EditWindow		Lagre
+Close	DataWindow		Lukk
+data cannot be displayed	DataWindow		data kan ikke vises
+false	DataWindow		false
+Index	DataWindow		Index
+Message data	DataWindow		Meldingsdata
+true	DataWindow		true
+Value	DataWindow		Verdi
+Index	MessageView		Index
+Name	MessageView		Navn
+Number of items	MessageView		Antall elementer
+Type	MessageView		Type

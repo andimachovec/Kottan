@@ -1,0 +1,47 @@
+1	Chinese (simplified)	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		关于
+Cancel	MainWindow		取消
+File	MainWindow		文件
+Help	MainWindow		帮助
+Open	MainWindow		打开
+Open file	MainWindow		打开文件
+Quit	MainWindow		退出
+Reload	MainWindow		重新加载
+Save	MainWindow		保存
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		未保存已更改的消息数据。真的想打开另一个文件吗?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		未保存已更改的消息数据。真的想退出吗?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		未保存已更改的消息数据。真的想重新加载吗?
+The message file has changed. Do you want to reload it?	MainWindow		消息文件已更改。要重新加载吗?
+Alpha:	EditView		Alpha:
+Blue:	EditView		Blue:
+Bottom:	EditView		Bottom:
+false	EditView		false
+Green:	EditView		Green:
+Height:	EditView		Height:
+Left:	EditView		Left:
+not editable	EditView		not editable
+Red:	EditView		Red:
+Right:	EditView		Right:
+Top:	EditView		Top:
+true	EditView		true
+Width:	EditView		Width:
+An editor for archived BMessages	App		归档BMessages的编辑器
+Code contributions by:	App		代码贡献:
+Error opening the message file!	App		打开消息文件时出错!
+Error reading the message from the file!	App		从文件中读取消息时出错!
+Icon design by:	App		Icon design by:
+Translations by:	App		Translations by:
+Cancel	EditWindow		取消
+Edit	EditWindow		编辑
+Save	EditWindow		保存
+Close	DataWindow		Close
+data cannot be displayed	DataWindow		data cannot be displayed
+false	DataWindow		false
+Index	DataWindow		Index
+Message data	DataWindow		Message data
+true	DataWindow		true
+Value	DataWindow		Value
+Index	MessageView		Index
+Name	MessageView		Name
+Number of items	MessageView		Number of items
+Type	MessageView		Type

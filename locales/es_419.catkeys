@@ -1,0 +1,47 @@
+1	Spanish (Latin American)	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		Acerca de
+Cancel	MainWindow		Cancelar
+File	MainWindow		Archivo
+Help	MainWindow		Ayuda
+Open	MainWindow		Abrir
+Open file	MainWindow		Abrir archivo
+Quit	MainWindow		Salir
+Reload	MainWindow		Recargar
+Save	MainWindow		Guardar
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Los datos del mensaje se modificaron, pero no se han guardado. ¿Realmente desea abrir otro archivo?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Los datos del mensaje se modificaron, pero no se han guardado. ¿Realmente desea salir?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Los datos del mensaje se modificaron, pero no se han guardado. ¿Realmente desea recargarlo?
+The message file has changed. Do you want to reload it?	MainWindow		El archivo de mensajes ha cambiado. ¿Quiere volver a cargarlo?
+Alpha:	EditView		Alfa:
+Blue:	EditView		Azul:
+Bottom:	EditView		Abajo:
+false	EditView		Falso
+Green:	EditView		Verde:
+Height:	EditView		Altura:
+Left:	EditView		Izquierda:
+not editable	EditView		no editable
+Red:	EditView		Rojo:
+Right:	EditView		Derecha:
+Top:	EditView		Arriba:
+true	EditView		Verdadero
+Width:	EditView		Ancho:
+An editor for archived BMessages	App		Un editor para BMessages archivados
+Code contributions by:	App		Contribuciones al código por:
+Error opening the message file!	App		¡Error al abrir el archivo de mensajes!
+Error reading the message from the file!	App		¡Error al leer mensaje desde el archivo!
+Icon design by:	App		Icono diseñado por:
+Translations by:	App		Traducciones por:
+Cancel	EditWindow		Cancelar
+Edit	EditWindow		Editar
+Save	EditWindow		Guardar
+Close	DataWindow		Cerrar
+data cannot be displayed	DataWindow		no se pueden visualizar los datos
+false	DataWindow		falso
+Index	DataWindow		Índice
+Message data	DataWindow		Datos del mensaje
+true	DataWindow		verdadero
+Value	DataWindow		Valor
+Index	MessageView		Índice
+Name	MessageView		Nombre
+Number of items	MessageView		Número de ítems
+Type	MessageView		Tipo

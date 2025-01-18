@@ -1,0 +1,47 @@
+1	Friulian	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		Informazions
+Cancel	MainWindow		Anule
+File	MainWindow		File
+Help	MainWindow		Jutori
+Open	MainWindow		Vierç
+Open file	MainWindow		Vierç file
+Quit	MainWindow		Jes
+Reload	MainWindow		Torne cjame
+Save	MainWindow		Salve
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		I dâts dal messaç a son stâts modificâts ma no son stâts salvâts. Desideristu pardabon vierzi un altri file?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		I dâts dal messaç a son stâts modificâts ma no son stâts salvâts. Desideristu pardabon jessî?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		I dâts dal messaç a son stâts modificâts ma no son stâts salvâts. Desideristu pardabon tornâ a cjariâ?
+The message file has changed. Do you want to reload it?	MainWindow		Il file dal messaç al è stât modificât. Desideristu tornâ a cjariâlu?
+Alpha:	EditView		Alfa:
+Blue:	EditView		Blu:
+Bottom:	EditView		Sot:
+false	EditView		fals
+Green:	EditView		Vert:
+Height:	EditView		Altece:
+Left:	EditView		Çampe:
+not editable	EditView		no modificabil
+Red:	EditView		Ros:
+Right:	EditView		Diestre:
+Top:	EditView		Sore:
+true	EditView		vêr
+Width:	EditView		Largjece:
+An editor for archived BMessages	App		Un editôr pai BMessages archiviâts
+Code contributions by:	App		Contribûts al codiç de bande di:
+Error opening the message file!	App		Erôr tal vierzi il file dal messaç!
+Error reading the message from the file!	App		Erôr tal lei il messaç dal file!
+Icon design by:	App		Icon design by:
+Translations by:	App		Traduzions di:
+Cancel	EditWindow		Anule
+Edit	EditWindow		Modifiche
+Save	EditWindow		Salve
+Close	DataWindow		Siere
+data cannot be displayed	DataWindow		impussibil visualizâ i dâts
+false	DataWindow		fals
+Index	DataWindow		Indiç
+Message data	DataWindow		Dâts dal messaç
+true	DataWindow		vêr
+Value	DataWindow		Valôr
+Index	MessageView		Indiç
+Name	MessageView		Non
+Number of items	MessageView		Numar di elements
+Type	MessageView		Gjenar

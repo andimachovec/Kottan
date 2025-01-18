@@ -1,46 +1,47 @@
-1	English	application/x-vnd.BlueSky-Kottan	2441099929
-Name	MessageView		Nom
-Blue:	EditView		Blau:
-Reload	MainWindow		Torna a carregar
-Open file	MainWindow		Obre un fitxer
+1	Catalan	application/x-vnd.BlueSky-Kottan	1173102517
 About	MainWindow		Quant a
-The message data was changed but not saved. Do you really want to reload?	MainWindow		Les dades del missatge han canviat però no s'han desat. Realment voleu tornar-ho a carregar?
-The message data was changed but not saved. Do you really want to open another file?	MainWindow		Les dades del missatge han canviat però no s'han desat. Realment voleu obrir un altre fitxer?
-Top:	EditView		Dalt:
-Code contributions by:	App		Contribuïdors de codi:
-data cannot be displayed	DataWindow		no es poden mostrar les dades
-Quit	MainWindow		Surt
-Index	DataWindow		Índex
-Bottom:	EditView		Base:
-The message data was changed but not saved. Do you really want to quit?	MainWindow		Les dades del missatge han canviat però no s'han desat. Realment voleu sortir-ne?
-Message data	DataWindow		Dades del missatge
-Type	MessageView		Tipus
-Red:	EditView		Vermell:
-Error opening the message file!	App		Error en obrir el fitxer de missatge!
-true	EditView		cert
-Help	MainWindow		Ajuda
-The message file has changed. Do you want to reload it?	MainWindow		El fitxer del missatge ha canviat. Voleu tornar a carregar-lo?
-Green:	EditView		Verd:
-false	EditView		fals
-true	DataWindow		cert
-Index	MessageView		Índex
-Translations by:	App		Traducció:
-Left:	EditView		Esquerra:
 Cancel	MainWindow		Cancel·la
-Width:	EditView		Amplada:
-Save	MainWindow		Desa
-Height:	EditView		Alçària:
 File	MainWindow		Fitxer
+Help	MainWindow		Ajuda
 Open	MainWindow		Obre
-Number of items	MessageView		Nombre d'elements
-false	DataWindow		fals
-Right:	EditView		Dreta:
-Value	DataWindow		Valor
-Edit	EditWindow		Edita
-Cancel	EditWindow		Cancel·la
-Close	DataWindow		Tanca
+Open file	MainWindow		Obre un fitxer
+Quit	MainWindow		Surt
+Reload	MainWindow		Torna a carregar
+Save	MainWindow		Desa
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Les dades del missatge han canviat però no s'han desat. Realment voleu obrir un altre fitxer?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Les dades del missatge han canviat però no s'han desat. Realment voleu sortir-ne?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Les dades del missatge han canviat però no s'han desat. Realment voleu tornar-ho a carregar?
+The message file has changed. Do you want to reload it?	MainWindow		El fitxer del missatge ha canviat. Voleu tornar a carregar-lo?
 Alpha:	EditView		Alfa:
-Save	EditWindow		Desa
+Blue:	EditView		Blau:
+Bottom:	EditView		Base:
+false	EditView		fals
+Green:	EditView		Verd:
+Height:	EditView		Alçària:
+Left:	EditView		Esquerra:
 not editable	EditView		no editable
-Error reading the message from the file!	App		Error en llegir el missatge del fitxer!
+Red:	EditView		Vermell:
+Right:	EditView		Dreta:
+Top:	EditView		Dalt:
+true	EditView		cert
+Width:	EditView		Amplada:
 An editor for archived BMessages	App		Un editor per als BMissatges arxivats
+Code contributions by:	App		Contribuïdors de codi:
+Error opening the message file!	App		Error en obrir el fitxer de missatge!
+Error reading the message from the file!	App		Error en llegir el missatge del fitxer!
+Icon design by:	App		Disseny d'icones:
+Translations by:	App		Traducció:\nDavid Medina
+Cancel	EditWindow		Cancel·la
+Edit	EditWindow		Edita
+Save	EditWindow		Desa
+Close	DataWindow		Tanca
+data cannot be displayed	DataWindow		no es poden mostrar les dades
+false	DataWindow		fals
+Index	DataWindow		Índex
+Message data	DataWindow		Dades del missatge
+true	DataWindow		cert
+Value	DataWindow		Valor
+Index	MessageView		Índex
+Name	MessageView		Nom
+Number of items	MessageView		Nombre d'elements
+Type	MessageView		Tipus

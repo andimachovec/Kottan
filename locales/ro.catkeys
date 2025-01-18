@@ -1,4 +1,4 @@
-1	Romanian	application/x-vnd.BlueSky-Kottan	2441099929
+1	Romanian	application/x-vnd.BlueSky-Kottan	1173102517
 About	MainWindow		Despre
 Cancel	MainWindow		Anulează
 File	MainWindow		Fișier
@@ -29,6 +29,7 @@ An editor for archived BMessages	App		Un editor pentru BMessage arhivate
 Code contributions by:	App		Contribuții la cod de:
 Error opening the message file!	App		Eroare la deschiderea fișierului mesajului!
 Error reading the message from the file!	App		Eroare la citirea mesajului din fișier!
+Icon design by:	App		Pictograma realizată de:
 Translations by:	App		Traduceri de:
 Cancel	EditWindow		Anulează
 Edit	EditWindow		Editează
