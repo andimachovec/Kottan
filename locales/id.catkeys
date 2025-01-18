@@ -1,0 +1,47 @@
+1	Indonesian	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		Tentang
+Cancel	MainWindow		Batal
+File	MainWindow		Berkas
+Help	MainWindow		Bantuan
+Open	MainWindow		Buka
+Open file	MainWindow		Buka berkas
+Quit	MainWindow		Keluar
+Reload	MainWindow		Muat ulang
+Save	MainWindow		Simpan
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Data pesan telah diubah tetapi tidak disimpan. Apakah Anda yakin ingin membuka berkas lain?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Data pesan telah diubah tetapi tidak disimpan. Apakah Anda yakin ingin keluar?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Data pesan telah diubah tetapi tidak disimpan. Apakah Anda yakin ingin keluar?
+The message file has changed. Do you want to reload it?	MainWindow		Berkas pesan telah berubah. Apakah Anda ingin memuatnya kembali?
+Alpha:	EditView		Alfa:
+Blue:	EditView		Biru:
+Bottom:	EditView		Dasar:
+false	EditView		salah
+Green:	EditView		Hijau:
+Height:	EditView		Tinggi:
+Left:	EditView		Kiri:
+not editable	EditView		tak bisa disunting
+Red:	EditView		Merah:
+Right:	EditView		Kanan:
+Top:	EditView		Puncak:
+true	EditView		benar
+Width:	EditView		Lebar:
+An editor for archived BMessages	App		Editor untuk BMessages yang diarsipkan
+Code contributions by:	App		Kontribusi kode oleh:
+Error opening the message file!	App		Terjadi kesalahan saat membuka berkas pesan!
+Error reading the message from the file!	App		Kesalahan membaca pesan dari berkas!
+Icon design by:	App		Desain ikon oleh:
+Translations by:	App		Terjemahan oleh:
+Cancel	EditWindow		Batal
+Edit	EditWindow		Sunting
+Save	EditWindow		Simpan
+Close	DataWindow		Tutup
+data cannot be displayed	DataWindow		data tidak bisa ditampilkan
+false	DataWindow		salah
+Index	DataWindow		Indeks
+Message data	DataWindow		Data pesan
+true	DataWindow		benar
+Value	DataWindow		Nilai
+Index	MessageView		Indeks
+Name	MessageView		Nama
+Number of items	MessageView		Jumlah item
+Type	MessageView		Tipe

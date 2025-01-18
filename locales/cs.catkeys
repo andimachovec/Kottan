@@ -1,4 +1,4 @@
-1	Czech	application/x-vnd.BlueSky-Kottan	2441099929
+1	Czech	application/x-vnd.BlueSky-Kottan	1173102517
 About	MainWindow		O aplikaci
 Cancel	MainWindow		Zrušit
 File	MainWindow		Soubor
@@ -29,6 +29,7 @@ An editor for archived BMessages	App		Editor pro archivované Bzprávy
 Code contributions by:	App		Příspěvky kódu od:
 Error opening the message file!	App		Chyba otevření souboru zprávy!
 Error reading the message from the file!	App		Chyba načtení zprávy ze souboru!
+Icon design by:	App		Icon design by:
 Translations by:	App		Překlady od:
 Cancel	EditWindow		Zrušit
 Edit	EditWindow		Upravit

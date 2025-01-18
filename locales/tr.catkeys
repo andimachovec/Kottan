@@ -1,4 +1,4 @@
-1	Turkish	application/x-vnd.BlueSky-Kottan	2441099929
+1	Turkish	application/x-vnd.BlueSky-Kottan	1173102517
 About	MainWindow		Hakkında
 Cancel	MainWindow		İptal
 File	MainWindow		Dosya
@@ -29,6 +29,7 @@ An editor for archived BMessages	App		Arşivlenmiş BMessages için bir düzenle
 Code contributions by:	App		Kod katkısında bulunanlar:
 Error opening the message file!	App		İleti dosyası açılırken hata!
 Error reading the message from the file!	App		Dosyadan ileti okunurken hata!
+Icon design by:	App		Simge tasarımı:
 Translations by:	App		Çeviriler:
 Cancel	EditWindow		İptal
 Edit	EditWindow		Düzenle

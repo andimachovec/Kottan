@@ -1,0 +1,47 @@
+1	Italian	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		Informazioni
+Cancel	MainWindow		Annulla
+File	MainWindow		File
+Help	MainWindow		Aiuto
+Open	MainWindow		Apri
+Open file	MainWindow		Apri file
+Quit	MainWindow		Esci
+Reload	MainWindow		Ricarica
+Save	MainWindow		Salva
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Le modifiche ai dati messaggio non sono state salvate. Vuoi davvero aprire un altro file?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Le modifiche ai dati messaggio non sono state salvate. Vuoi davvero uscire?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Le modifiche ai dati messaggio non sono state salvate. Vuoi davvero ricaricare?
+The message file has changed. Do you want to reload it?	MainWindow		Il file messaggio ha subito modifiche. Vuoi ricaricarlo?
+Alpha:	EditView		Alfa:
+Blue:	EditView		Blu:
+Bottom:	EditView		Fondo:
+false	EditView		falso
+Green:	EditView		Verde:
+Height:	EditView		Altezza:
+Left:	EditView		Sinistra:
+not editable	EditView		non modificabile
+Red:	EditView		Rosso:
+Right:	EditView		Destra:
+Top:	EditView		Cima:
+true	EditView		vero
+Width:	EditView		Larghezza:
+An editor for archived BMessages	App		Un editor per BMessage archiviati
+Code contributions by:	App		Hanno contribuito al codice:
+Error opening the message file!	App		Errore all'apertura del file messaggio!
+Error reading the message from the file!	App		Errore alla lettura del messaggio dal file!
+Icon design by:	App		Icon design by:
+Translations by:	App		Traduzioni di:
+Cancel	EditWindow		Annulla
+Edit	EditWindow		Modifica
+Save	EditWindow		Salva
+Close	DataWindow		Chiudi
+data cannot be displayed	DataWindow		i dati non possono essere mostrati
+false	DataWindow		falso
+Index	DataWindow		Indice
+Message data	DataWindow		Dati messaggio
+true	DataWindow		vero
+Value	DataWindow		Valore
+Index	MessageView		Indice
+Name	MessageView		Nome
+Number of items	MessageView		Numero di elementi
+Type	MessageView		Tipo

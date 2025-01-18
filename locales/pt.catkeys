@@ -1,0 +1,47 @@
+1	Portuguese	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		Acerca
+Cancel	MainWindow		Cancelar
+File	MainWindow		Ficheiro
+Help	MainWindow		Ajuda
+Open	MainWindow		Abrir
+Open file	MainWindow		Abrir ficheiro
+Quit	MainWindow		Sair
+Reload	MainWindow		Recarregar
+Save	MainWindow		Guardar
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Os dados da mensagem foram alterados mas não guardados. Pretende mesmo abrir outro ficheiro?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Os dados da mensagem foram alterados mas não guardados. Pretende mesmo sair?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Os dados da mensagem foram alterados mas não guardados. Pretende mesmo recarregar?
+The message file has changed. Do you want to reload it?	MainWindow		O ficheiro de mensagem foi alterado. Pretende recarregá-lo?
+Alpha:	EditView		Alfa:
+Blue:	EditView		Azul:
+Bottom:	EditView		Fundo:
+false	EditView		falso
+Green:	EditView		Verde:
+Height:	EditView		Altura:
+Left:	EditView		Esquerda:
+not editable	EditView		não editável
+Red:	EditView		Vermelho:
+Right:	EditView		Direita:
+Top:	EditView		Topo:
+true	EditView		verdadeiro
+Width:	EditView		Largura:
+An editor for archived BMessages	App		Um editor para BMessages arquivadas
+Code contributions by:	App		Contribuições de código de:
+Error opening the message file!	App		Erro ao abrir o ficheiro da mensagem!
+Error reading the message from the file!	App		Erro ao ler a mensagem a partir do ficheiro!
+Icon design by:	App		Icon design by:
+Translations by:	App		Traduções por:
+Cancel	EditWindow		Cancelar
+Edit	EditWindow		Editar
+Save	EditWindow		Guardar
+Close	DataWindow		Fechar
+data cannot be displayed	DataWindow		não foi possível apresentar dados
+false	DataWindow		falso
+Index	DataWindow		Índice
+Message data	DataWindow		Dados da mensagem
+true	DataWindow		verdadeiro
+Value	DataWindow		Valor
+Index	MessageView		Índice
+Name	MessageView		Nome
+Number of items	MessageView		Número de ítens
+Type	MessageView		Tipo

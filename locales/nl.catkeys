@@ -1,4 +1,4 @@
-1	Dutch	application/x-vnd.BlueSky-Kottan	2441099929
+1	Dutch	application/x-vnd.BlueSky-Kottan	1173102517
 About	MainWindow		Over
 Cancel	MainWindow		Annuleer
 File	MainWindow		Bestand
@@ -29,6 +29,7 @@ An editor for archived BMessages	App		Een Editor voor gearchiveerde BMessages
 Code contributions by:	App		Code contributies door:
 Error opening the message file!	App		Fout bij het openen van het message bestand!
 Error reading the message from the file!	App		Fout bij het lezen van het message bestand!
+Icon design by:	App		Icoon ontwerp door:
 Translations by:	App		Vertaling door: Schrijvers Luc aka Begasus
 Cancel	EditWindow		Annuleer
 Edit	EditWindow		Bewerk

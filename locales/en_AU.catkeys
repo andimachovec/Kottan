@@ -1,0 +1,47 @@
+1	English (Australian)	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		About
+Cancel	MainWindow		Cancel
+File	MainWindow		File
+Help	MainWindow		Help
+Open	MainWindow		Open
+Open file	MainWindow		Open file
+Quit	MainWindow		Quit
+Reload	MainWindow		Reload
+Save	MainWindow		Save
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		The message data was changed but not saved. Do you really want to open another file?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		The message data was changed but not saved. Do you really want to quit?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		The message data was changed but not saved. Do you really want to reload?
+The message file has changed. Do you want to reload it?	MainWindow		The message file has changed. Do you want to reload it?
+Alpha:	EditView		Alpha:
+Blue:	EditView		Blue:
+Bottom:	EditView		Bottom:
+false	EditView		false
+Green:	EditView		Green:
+Height:	EditView		Height:
+Left:	EditView		Left:
+not editable	EditView		not editable
+Red:	EditView		Red:
+Right:	EditView		Right:
+Top:	EditView		Top:
+true	EditView		true
+Width:	EditView		Width:
+An editor for archived BMessages	App		An editor for archived BMessages
+Code contributions by:	App		Code contributions by:
+Error opening the message file!	App		Error opening the message file!
+Error reading the message from the file!	App		Error reading the message from the file!
+Icon design by:	App		Icon design by:
+Translations by:	App		Translations by:
+Cancel	EditWindow		Cancel
+Edit	EditWindow		Edit
+Save	EditWindow		Save
+Close	DataWindow		Close
+data cannot be displayed	DataWindow		data cannot be displayed
+false	DataWindow		false
+Index	DataWindow		Index
+Message data	DataWindow		Message data
+true	DataWindow		true
+Value	DataWindow		Value
+Index	MessageView		Index
+Name	MessageView		Name
+Number of items	MessageView		Number of items
+Type	MessageView		Type

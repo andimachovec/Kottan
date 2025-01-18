@@ -1,4 +1,4 @@
-1	Spanish	application/x-vnd.BlueSky-Kottan	2441099929
+1	Spanish	application/x-vnd.BlueSky-Kottan	1173102517
 About	MainWindow		Acerca de...
 Cancel	MainWindow		Cancelar
 File	MainWindow		Archivo
@@ -29,6 +29,7 @@ An editor for archived BMessages	App		Un editor de BMessages archivados
 Code contributions by:	App		Aportes de código de:
 Error opening the message file!	App		Error al abrir el archivo de mensajes.
 Error reading the message from the file!	App		Error al leer el mensaje desde el archivo.
+Icon design by:	App		Icono diseñado por:
 Translations by:	App		Traducciones de:
 Cancel	EditWindow		Cancelar
 Edit	EditWindow		Editar

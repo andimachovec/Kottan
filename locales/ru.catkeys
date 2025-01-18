@@ -1,43 +1,47 @@
-1	English	application/x-vnd.BlueSky-Kottan	2560445610
-Name	MessageView		Имя
-Blue:	EditView		Синий:
-Open file	MainWindow		Open file
+1	Russian	application/x-vnd.BlueSky-Kottan	1173102517
 About	MainWindow		О программе
-The message data was changed but not saved. Do you really want to open another file?	MainWindow		The message data was changed but not saved. Do you really want to open another file?
-Top:	EditView		Верх:
-Code contributions by:	App		Code contributions by:
-data cannot be displayed	DataWindow		невозможно показать данные
-Quit	MainWindow		Выход
-Index	DataWindow		№ п/п
-Bottom:	EditView		Низ:
-The message data was changed but not saved. Do you really want to quit?	MainWindow		The message data was changed but not saved. Do you really want to quit?
-Message data	DataWindow		Message data
-Type	MessageView		Тип данных
-Red:	EditView		Красный:
-Error opening the message file!	App		Ошибка при открытии файла BMessage!
-true	EditView		true
-Help	MainWindow		Помощь
-Green:	EditView		Зелёный:
-false	EditView		false
-true	DataWindow		true
-Index	MessageView		№ п/п
-Translations by:	App		Translations by:
-Left:	EditView		Левая граница:
-Cancel	MainWindow		Cancel
-Width:	EditView		Ширина:
-Save	MainWindow		Сохранить
-Height:	EditView		Высота:
+Cancel	MainWindow		Отмена
 File	MainWindow		Файл
+Help	MainWindow		Помощь
 Open	MainWindow		Открыть
-Number of items	MessageView		Number of items
-false	DataWindow		false
-Right:	EditView		Правая граница:
-Value	DataWindow		Значение
-Edit	EditWindow		Редактировать
-Cancel	EditWindow		Отмена
-Close	DataWindow		Закрыть
+Open file	MainWindow		Открыть файл
+Quit	MainWindow		Выход
+Reload	MainWindow		Перезагрузить
+Save	MainWindow		Сохранить
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Данные сообщения были изменены, но не сохранены. Вы действительно хотите открыть другой файл?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Данные сообщения были изменены, но не сохранены. Вы действительно хотите выйти?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Данные сообщения были изменены, но не сохранены. Вы действительно хотите перезагрузить?
+The message file has changed. Do you want to reload it?	MainWindow		Файл сообщения изменился. Вы хотите перезагрузить его?
 Alpha:	EditView		Альфа-канал:
-Save	EditWindow		Сохранить
-not editable	EditView		not editable
-Error reading the message from the file!	App		Ошибка при чтении BMessage из файла!
+Blue:	EditView		Синий:
+Bottom:	EditView		Низ:
+false	EditView		false
+Green:	EditView		Зелёный:
+Height:	EditView		Высота:
+Left:	EditView		Левая граница:
+not editable	EditView		недоступно для изменения
+Red:	EditView		Красный:
+Right:	EditView		Правая граница:
+Top:	EditView		Верх:
+true	EditView		true
+Width:	EditView		Ширина:
 An editor for archived BMessages	App		Редактор сохранённых файлов BMessage
+Code contributions by:	App		Программирование:
+Error opening the message file!	App		Ошибка при открытии файла BMessage!
+Error reading the message from the file!	App		Ошибка при чтении BMessage из файла!
+Icon design by:	App		Дизайн значка:
+Translations by:	App		Переводчики:
+Cancel	EditWindow		Отмена
+Edit	EditWindow		Редактировать
+Save	EditWindow		Сохранить
+Close	DataWindow		Закрыть
+data cannot be displayed	DataWindow		невозможно показать данные
+false	DataWindow		false
+Index	DataWindow		№ п/п
+Message data	DataWindow		Данные сообщения
+true	DataWindow		true
+Value	DataWindow		Значение
+Index	MessageView		№ п/п
+Name	MessageView		Имя
+Number of items	MessageView		Количество элементов
+Type	MessageView		Тип данных
