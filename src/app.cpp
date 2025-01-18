@@ -299,7 +299,23 @@ App::AboutRequested()
 				<< "Florentina Mușat\n"
 				<< "cafeina\n"
 				<< "Fredrik Modéen\n"
-				<< "Emir Sarı\n";
+				<< "Emir Sarı\n"
+				<< "Amor\n"
+				<< "Humdinger\n"
+				<< "jt15s\n"
+				<< "munecito\n"
+				<< "Briseur\n"
+				<< "Loïc\n"
+				<< "tmtfx\n"
+				<< "FaBE\n"
+				<< "mazbrili\n"
+				<< "zumikebbe\n"
+				<< "Johan Wagenheim\n"
+				<< "Victor Domingos\n"
+				<< "al-popa\n"
+				<< "itvanya\n"
+				<< "butyoutried\n"
+				<< "viktroniko\n";
 
 	BString extra_info;
 	extra_info.Append(code_contributors);
