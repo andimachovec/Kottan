@@ -58,6 +58,10 @@ App::MessageReceived(BMessage *msg)
 		//receive file reference, read the file and extract into message
 		case MW_INSPECTMESSAGEFILE:
 		{
+			if (fMainWindow->ContinueAction(kNotsaved_alert_text,
+							   kNotsaved_alert_cancel,
+							   kNotsaved_alert_continue) == false)
+				break;
 
 			stop_watching(be_app_messenger); //stop watching file nodes
 
