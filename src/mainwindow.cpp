@@ -13,10 +13,15 @@
 #include <ColumnTypes.h>
 #include <Entry.h>
 #include <Path.h>
+#include <RecentItems.h>
+
 
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MainWindow"
+
+
+extern const char* kAppSignature;
 
 
 MainWindow::MainWindow(BRect geometry)
@@ -34,10 +39,16 @@ MainWindow::MainWindow(BRect geometry)
 									false,
 									new BMessage(MW_REF_MESSAGEFILE));
 
+	BMenuItem* openItem = new BMenuItem(BRecentFilesList::NewFileListMenu(
+							B_TRANSLATE("Open" B_UTF8_ELLIPSIS),
+							NULL, NULL, be_app, 9, true, NULL, kAppSignature),
+							new BMessage(MW_OPEN_MESSAGEFILE));
+	openItem->SetShortcut('O', 0);
+
 	//define menu layout
 	BLayoutBuilder::Menu<>(fTopMenuBar)
 		.AddMenu(B_TRANSLATE("File"))
-			.AddItem(B_TRANSLATE("Open"), MW_OPEN_MESSAGEFILE, 'O')
+			.AddItem(openItem)
 			.AddItem(B_TRANSLATE("Save"), MW_SAVE_MESSAGEFILE, 'S')
 			.AddItem(B_TRANSLATE("Reload"), MW_RELOAD_FROM_FILE, 'R')
 			.AddSeparator()
@@ -92,7 +103,9 @@ MainWindow::MessageReceived(BMessage *msg)
 							   notsaved_alert_cancel,
 							   notsaved_alert_continue))
 			{
-				msg->what = MW_REF_MESSAGEFILE;
+				msg->what = B_REFS_RECEIVED;
+				be_app->PostMessage(msg);
+				return;
 			}
 			else
 			{
@@ -102,7 +115,9 @@ MainWindow::MessageReceived(BMessage *msg)
 		}
 		else
 		{
-			msg->what = MW_REF_MESSAGEFILE;
+			msg->what = B_REFS_RECEIVED;
+			be_app->PostMessage(msg);
+			return;
 		}
 	}
 
