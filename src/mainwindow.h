@@ -7,6 +7,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <Catalog.h>
 #include <Window.h>
 #include <MenuBar.h>
 #include <FilePanel.h>
@@ -19,7 +20,6 @@ enum
 	MW_MENU_ABOUT ='mw00',
 	MW_OPEN_MESSAGEFILE,
 	MW_SAVE_MESSAGEFILE,
-	MW_REF_MESSAGEFILE,
 	MW_ENTERED_MESSAGEFILE,
 	MW_INSPECTMESSAGEFILE,
 	MW_OPEN_REPLY,
@@ -32,6 +32,15 @@ enum
 	MW_UPDATE_MESSAGEVIEW,
 };
 
+
+static const char *kNotsaved_alert_text =
+		B_TRANSLATE_MARK(
+		"The message data was changed but not saved. Do you really want to open another file?"
+		);
+static const char *kNotsaved_alert_cancel = B_TRANSLATE_MARK("Cancel");
+static const char *kNotsaved_alert_continue = B_TRANSLATE_MARK("Open file");
+
+
 class MainWindow : public BWindow {
 public:
 	MainWindow(BRect geometry);
@@ -39,10 +48,10 @@ public:
 	void MessageReceived(BMessage *msg);
 	bool QuitRequested();
 
-private:
-	bool continue_action(const char *alert_text,
+	bool ContinueAction(const char *alert_text,
 						 const char *button_label_cancel,
 						 const char *button_label_continue);
+private:
 	void switch_unsaved_state(bool unsaved_state);
 
 	BMenuBar			*fTopMenuBar;
