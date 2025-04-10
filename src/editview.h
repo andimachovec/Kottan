@@ -15,6 +15,7 @@
 #include <MenuItem.h>
 #include <MenuField.h>
 #include <PopUpMenu.h>
+#include <RadioButton.h>
 #include <Spinner.h>
 #include <DecimalSpinner.h>
 
@@ -45,6 +46,8 @@ private:
 
 	BPopUpMenu			*fPopUpMenu;
 	BPopUpMenu			*fPopUpMenu2;
+	BRadioButton		*fRadioButton1;
+	BRadioButton		*fRadioButton2;
 	BSpinner			*fIntegerSpinner1;
 	BSpinner			*fIntegerSpinner2;
 	BSpinner			*fIntegerSpinner3;

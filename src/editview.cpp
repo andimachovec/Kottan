@@ -46,6 +46,8 @@ EditView::EditView(BMessage *data_message,
 	//initialize controls
 	fPopUpMenu = new BPopUpMenu("");
 	fPopUpMenu2 = new BPopUpMenu("");
+	fRadioButton1 = new BRadioButton("", new BMessage(EV_DATA_CHANGED));
+	fRadioButton2 = new BRadioButton("", new BMessage(EV_DATA_CHANGED));
 	fIntegerSpinner1 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fIntegerSpinner2 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fIntegerSpinner3 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
@@ -82,9 +84,10 @@ EditView::SaveData()
 	{
 		case B_BOOL_TYPE:
 		{
+			bool isTrue = fRadioButton1->Value() == B_CONTROL_ON; // fRadioButton1 represents "true"
 			fDataMessage->ReplaceBool(fDataLabel,
 									fDataIndex,
-									static_cast<bool>(fPopUpMenu->FindMarkedIndex()));
+									isTrue);
 			break;
 		}
 
@@ -262,16 +265,30 @@ EditView::setup_controls()
 	{
 		case B_BOOL_TYPE:
 		{
+			/* Setup controls */
+			fRadioButton1->SetLabel(B_TRANSLATE("true"));
+			fRadioButton2->SetLabel(B_TRANSLATE("false"));
+
+			BView* view = new BView(NULL, B_SUPPORTS_LAYOUT);
+			BLayoutBuilder::Group<>(view, B_VERTICAL)
+				.SetExplicitAlignment(BAlignment(B_ALIGN_CENTER, B_ALIGN_MIDDLE))
+				.AddGlue()
+				.Add(fRadioButton1)
+				.Add(fRadioButton2)
+				.AddGlue()
+			.End();
+
+			/* Retrieve data and set initial status */
 			bool data_bool;
 			fDataMessage->FindBool(fDataLabel, fDataIndex, &data_bool);
-			int32 default_item = static_cast<int32>(data_bool);
+			if(data_bool)
+				fRadioButton1->SetValue(B_CONTROL_ON);
+			else
+				fRadioButton2->SetValue(B_CONTROL_ON);
 
-			fPopUpMenu->AddItem(new BMenuItem(B_TRANSLATE("false"), new BMessage(EV_DATA_CHANGED)));
-			fPopUpMenu->AddItem(new BMenuItem(B_TRANSLATE("true"), new BMessage(EV_DATA_CHANGED)));
-			fPopUpMenu->ItemAt(default_item)->SetMarked(true);
+			/* Add to view hierarchy */
+			fMainLayout->AddView(view);
 
-			BMenuField *bool_select = new BMenuField("",fPopUpMenu);
-			fMainLayout->AddView(bool_select);
 			break;
 		}
 
