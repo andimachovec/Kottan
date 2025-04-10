@@ -32,18 +32,19 @@ public:
 	status_t SaveData();
 
 private:
-	
-	void setup_controls();	
-	
+
+	void setup_controls();
+
 	BGroupLayout		*fMainLayout;
 	bool				fEditable;
-	
+
 	BMessage			*fDataMessage;
 	type_code			fDataType;
 	const char			*fDataLabel;
 	int32				fDataIndex;
 
 	BPopUpMenu			*fPopUpMenu;
+	BPopUpMenu			*fPopUpMenu2;
 	BSpinner			*fIntegerSpinner1;
 	BSpinner			*fIntegerSpinner2;
 	BSpinner			*fIntegerSpinner3;

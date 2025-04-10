@@ -6,8 +6,10 @@
 
 #include "editview.h"
 
+#include <Alignment.h>
 #include <FilePanel.h>
 #include <Catalog.h>
+#include <LayoutBuilder.h>
 #include <limits>
 #include <cstdlib>
 
@@ -43,6 +45,7 @@ EditView::EditView(BMessage *data_message,
 
 	//initialize controls
 	fPopUpMenu = new BPopUpMenu("");
+	fPopUpMenu2 = new BPopUpMenu("");
 	fIntegerSpinner1 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fIntegerSpinner2 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fIntegerSpinner3 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
@@ -192,6 +195,52 @@ EditView::SaveData()
 			data_rgbcolor.alpha = static_cast<uint8>(fIntegerSpinner4->Value());
 			fDataMessage->ReplaceData(fDataLabel, B_RGB_COLOR_TYPE, fDataIndex, &data_rgbcolor, sizeof(data_rgbcolor));
 
+			break;
+		}
+
+		case B_ALIGNMENT_TYPE:
+		{
+			BAlignment alignment;
+			int32 hindex = fPopUpMenu->IndexOf(fPopUpMenu->FindMarked());
+			int32 vindex = fPopUpMenu2->IndexOf(fPopUpMenu2->FindMarked());
+			switch(hindex) {
+				case 0:
+					alignment.SetHorizontal(B_ALIGN_LEFT);
+					break;
+				case 1:
+					alignment.SetHorizontal(B_ALIGN_RIGHT);
+					break;
+				case 2:
+					alignment.SetHorizontal(B_ALIGN_CENTER);
+					break;
+				case 5:
+					alignment.SetHorizontal(B_ALIGN_USE_FULL_WIDTH);
+					break;
+				case 4:
+				default:
+					alignment.SetHorizontal(B_ALIGN_HORIZONTAL_UNSET);
+					break;
+			}
+			switch(vindex) {
+				case 0:
+					alignment.SetVertical(B_ALIGN_TOP);
+					break;
+				case 1:
+					alignment.SetVertical(B_ALIGN_MIDDLE);
+					break;
+				case 2:
+					alignment.SetVertical(B_ALIGN_BOTTOM);
+					break;
+				case 5:
+					alignment.SetVertical(B_ALIGN_USE_FULL_HEIGHT);
+					break;
+				case 4:
+				default:
+					alignment.SetVertical(B_ALIGN_VERTICAL_UNSET);
+					break;
+			}
+
+			fDataMessage->ReplaceAlignment(fDataLabel, fDataIndex, alignment);
 			break;
 		}
 
@@ -438,6 +487,73 @@ EditView::setup_controls()
 			fMainLayout->AddView(fIntegerSpinner2);
 			fMainLayout->AddView(fIntegerSpinner3);
 			fMainLayout->AddView(fIntegerSpinner4);
+
+			break;
+		}
+
+		case B_ALIGNMENT_TYPE:
+		{
+			BLayoutBuilder::Menu<>(fPopUpMenu)
+				.AddItem(B_TRANSLATE("Left"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Right"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Center"), EV_DATA_CHANGED)
+				.AddSeparator()
+				.AddItem(B_TRANSLATE("No horizontal alignment"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Use full width"), EV_DATA_CHANGED)
+			.End();
+
+			BLayoutBuilder::Menu<>(fPopUpMenu2)
+				.AddItem(B_TRANSLATE("Top"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Middle"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Bottom"), EV_DATA_CHANGED)
+				.AddSeparator()
+				.AddItem(B_TRANSLATE("No vertical alignment"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Use full height"), EV_DATA_CHANGED)
+			.End();
+
+			BAlignment alignment;
+			fDataMessage->FindAlignment(fDataLabel, fDataIndex, &alignment);
+
+			switch(alignment.horizontal) {
+				case B_ALIGN_LEFT: // 0
+				case B_ALIGN_RIGHT: // 1
+				case B_ALIGN_CENTER: // 2
+					fPopUpMenu->ItemAt((int32)alignment.horizontal)->SetMarked(true);
+					break;
+				case B_ALIGN_USE_FULL_WIDTH: // -2L
+					fPopUpMenu->FindItem(B_TRANSLATE("Use full width"))->SetMarked(true);
+					break;
+				case B_ALIGN_HORIZONTAL_UNSET: // -1L
+				default:
+					fPopUpMenu->FindItem(B_TRANSLATE("No horizontal alignment"))->SetMarked(true);
+					break;
+			}
+
+			switch(alignment.vertical) {
+				case B_ALIGN_TOP:
+					fPopUpMenu2->FindItem(B_TRANSLATE("Top"))->SetMarked(true);
+					break;
+				case B_ALIGN_MIDDLE:
+					fPopUpMenu2->FindItem(B_TRANSLATE("Middle"))->SetMarked(true);
+					break;
+				case B_ALIGN_BOTTOM:
+					fPopUpMenu2->FindItem(B_TRANSLATE("Bottom"))->SetMarked(true);
+					break;
+				case B_ALIGN_USE_FULL_HEIGHT:
+					fPopUpMenu2->FindItem(B_TRANSLATE("Use full height"))->SetMarked(true);
+					break;
+				case B_ALIGN_VERTICAL_UNSET:
+				default:
+					fPopUpMenu2->FindItem(B_TRANSLATE("No vertical alignment"))->SetMarked(true);
+					break;
+			}
+
+			BView* view = new BView(NULL, B_SUPPORTS_LAYOUT);
+			BLayoutBuilder::Grid<>(view)
+				.AddMenuField(new BMenuField(B_TRANSLATE("Horizontal alignment"), fPopUpMenu), 0, 0)
+				.AddMenuField(new BMenuField(B_TRANSLATE("Vertical alignment"), fPopUpMenu2), 0, 1)
+			.End();
+			fMainLayout->AddView(view);
 
 			break;
 		}
