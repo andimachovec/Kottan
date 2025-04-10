@@ -28,6 +28,7 @@ EditWindow::EditWindow(BRect frame,
 	fEditView = new EditView(data_message, data_type, data_label, data_index);
 	fCancelButton = new BButton(B_TRANSLATE("Cancel"), new BMessage(EW_BUTTON_CANCEL));
 	fSaveButton = new BButton(B_TRANSLATE("Save"), new BMessage(EW_BUTTON_SAVE));
+	fSaveButton->SetEnabled(false);
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_SMALL_SPACING)
 		.SetInsets(B_USE_SMALL_SPACING)
@@ -64,14 +65,13 @@ EditWindow::MessageReceived(BMessage *msg)
 			Quit();
 			break;
 
-		/* 	commented out for now since standard BTextControl gives no notification when
-			characters are entered, only on Enter key. If the text controls are replaced by a
-			subclass of BTextControl that provides this, it can be re-enabled.
-
 		case EV_DATA_CHANGED:
+			if(!fEditView->IsEditable())
+				break;
+
 			fSaveButton->SetEnabled(true);
 			break;
-		*/
+
 
 		default:
 		{

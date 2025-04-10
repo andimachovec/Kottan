@@ -38,6 +38,8 @@ private:
 
 	BGroupLayout		*fMainLayout;
 	bool				fEditable;
+	BFont				fDescFont;
+	rgb_color			fDescColor;
 
 	BMessage			*fDataMessage;
 	type_code			fDataType;
@@ -56,6 +58,7 @@ private:
 	BDecimalSpinner		*fDecimalSpinner2;
 	BDecimalSpinner		*fDecimalSpinner3;
 	BDecimalSpinner		*fDecimalSpinner4;
+	BStringView         *fSvDescription;
 	BTextControl		*fTextCtrl1;
 	BTextControl		*fTextCtrl2;
 	BTextControl		*fTextCtrl3;

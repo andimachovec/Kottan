@@ -38,6 +38,9 @@ EditView::EditView(BMessage *data_message,
 {
 
 	fEditable=true;
+	fDescFont = be_plain_font;
+	fDescFont.SetFace(B_ITALIC_FACE);
+	fDescColor = ui_color(B_WINDOW_INACTIVE_TEXT_COLOR);
 
 	//create layout
 	fMainLayout = new BGroupLayout(B_VERTICAL);
@@ -56,10 +59,16 @@ EditView::EditView(BMessage *data_message,
 	fDecimalSpinner2 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fDecimalSpinner3 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fDecimalSpinner4 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fSvDescription = new BStringView(NULL, "");
 	fTextCtrl1 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
 	fTextCtrl2 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
 	fTextCtrl3 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
 	fTextCtrl4 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
+
+	fTextCtrl1->SetModificationMessage(new BMessage(EV_DATA_CHANGED));
+	fTextCtrl2->SetModificationMessage(new BMessage(EV_DATA_CHANGED));
+	fTextCtrl3->SetModificationMessage(new BMessage(EV_DATA_CHANGED));
+	fTextCtrl4->SetModificationMessage(new BMessage(EV_DATA_CHANGED));
 
 	//fill the controls needed for the specified data type with values and add them to the layout
 	setup_controls();
@@ -79,6 +88,9 @@ EditView::IsEditable()
 status_t
 EditView::SaveData()
 {
+	if(!IsEditable()) {
+		return B_NOT_ALLOWED;
+	}
 
 	switch(fDataType)
 	{
@@ -308,8 +320,8 @@ EditView::setup_controls()
 			{
 				case B_INT8_TYPE:
 				{
-					range_min=-128;
-					range_max=127;
+					range_min=std::numeric_limits<int8>::lowest();
+					range_max=std::numeric_limits<int8>::max();
 					int8 data_int8;
 					fDataMessage->FindInt8(fDataLabel, fDataIndex, &data_int8);
 					data_int = static_cast<int32>(data_int8);
@@ -317,8 +329,8 @@ EditView::setup_controls()
 				}
 
 				case B_INT16_TYPE:
-					range_min=-32768;
-					range_max=32767;
+					range_min=std::numeric_limits<int16>::lowest();
+					range_max=std::numeric_limits<int16>::max();
 
 					int16 data_int16;
 					fDataMessage->FindInt16(fDataLabel, fDataIndex, &data_int16);
@@ -327,16 +339,16 @@ EditView::setup_controls()
 					break;
 
 				case B_INT32_TYPE:
-					range_min=-2147483648;
-					range_max=2147483647;
+					range_min=std::numeric_limits<int32>::lowest();
+					range_max=std::numeric_limits<int32>::max();
 					fDataMessage->FindInt32(fDataLabel, fDataIndex, &data_int);
 
 					break;
 
 				case B_UINT8_TYPE:
 				{
-					range_min=0;
-					range_max=255;
+					range_min=std::numeric_limits<uint8>::lowest();
+					range_max=std::numeric_limits<uint8>::max();
 					uint8 data_uint8;
 					fDataMessage->FindUInt8(fDataLabel, fDataIndex, &data_uint8);
 					data_int = static_cast<int32>(data_uint8);
@@ -346,8 +358,8 @@ EditView::setup_controls()
 
 				case B_UINT16_TYPE:
 				{
-					range_min=0;
-					range_max=65535;
+					range_min=std::numeric_limits<uint16>::lowest();
+					range_max=std::numeric_limits<uint16>::max();
 					uint16 data_uint16;
 					fDataMessage->FindUInt16(fDataLabel, fDataIndex, &data_uint16);
 					data_int = static_cast<int32>(data_uint16);
@@ -357,7 +369,7 @@ EditView::setup_controls()
 
 				{
 				case B_UINT32_TYPE:
-					range_min=0;
+					range_min=std::numeric_limits<uint32>::lowest();
 					range_max=2147483647;
 					uint32 data_uint32;
 					fDataMessage->FindUInt32(fDataLabel, fDataIndex, &data_uint32);
@@ -369,37 +381,73 @@ EditView::setup_controls()
 
 			fIntegerSpinner1->SetRange(range_min, range_max);
 			fIntegerSpinner1->SetValue(data_int);
+
+			BString rangeText = BString("")
+				.SetToFormat(B_TRANSLATE("Values from %d to %d."),
+				static_cast<int32>(range_min), static_cast<int32>(range_max));
+			if(fDataType == B_UINT32_TYPE) {
+				rangeText.Append(BString("").SetToFormat(B_TRANSLATE("\nValues "
+				"from %u to %u cannot be represented\n\tdue to software limitations."),
+				static_cast<uint32>(range_max) + 1, (uint32)std::numeric_limits<uint32>::max()));
+			}
+			fSvDescription->SetText(rangeText.String());
+			fSvDescription->SetFont(&fDescFont);
+			fSvDescription->SetHighColor(fDescColor);
+
 			fMainLayout->AddView(fIntegerSpinner1);
+			fMainLayout->AddView(fSvDescription);
 
 			break;
 		}
 
 		case B_FLOAT_TYPE:
 		{
-			float data_float;
+			float range_min = std::numeric_limits<float>::lowest();
+			float range_max = std::numeric_limits<float>::max();
+
+			float data_float = 0.0f;
 			fDataMessage->FindFloat(fDataLabel, fDataIndex, &data_float);
 
-			fDecimalSpinner1->SetRange(-(std::numeric_limits<float>::max()),
-									std::numeric_limits<float>::max());
+			fDecimalSpinner1->SetRange(range_min, range_max);
 			fDecimalSpinner1->SetPrecision(4);
 			fDecimalSpinner1->SetStep(0.1);
 			fDecimalSpinner1->SetValue(data_float);
+
+			BString rangeText = BString("")
+				.SetToFormat(B_TRANSLATE("Values from %e to %e." ),
+					range_min, range_max);
+			fSvDescription->SetText(rangeText.String());
+			fSvDescription->SetFont(&fDescFont);
+			fSvDescription->SetHighColor(fDescColor);
+
 			fMainLayout->AddView(fDecimalSpinner1);
+			fMainLayout->AddView(fSvDescription);
 
 			break;
 		}
 
 		case B_DOUBLE_TYPE:
 		{
-			double data_double;
+			double range_min = std::numeric_limits<double>::lowest();
+			double range_max = std::numeric_limits<double>::max();
+
+			double data_double = 0.0;
 			fDataMessage->FindDouble(fDataLabel, fDataIndex, &data_double);
 
-			fDecimalSpinner1->SetRange(-(std::numeric_limits<double>::max()),
-									std::numeric_limits<double>::max());
+			fDecimalSpinner1->SetRange(range_min, range_max);
 			fDecimalSpinner1->SetPrecision(4);
 			fDecimalSpinner1->SetStep(0.1);
 			fDecimalSpinner1->SetValue(data_double);
+
+			BString rangeText = BString("")
+				.SetToFormat(B_TRANSLATE("Values from %e to %e." ),
+					range_min, range_max);
+			fSvDescription->SetText(rangeText.String());
+			fSvDescription->SetFont(&fDescFont);
+			fSvDescription->SetHighColor(fDescColor);
+
 			fMainLayout->AddView(fDecimalSpinner1);
+			fMainLayout->AddView(fSvDescription);
 
 			break;
 		}
