@@ -6,8 +6,14 @@
 
 #include "editview.h"
 
+#include <Alignment.h>
+#include <Button.h>
 #include <FilePanel.h>
 #include <Catalog.h>
+#include <LayoutBuilder.h>
+#include <Path.h>
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 #include <limits>
 #include <cstdlib>
 
@@ -22,6 +28,25 @@ roundTo(double value, uint32 n)
 	return floor(value * pow(10.0, n) + 0.5) / pow(10.0, n);
 }
 
+static int32 rowIndex(BColumnListView* view, int32 colIndex, const char* name)
+{
+	if(view->CountRows() < 1)
+		return -1;
+
+	bool found = false;
+	int32 i = 0;
+	while(!found && i < view->CountRows()) {
+		if(strcmp(((BStringField*)view->RowAt(i)->GetField(colIndex))->String(), name) == 0)
+			found = true;
+		else
+			i++;
+	}
+
+	if(!found)
+		return -1;
+
+	return i;
+}
 
 EditView::EditView(BMessage *data_message,
 					type_code data_type,
@@ -36,13 +61,20 @@ EditView::EditView(BMessage *data_message,
 {
 
 	fEditable=true;
+	fDescFont = be_plain_font;
+	fDescFont.SetFace(B_ITALIC_FACE);
+	fDescColor = ui_color(B_WINDOW_INACTIVE_TEXT_COLOR);
 
 	//create layout
 	fMainLayout = new BGroupLayout(B_VERTICAL);
 	SetLayout(fMainLayout);
 
 	//initialize controls
+	fDataViewer = new BColumnListView("clv", B_NAVIGABLE, B_FANCY_BORDER);
 	fPopUpMenu = new BPopUpMenu("");
+	fPopUpMenu2 = new BPopUpMenu("");
+	fRadioButton1 = new BRadioButton("", new BMessage(EV_DATA_CHANGED));
+	fRadioButton2 = new BRadioButton("", new BMessage(EV_DATA_CHANGED));
 	fIntegerSpinner1 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fIntegerSpinner2 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fIntegerSpinner3 = new BSpinner("","",new BMessage(EV_DATA_CHANGED));
@@ -51,10 +83,16 @@ EditView::EditView(BMessage *data_message,
 	fDecimalSpinner2 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fDecimalSpinner3 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
 	fDecimalSpinner4 = new BDecimalSpinner("","",new BMessage(EV_DATA_CHANGED));
+	fSvDescription = new BStringView(NULL, "");
 	fTextCtrl1 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
 	fTextCtrl2 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
 	fTextCtrl3 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
 	fTextCtrl4 = new BTextControl("","",new BMessage(EV_DATA_CHANGED));
+
+	fTextCtrl1->SetModificationMessage(new BMessage(EV_DATA_CHANGED));
+	fTextCtrl2->SetModificationMessage(new BMessage(EV_DATA_CHANGED));
+	fTextCtrl3->SetModificationMessage(new BMessage(EV_DATA_CHANGED));
+	fTextCtrl4->SetModificationMessage(new BMessage(EV_DATA_CHANGED));
 
 	//fill the controls needed for the specified data type with values and add them to the layout
 	setup_controls();
@@ -70,18 +108,70 @@ EditView::IsEditable()
 
 }
 
+void
+EditView::SetTextFor(type_code type, const char* data)
+{
+	switch(type)
+	{
+		case B_REF_TYPE:
+		{
+			fTextCtrl1->SetText(data);
+
+			// Update previewer
+			entry_ref ref;
+			BEntry entry(data);
+			entry.GetRef(&ref);
+
+			BString dev_t_data = BString().SetToFormat("%" B_PRIdDEV, ref.device);
+			BString ino_t_data = BString().SetToFormat("%" B_PRIdINO, ref.directory);
+
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Device")))->GetField(1))->SetString(dev_t_data);
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Directory")))->GetField(1))->SetString(ino_t_data);
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Name")))->GetField(1))->SetString(ref.name);
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Path")))->GetField(1))->SetString(data);
+			break;
+		}
+		case B_NODE_REF_TYPE:
+		{
+			fTextCtrl1->SetText(data);
+
+			// Update previewer
+			node_ref nref;
+			BEntry(data).GetNodeRef(&nref);
+
+			BString dev_t_data = BString().SetToFormat("%" B_PRIdDEV, nref.device);
+			BString ino_t_data = BString().SetToFormat("%" B_PRIdINO, nref.node);
+
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Device")))->GetField(1))->SetString(dev_t_data);
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Node")))->GetField(1))->SetString(ino_t_data);
+			break;
+		}
+		default:
+			return;
+	}
+}
 
 status_t
 EditView::SaveData()
 {
+	if(!IsEditable()) {
+		return B_NOT_ALLOWED;
+	}
 
 	switch(fDataType)
 	{
 		case B_BOOL_TYPE:
 		{
+			bool isTrue = fRadioButton1->Value() == B_CONTROL_ON; // fRadioButton1 represents "true"
 			fDataMessage->ReplaceBool(fDataLabel,
 									fDataIndex,
-									static_cast<bool>(fPopUpMenu->FindMarkedIndex()));
+									isTrue);
 			break;
 		}
 
@@ -195,6 +285,78 @@ EditView::SaveData()
 			break;
 		}
 
+		case B_ALIGNMENT_TYPE:
+		{
+			BAlignment alignment;
+			int32 hindex = fPopUpMenu->IndexOf(fPopUpMenu->FindMarked());
+			int32 vindex = fPopUpMenu2->IndexOf(fPopUpMenu2->FindMarked());
+			switch(hindex) {
+				case 0:
+					alignment.SetHorizontal(B_ALIGN_LEFT);
+					break;
+				case 1:
+					alignment.SetHorizontal(B_ALIGN_RIGHT);
+					break;
+				case 2:
+					alignment.SetHorizontal(B_ALIGN_CENTER);
+					break;
+				case 5:
+					alignment.SetHorizontal(B_ALIGN_USE_FULL_WIDTH);
+					break;
+				case 4:
+				default:
+					alignment.SetHorizontal(B_ALIGN_HORIZONTAL_UNSET);
+					break;
+			}
+			switch(vindex) {
+				case 0:
+					alignment.SetVertical(B_ALIGN_TOP);
+					break;
+				case 1:
+					alignment.SetVertical(B_ALIGN_MIDDLE);
+					break;
+				case 2:
+					alignment.SetVertical(B_ALIGN_BOTTOM);
+					break;
+				case 5:
+					alignment.SetVertical(B_ALIGN_USE_FULL_HEIGHT);
+					break;
+				case 4:
+				default:
+					alignment.SetVertical(B_ALIGN_VERTICAL_UNSET);
+					break;
+			}
+
+			fDataMessage->ReplaceAlignment(fDataLabel, fDataIndex, alignment);
+			break;
+		}
+
+		case B_REF_TYPE:
+		{
+			BEntry entry(fTextCtrl1->Text());
+			if(!entry.Exists())
+				return B_BAD_DATA;
+
+			entry_ref ref;
+			entry.GetRef(&ref);
+
+			fDataMessage->ReplaceRef(fDataLabel, fDataIndex, &ref);
+			break;
+		}
+
+		case B_NODE_REF_TYPE:
+		{
+			BNode node(fTextCtrl1->Text());
+			if(node.InitCheck() != B_OK)
+				return B_BAD_DATA;
+
+			node_ref nref;
+			node.GetNodeRef(&nref);
+
+			fDataMessage->ReplaceNodeRef(fDataLabel, fDataIndex, &nref);
+			break;
+		}
+
 		default:
 			return B_BAD_DATA;
 			break;
@@ -213,16 +375,30 @@ EditView::setup_controls()
 	{
 		case B_BOOL_TYPE:
 		{
+			/* Setup controls */
+			fRadioButton1->SetLabel(B_TRANSLATE("true"));
+			fRadioButton2->SetLabel(B_TRANSLATE("false"));
+
+			BView* view = new BView(NULL, B_SUPPORTS_LAYOUT);
+			BLayoutBuilder::Group<>(view, B_VERTICAL)
+				.SetExplicitAlignment(BAlignment(B_ALIGN_CENTER, B_ALIGN_MIDDLE))
+				.AddGlue()
+				.Add(fRadioButton1)
+				.Add(fRadioButton2)
+				.AddGlue()
+			.End();
+
+			/* Retrieve data and set initial status */
 			bool data_bool;
 			fDataMessage->FindBool(fDataLabel, fDataIndex, &data_bool);
-			int32 default_item = static_cast<int32>(data_bool);
+			if(data_bool)
+				fRadioButton1->SetValue(B_CONTROL_ON);
+			else
+				fRadioButton2->SetValue(B_CONTROL_ON);
 
-			fPopUpMenu->AddItem(new BMenuItem(B_TRANSLATE("false"), new BMessage(EV_DATA_CHANGED)));
-			fPopUpMenu->AddItem(new BMenuItem(B_TRANSLATE("true"), new BMessage(EV_DATA_CHANGED)));
-			fPopUpMenu->ItemAt(default_item)->SetMarked(true);
+			/* Add to view hierarchy */
+			fMainLayout->AddView(view);
 
-			BMenuField *bool_select = new BMenuField("",fPopUpMenu);
-			fMainLayout->AddView(bool_select);
 			break;
 		}
 
@@ -242,8 +418,8 @@ EditView::setup_controls()
 			{
 				case B_INT8_TYPE:
 				{
-					range_min=-128;
-					range_max=127;
+					range_min=std::numeric_limits<int8>::lowest();
+					range_max=std::numeric_limits<int8>::max();
 					int8 data_int8;
 					fDataMessage->FindInt8(fDataLabel, fDataIndex, &data_int8);
 					data_int = static_cast<int32>(data_int8);
@@ -251,8 +427,8 @@ EditView::setup_controls()
 				}
 
 				case B_INT16_TYPE:
-					range_min=-32768;
-					range_max=32767;
+					range_min=std::numeric_limits<int16>::lowest();
+					range_max=std::numeric_limits<int16>::max();
 
 					int16 data_int16;
 					fDataMessage->FindInt16(fDataLabel, fDataIndex, &data_int16);
@@ -261,16 +437,16 @@ EditView::setup_controls()
 					break;
 
 				case B_INT32_TYPE:
-					range_min=-2147483648;
-					range_max=2147483647;
+					range_min=std::numeric_limits<int32>::lowest();
+					range_max=std::numeric_limits<int32>::max();
 					fDataMessage->FindInt32(fDataLabel, fDataIndex, &data_int);
 
 					break;
 
 				case B_UINT8_TYPE:
 				{
-					range_min=0;
-					range_max=255;
+					range_min=std::numeric_limits<uint8>::lowest();
+					range_max=std::numeric_limits<uint8>::max();
 					uint8 data_uint8;
 					fDataMessage->FindUInt8(fDataLabel, fDataIndex, &data_uint8);
 					data_int = static_cast<int32>(data_uint8);
@@ -280,8 +456,8 @@ EditView::setup_controls()
 
 				case B_UINT16_TYPE:
 				{
-					range_min=0;
-					range_max=65535;
+					range_min=std::numeric_limits<uint16>::lowest();
+					range_max=std::numeric_limits<uint16>::max();
 					uint16 data_uint16;
 					fDataMessage->FindUInt16(fDataLabel, fDataIndex, &data_uint16);
 					data_int = static_cast<int32>(data_uint16);
@@ -291,7 +467,7 @@ EditView::setup_controls()
 
 				{
 				case B_UINT32_TYPE:
-					range_min=0;
+					range_min=std::numeric_limits<uint32>::lowest();
 					range_max=2147483647;
 					uint32 data_uint32;
 					fDataMessage->FindUInt32(fDataLabel, fDataIndex, &data_uint32);
@@ -303,37 +479,73 @@ EditView::setup_controls()
 
 			fIntegerSpinner1->SetRange(range_min, range_max);
 			fIntegerSpinner1->SetValue(data_int);
+
+			BString rangeText = BString("")
+				.SetToFormat(B_TRANSLATE("Values from %d to %d."),
+				static_cast<int32>(range_min), static_cast<int32>(range_max));
+			if(fDataType == B_UINT32_TYPE) {
+				rangeText.Append(BString("").SetToFormat(B_TRANSLATE("\nValues "
+				"from %u to %u cannot be represented\n\tdue to software limitations."),
+				static_cast<uint32>(range_max) + 1, (uint32)std::numeric_limits<uint32>::max()));
+			}
+			fSvDescription->SetText(rangeText.String());
+			fSvDescription->SetFont(&fDescFont);
+			fSvDescription->SetHighColor(fDescColor);
+
 			fMainLayout->AddView(fIntegerSpinner1);
+			fMainLayout->AddView(fSvDescription);
 
 			break;
 		}
 
 		case B_FLOAT_TYPE:
 		{
-			float data_float;
+			float range_min = std::numeric_limits<float>::lowest();
+			float range_max = std::numeric_limits<float>::max();
+
+			float data_float = 0.0f;
 			fDataMessage->FindFloat(fDataLabel, fDataIndex, &data_float);
 
-			fDecimalSpinner1->SetRange(-(std::numeric_limits<float>::max()),
-									std::numeric_limits<float>::max());
+			fDecimalSpinner1->SetRange(range_min, range_max);
 			fDecimalSpinner1->SetPrecision(4);
 			fDecimalSpinner1->SetStep(0.1);
 			fDecimalSpinner1->SetValue(data_float);
+
+			BString rangeText = BString("")
+				.SetToFormat(B_TRANSLATE("Values from %e to %e." ),
+					range_min, range_max);
+			fSvDescription->SetText(rangeText.String());
+			fSvDescription->SetFont(&fDescFont);
+			fSvDescription->SetHighColor(fDescColor);
+
 			fMainLayout->AddView(fDecimalSpinner1);
+			fMainLayout->AddView(fSvDescription);
 
 			break;
 		}
 
 		case B_DOUBLE_TYPE:
 		{
-			double data_double;
+			double range_min = std::numeric_limits<double>::lowest();
+			double range_max = std::numeric_limits<double>::max();
+
+			double data_double = 0.0;
 			fDataMessage->FindDouble(fDataLabel, fDataIndex, &data_double);
 
-			fDecimalSpinner1->SetRange(-(std::numeric_limits<double>::max()),
-									std::numeric_limits<double>::max());
+			fDecimalSpinner1->SetRange(range_min, range_max);
 			fDecimalSpinner1->SetPrecision(4);
 			fDecimalSpinner1->SetStep(0.1);
 			fDecimalSpinner1->SetValue(data_double);
+
+			BString rangeText = BString("")
+				.SetToFormat(B_TRANSLATE("Values from %e to %e." ),
+					range_min, range_max);
+			fSvDescription->SetText(rangeText.String());
+			fSvDescription->SetFont(&fDescFont);
+			fSvDescription->SetHighColor(fDescColor);
+
 			fMainLayout->AddView(fDecimalSpinner1);
+			fMainLayout->AddView(fSvDescription);
 
 			break;
 		}
@@ -442,6 +654,139 @@ EditView::setup_controls()
 			break;
 		}
 
+		case B_ALIGNMENT_TYPE:
+		{
+			BLayoutBuilder::Menu<>(fPopUpMenu)
+				.AddItem(B_TRANSLATE("Left"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Right"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Center"), EV_DATA_CHANGED)
+				.AddSeparator()
+				.AddItem(B_TRANSLATE("No horizontal alignment"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Use full width"), EV_DATA_CHANGED)
+			.End();
+
+			BLayoutBuilder::Menu<>(fPopUpMenu2)
+				.AddItem(B_TRANSLATE("Top"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Middle"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Bottom"), EV_DATA_CHANGED)
+				.AddSeparator()
+				.AddItem(B_TRANSLATE("No vertical alignment"), EV_DATA_CHANGED)
+				.AddItem(B_TRANSLATE("Use full height"), EV_DATA_CHANGED)
+			.End();
+
+			BAlignment alignment;
+			fDataMessage->FindAlignment(fDataLabel, fDataIndex, &alignment);
+
+			switch(alignment.horizontal) {
+				case B_ALIGN_LEFT: // 0
+				case B_ALIGN_RIGHT: // 1
+				case B_ALIGN_CENTER: // 2
+					fPopUpMenu->ItemAt((int32)alignment.horizontal)->SetMarked(true);
+					break;
+				case B_ALIGN_USE_FULL_WIDTH: // -2L
+					fPopUpMenu->FindItem(B_TRANSLATE("Use full width"))->SetMarked(true);
+					break;
+				case B_ALIGN_HORIZONTAL_UNSET: // -1L
+				default:
+					fPopUpMenu->FindItem(B_TRANSLATE("No horizontal alignment"))->SetMarked(true);
+					break;
+			}
+
+			switch(alignment.vertical) {
+				case B_ALIGN_TOP:
+					fPopUpMenu2->FindItem(B_TRANSLATE("Top"))->SetMarked(true);
+					break;
+				case B_ALIGN_MIDDLE:
+					fPopUpMenu2->FindItem(B_TRANSLATE("Middle"))->SetMarked(true);
+					break;
+				case B_ALIGN_BOTTOM:
+					fPopUpMenu2->FindItem(B_TRANSLATE("Bottom"))->SetMarked(true);
+					break;
+				case B_ALIGN_USE_FULL_HEIGHT:
+					fPopUpMenu2->FindItem(B_TRANSLATE("Use full height"))->SetMarked(true);
+					break;
+				case B_ALIGN_VERTICAL_UNSET:
+				default:
+					fPopUpMenu2->FindItem(B_TRANSLATE("No vertical alignment"))->SetMarked(true);
+					break;
+			}
+
+			BView* view = new BView(NULL, B_SUPPORTS_LAYOUT);
+			BLayoutBuilder::Grid<>(view)
+				.AddMenuField(new BMenuField(B_TRANSLATE("Horizontal alignment"), fPopUpMenu), 0, 0)
+				.AddMenuField(new BMenuField(B_TRANSLATE("Vertical alignment"), fPopUpMenu2), 0, 1)
+			.End();
+			fMainLayout->AddView(view);
+
+			break;
+		}
+
+		case B_REF_TYPE:
+		{
+			BView* controls = build_fs_ref_controls(fDataMessage);
+
+			entry_ref ref;
+			fDataMessage->FindRef(fDataLabel, fDataIndex, &ref);
+			BEntry entry(&ref);
+			BPath path;
+			entry.GetPath(&path);
+
+			if(entry.Exists()) {
+				fTextCtrl1->SetText(path.Path());
+			}
+
+			BRow* deviceRow = new BRow();
+			deviceRow->SetField(new BStringField(B_TRANSLATE("Device")), 0);
+			deviceRow->SetField(new BStringField(BString().SetToFormat("%" B_PRIdDEV, ref.device)), 1);
+			fDataViewer->AddRow(deviceRow);
+
+			BRow* directoryRow = new BRow();
+			directoryRow->SetField(new BStringField(B_TRANSLATE("Directory")), 0);
+			directoryRow->SetField(new BStringField(BString().SetToFormat("%" B_PRIdINO, ref.directory)), 1);
+			fDataViewer->AddRow(directoryRow);
+
+			BRow* nameRow = new BRow();
+			nameRow->SetField(new BStringField(B_TRANSLATE("Name")), 0);
+			nameRow->SetField(new BStringField(ref.name), 1);
+			fDataViewer->AddRow(nameRow);
+
+
+			BRow* pathRow = new BRow();
+			pathRow->SetField(new BStringField(B_TRANSLATE("Path")), 0);
+			BString pathString;
+			if(entry.Exists())
+				pathString = path.Path();
+			else
+				pathString = B_TRANSLATE("The entry does not exist.");
+			pathRow->SetField(new BStringField(pathString.String()), 1);
+			fDataViewer->AddRow(pathRow);
+
+			fDataViewer->ResizeAllColumnsToPreferred();
+			fMainLayout->AddView(controls);
+			break;
+		}
+		case B_NODE_REF_TYPE:
+		{
+			BView* controls = build_fs_ref_controls(fDataMessage);
+
+			node_ref nref;
+			fDataMessage->FindNodeRef(fDataLabel, fDataIndex, &nref);
+
+			BRow* deviceRow = new BRow();
+			deviceRow->SetField(new BStringField(B_TRANSLATE("Device")), 0);
+			deviceRow->SetField(new BStringField(BString().SetToFormat("%" B_PRIdDEV, nref.device)), 1);
+			fDataViewer->AddRow(deviceRow);
+
+			BRow* nodeRow = new BRow();
+			nodeRow->SetField(new BStringField(B_TRANSLATE("Node")), 0);
+			nodeRow->SetField(new BStringField(BString().SetToFormat("%" B_PRIdINO, nref.node)), 1);
+			fDataViewer->AddRow(nodeRow);
+
+			fDataViewer->ResizeAllColumnsToPreferred();
+			fMainLayout->AddView(controls);
+			break;
+		}
+
 		default:
 		{
 			BStringView *not_editable_text = new BStringView("",B_TRANSLATE("not editable"));
@@ -451,4 +796,32 @@ EditView::setup_controls()
 		}
 	}
 
+}
+
+BView*
+EditView::build_fs_ref_controls(BMessage* data)
+{
+	fTextCtrl1->TextView()->MakeEditable(false);
+	BButton* btBrowse = new BButton(B_TRANSLATE("Browse"), new BMessage(EV_REF_REQUESTED));
+
+	fDataViewer->SetExplicitMinSize(BSize(300, BRow().Height() * 5));
+	fDataViewer->AddColumn(new BStringColumn(B_TRANSLATE("Field"),  100, 50, 200, 0), 0);
+	fDataViewer->AddColumn(new BStringColumn(B_TRANSLATE("Value"),  100, 50, 200, 0), 1);
+
+	BView* view = new BView(NULL, B_SUPPORTS_LAYOUT);
+	BLayoutBuilder::Group<>(view, B_VERTICAL)
+		.AddGroup(B_VERTICAL, B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
+			.Add(new BStringView(NULL, B_TRANSLATE("Choose a filesystem entry to edit the data:")))
+			.AddGrid(B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
+				.Add(fTextCtrl1, 0, 0)
+				.Add(btBrowse, 1, 0)
+			.End()
+		.End()
+		.AddGroup(B_VERTICAL, B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
+			.Add(new BStringView(NULL, B_TRANSLATE("Data preview:")))
+			.Add(fDataViewer)
+		.End()
+	.End();
+
+	return view;
 }

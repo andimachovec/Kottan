@@ -8,6 +8,7 @@
 #include "gettype.h"
 
 #include <LayoutBuilder.h>
+#include <Alignment.h>
 #include <Catalog.h>
 #include <ColumnTypes.h>
 #include <Entry.h>
@@ -265,13 +266,91 @@ DataWindow::display_data()
 			case B_REF_TYPE:
 			{
 				entry_ref file_ref;
-				status_t result = fDataMessage->FindRef(fFieldName, &file_ref);
+				status_t result = fDataMessage->FindRef(fFieldName, i, &file_ref);
 
 				if (result == B_OK)
 				{
 					BEntry file_entry(&file_ref);
-					BPath file_path(&file_entry);
-					message_item_data << file_path.Path();
+					if(file_entry.Exists()) { // Entry exists: show path
+						BPath file_path(&file_entry);
+						message_item_data << file_path.Path();
+					}
+					else { // Abstract entry: show what we have
+						BString data;
+						data.SetToFormat(B_TRANSLATE("device: %" B_PRIdDEV ", "
+							"directory: %" B_PRIdINO ", name: %s"),
+							file_ref.device, file_ref.directory, file_ref.name);
+						message_item_data << data.String();
+					}
+				}
+
+				break;
+			}
+
+			case B_NODE_REF_TYPE:
+			{
+				node_ref nref;
+				status_t result = fDataMessage->FindNodeRef(fFieldName, i, &nref);
+				if(result == B_OK)
+				{
+					BString data;
+					data.SetToFormat(B_TRANSLATE("device: %" B_PRIdDEV ", node: %"
+						B_PRIdINO), nref.device, nref.node);
+					message_item_data << data.String();
+				}
+				break;
+			}
+
+			case B_ALIGNMENT_TYPE:
+			{
+				BAlignment alignment;
+				status_t result = fDataMessage->FindAlignment(fFieldName, i, &alignment);
+
+				if(result == B_OK)
+				{
+					switch(alignment.Horizontal()) {
+						case B_ALIGN_LEFT:
+							message_item_data << B_TRANSLATE("left");
+							break;
+						case B_ALIGN_RIGHT:
+							message_item_data << B_TRANSLATE("right");
+							break;
+						case B_ALIGN_CENTER:
+							message_item_data << B_TRANSLATE("center");
+							break;
+						case B_ALIGN_USE_FULL_WIDTH:
+							message_item_data << B_TRANSLATE("full width");
+							break;
+						case B_ALIGN_HORIZONTAL_UNSET:
+							message_item_data << B_TRANSLATE("(unset)");
+							break;
+						default:
+							message_item_data << B_TRANSLATE("(invalid)");
+							break;
+					}
+
+					message_item_data << ", ";
+
+					switch(alignment.Vertical()) {
+						case B_ALIGN_TOP:
+							message_item_data << B_TRANSLATE("top");
+							break;
+						case B_ALIGN_MIDDLE:
+							message_item_data << B_TRANSLATE("middle");
+							break;
+						case B_ALIGN_BOTTOM:
+							message_item_data << B_TRANSLATE("bottom");
+							break;
+						case B_ALIGN_USE_FULL_HEIGHT:
+							message_item_data << B_TRANSLATE("full height");
+							break;
+						case B_ALIGN_VERTICAL_UNSET:
+							message_item_data << B_TRANSLATE("(unset)");
+							break;
+						default:
+							message_item_data << B_TRANSLATE("(invalid)");
+							break;
+					}
 				}
 
 				break;

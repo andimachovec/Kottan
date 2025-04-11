@@ -9,6 +9,7 @@
 
 #include <Window.h>
 #include <Button.h>
+#include <FilePanel.h>
 
 #include "editview.h"
 
@@ -24,10 +25,11 @@ enum
 class EditWindow : public BWindow {
 public:
 	EditWindow(BRect frame, BMessage *data_message, type_code data_type, const char *data_label, int32 data_index);
+	virtual ~EditWindow();
 	void MessageReceived(BMessage *msg);
 
 private:
-
+	BFilePanel  *fOpenPanel;
 	BButton		*fCancelButton;
 	BButton		*fSaveButton;
 	EditView	*fEditView;

@@ -34,7 +34,7 @@ App::App()
 {
 
 	fDataMessage = new BMessage();
-	fMessageList = new BObjectList<IndexMessage>(20, false);
+	fMessageList = new BObjectList<IndexMessage, false>(20);
 	fMessageFile = new BFile();
 	fDataWindow = NULL;
 }
