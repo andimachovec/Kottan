@@ -266,15 +266,38 @@ DataWindow::display_data()
 			case B_REF_TYPE:
 			{
 				entry_ref file_ref;
-				status_t result = fDataMessage->FindRef(fFieldName, &file_ref);
+				status_t result = fDataMessage->FindRef(fFieldName, i, &file_ref);
 
 				if (result == B_OK)
 				{
 					BEntry file_entry(&file_ref);
-					BPath file_path(&file_entry);
-					message_item_data << file_path.Path();
+					if(file_entry.Exists()) { // Entry exists: show path
+						BPath file_path(&file_entry);
+						message_item_data << file_path.Path();
+					}
+					else { // Abstract entry: show what we have
+						BString data;
+						data.SetToFormat(B_TRANSLATE("device: %" B_PRIdDEV ", "
+							"directory: %" B_PRIdINO ", name: %s"),
+							file_ref.device, file_ref.directory, file_ref.name);
+						message_item_data << data.String();
+					}
 				}
 
+				break;
+			}
+
+			case B_NODE_REF_TYPE:
+			{
+				node_ref nref;
+				status_t result = fDataMessage->FindNodeRef(fFieldName, i, &nref);
+				if(result == B_OK)
+				{
+					BString data;
+					data.SetToFormat(B_TRANSLATE("device: %" B_PRIdDEV ", node: %"
+						B_PRIdINO), nref.device, nref.node);
+					message_item_data << data.String();
+				}
 				break;
 			}
 

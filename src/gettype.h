@@ -6,7 +6,7 @@
 
 #include <String.h>
 
-static BString 
+static BString
 get_type(type_code typecode)
 {
 
@@ -155,6 +155,12 @@ get_type(type_code typecode)
 		case B_MONOCHROME_1_BIT_TYPE:
 		{
 			typecode_name="B_MONOCHROME_1_BIT_TYPE";
+			break;
+		}
+
+		case B_NODE_REF_TYPE:
+		{
+			typecode_name="B_NODE_REF_TYPE";
 			break;
 		}
 
@@ -314,11 +320,11 @@ get_type(type_code typecode)
 			break;
 		}
 
-	
+
 		default:
 		{
-			typecode_name = "unidentified"; 
-		
+			typecode_name = "unidentified";
+
 		}
 	}
 

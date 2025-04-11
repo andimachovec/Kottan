@@ -9,6 +9,7 @@
 #include <LayoutBuilder.h>
 #include <Catalog.h>
 #include <Application.h>
+#include <Path.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -43,8 +44,14 @@ EditWindow::EditWindow(BRect frame,
 		.AddGlue(100)
 	.Layout();
 
+	BMessenger thisMessenger(this);
+	fOpenPanel = new BFilePanel(B_OPEN_PANEL, &thisMessenger, NULL, B_ANY_NODE, false);
 }
 
+EditWindow::~EditWindow()
+{
+	delete fOpenPanel;
+}
 
 void
 EditWindow::MessageReceived(BMessage *msg)
@@ -72,6 +79,34 @@ EditWindow::MessageReceived(BMessage *msg)
 			fSaveButton->SetEnabled(true);
 			break;
 
+		case EV_REF_REQUESTED:
+		{
+			Hide(); // Because otherwise this window will obstruct the file panel
+			fOpenPanel->Show();
+			break;
+		}
+
+		case B_REFS_RECEIVED:
+		{
+			if(IsHidden())
+				Show(); // The file panel is no longer needed
+
+			entry_ref ref;
+			if(msg->FindRef("refs", 0, &ref) == B_OK) {
+				BEntry entry(&ref);
+				BPath path;
+				entry.GetPath(&path);
+				fEditView->SetTextFor(fEditView->Type(), path.Path());
+			}
+			break;
+		}
+
+		case B_CANCEL:
+		{
+			if(IsHidden())
+				Show(); // The file panel is no longer needed
+			break;
+		}
 
 		default:
 		{

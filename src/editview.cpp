@@ -7,9 +7,13 @@
 #include "editview.h"
 
 #include <Alignment.h>
+#include <Button.h>
 #include <FilePanel.h>
 #include <Catalog.h>
 #include <LayoutBuilder.h>
+#include <Path.h>
+#include <private/interface/ColumnListView.h>
+#include <private/interface/ColumnTypes.h>
 #include <limits>
 #include <cstdlib>
 
@@ -24,6 +28,25 @@ roundTo(double value, uint32 n)
 	return floor(value * pow(10.0, n) + 0.5) / pow(10.0, n);
 }
 
+static int32 rowIndex(BColumnListView* view, int32 colIndex, const char* name)
+{
+	if(view->CountRows() < 1)
+		return -1;
+
+	bool found = false;
+	int32 i = 0;
+	while(!found && i < view->CountRows()) {
+		if(strcmp(((BStringField*)view->RowAt(i)->GetField(colIndex))->String(), name) == 0)
+			found = true;
+		else
+			i++;
+	}
+
+	if(!found)
+		return -1;
+
+	return i;
+}
 
 EditView::EditView(BMessage *data_message,
 					type_code data_type,
@@ -47,6 +70,7 @@ EditView::EditView(BMessage *data_message,
 	SetLayout(fMainLayout);
 
 	//initialize controls
+	fDataViewer = new BColumnListView("clv", B_NAVIGABLE, B_FANCY_BORDER);
 	fPopUpMenu = new BPopUpMenu("");
 	fPopUpMenu2 = new BPopUpMenu("");
 	fRadioButton1 = new BRadioButton("", new BMessage(EV_DATA_CHANGED));
@@ -84,6 +108,54 @@ EditView::IsEditable()
 
 }
 
+void
+EditView::SetTextFor(type_code type, const char* data)
+{
+	switch(type)
+	{
+		case B_REF_TYPE:
+		{
+			fTextCtrl1->SetText(data);
+
+			// Update previewer
+			entry_ref ref;
+			BEntry entry(data);
+			entry.GetRef(&ref);
+
+			BString dev_t_data = BString().SetToFormat("%" B_PRIdDEV, ref.device);
+			BString ino_t_data = BString().SetToFormat("%" B_PRIdINO, ref.directory);
+
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Device")))->GetField(1))->SetString(dev_t_data);
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Directory")))->GetField(1))->SetString(ino_t_data);
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Name")))->GetField(1))->SetString(ref.name);
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Path")))->GetField(1))->SetString(data);
+			break;
+		}
+		case B_NODE_REF_TYPE:
+		{
+			fTextCtrl1->SetText(data);
+
+			// Update previewer
+			node_ref nref;
+			BEntry(data).GetNodeRef(&nref);
+
+			BString dev_t_data = BString().SetToFormat("%" B_PRIdDEV, nref.device);
+			BString ino_t_data = BString().SetToFormat("%" B_PRIdINO, nref.node);
+
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Device")))->GetField(1))->SetString(dev_t_data);
+			((BStringField*)fDataViewer->RowAt(rowIndex(fDataViewer, 0,
+				B_TRANSLATE("Node")))->GetField(1))->SetString(ino_t_data);
+			break;
+		}
+		default:
+			return;
+	}
+}
 
 status_t
 EditView::SaveData()
@@ -256,6 +328,32 @@ EditView::SaveData()
 			}
 
 			fDataMessage->ReplaceAlignment(fDataLabel, fDataIndex, alignment);
+			break;
+		}
+
+		case B_REF_TYPE:
+		{
+			BEntry entry(fTextCtrl1->Text());
+			if(!entry.Exists())
+				return B_BAD_DATA;
+
+			entry_ref ref;
+			entry.GetRef(&ref);
+
+			fDataMessage->ReplaceRef(fDataLabel, fDataIndex, &ref);
+			break;
+		}
+
+		case B_NODE_REF_TYPE:
+		{
+			BNode node(fTextCtrl1->Text());
+			if(node.InitCheck() != B_OK)
+				return B_BAD_DATA;
+
+			node_ref nref;
+			node.GetNodeRef(&nref);
+
+			fDataMessage->ReplaceNodeRef(fDataLabel, fDataIndex, &nref);
 			break;
 		}
 
@@ -623,6 +721,72 @@ EditView::setup_controls()
 			break;
 		}
 
+		case B_REF_TYPE:
+		{
+			BView* controls = build_fs_ref_controls(fDataMessage);
+
+			entry_ref ref;
+			fDataMessage->FindRef(fDataLabel, fDataIndex, &ref);
+			BEntry entry(&ref);
+			BPath path;
+			entry.GetPath(&path);
+
+			if(entry.Exists()) {
+				fTextCtrl1->SetText(path.Path());
+			}
+
+			BRow* deviceRow = new BRow();
+			deviceRow->SetField(new BStringField(B_TRANSLATE("Device")), 0);
+			deviceRow->SetField(new BStringField(BString().SetToFormat("%" B_PRIdDEV, ref.device)), 1);
+			fDataViewer->AddRow(deviceRow);
+
+			BRow* directoryRow = new BRow();
+			directoryRow->SetField(new BStringField(B_TRANSLATE("Directory")), 0);
+			directoryRow->SetField(new BStringField(BString().SetToFormat("%" B_PRIdINO, ref.directory)), 1);
+			fDataViewer->AddRow(directoryRow);
+
+			BRow* nameRow = new BRow();
+			nameRow->SetField(new BStringField(B_TRANSLATE("Name")), 0);
+			nameRow->SetField(new BStringField(ref.name), 1);
+			fDataViewer->AddRow(nameRow);
+
+
+			BRow* pathRow = new BRow();
+			pathRow->SetField(new BStringField(B_TRANSLATE("Path")), 0);
+			BString pathString;
+			if(entry.Exists())
+				pathString = path.Path();
+			else
+				pathString = B_TRANSLATE("The entry does not exist.");
+			pathRow->SetField(new BStringField(pathString.String()), 1);
+			fDataViewer->AddRow(pathRow);
+
+			fDataViewer->ResizeAllColumnsToPreferred();
+			fMainLayout->AddView(controls);
+			break;
+		}
+		case B_NODE_REF_TYPE:
+		{
+			BView* controls = build_fs_ref_controls(fDataMessage);
+
+			node_ref nref;
+			fDataMessage->FindNodeRef(fDataLabel, fDataIndex, &nref);
+
+			BRow* deviceRow = new BRow();
+			deviceRow->SetField(new BStringField(B_TRANSLATE("Device")), 0);
+			deviceRow->SetField(new BStringField(BString().SetToFormat("%" B_PRIdDEV, nref.device)), 1);
+			fDataViewer->AddRow(deviceRow);
+
+			BRow* nodeRow = new BRow();
+			nodeRow->SetField(new BStringField(B_TRANSLATE("Node")), 0);
+			nodeRow->SetField(new BStringField(BString().SetToFormat("%" B_PRIdINO, nref.node)), 1);
+			fDataViewer->AddRow(nodeRow);
+
+			fDataViewer->ResizeAllColumnsToPreferred();
+			fMainLayout->AddView(controls);
+			break;
+		}
+
 		default:
 		{
 			BStringView *not_editable_text = new BStringView("",B_TRANSLATE("not editable"));
@@ -632,4 +796,32 @@ EditView::setup_controls()
 		}
 	}
 
+}
+
+BView*
+EditView::build_fs_ref_controls(BMessage* data)
+{
+	fTextCtrl1->TextView()->MakeEditable(false);
+	BButton* btBrowse = new BButton(B_TRANSLATE("Browse"), new BMessage(EV_REF_REQUESTED));
+
+	fDataViewer->SetExplicitMinSize(BSize(300, BRow().Height() * 5));
+	fDataViewer->AddColumn(new BStringColumn(B_TRANSLATE("Field"),  100, 50, 200, 0), 0);
+	fDataViewer->AddColumn(new BStringColumn(B_TRANSLATE("Value"),  100, 50, 200, 0), 1);
+
+	BView* view = new BView(NULL, B_SUPPORTS_LAYOUT);
+	BLayoutBuilder::Group<>(view, B_VERTICAL)
+		.AddGroup(B_VERTICAL, B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
+			.Add(new BStringView(NULL, B_TRANSLATE("Choose a filesystem entry to edit the data:")))
+			.AddGrid(B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
+				.Add(fTextCtrl1, 0, 0)
+				.Add(btBrowse, 1, 0)
+			.End()
+		.End()
+		.AddGroup(B_VERTICAL, B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
+			.Add(new BStringView(NULL, B_TRANSLATE("Data preview:")))
+			.Add(fDataViewer)
+		.End()
+	.End();
+
+	return view;
 }
