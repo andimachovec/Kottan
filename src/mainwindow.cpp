@@ -13,31 +13,42 @@
 #include <ColumnTypes.h>
 #include <Entry.h>
 #include <Path.h>
+#include <RecentItems.h>
 
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MainWindow"
 
 
+extern const char* kAppName;
+extern const char* kAppSignature;
+
+
 MainWindow::MainWindow(BRect geometry)
 	:
-	BWindow(geometry, "Kottan", B_DOCUMENT_WINDOW, B_ASYNCHRONOUS_CONTROLS)
+	BWindow(geometry, kAppName, B_DOCUMENT_WINDOW, B_ASYNCHRONOUS_CONTROLS)
 {
 
 	//initialize GUI objects
 	fTopMenuBar = new BMenuBar("topmenubar");
 	fMessageInfoView = new MessageView();
 	fOpenFilePanel = new BFilePanel(B_OPEN_PANEL,
-									new BMessenger(this),
+									NULL,
 									NULL,
 									B_FILE_NODE,
 									false,
-									new BMessage(MW_REF_MESSAGEFILE));
+									new BMessage(B_REFS_RECEIVED));
+
+	BMenuItem* openItem = new BMenuItem(BRecentFilesList::NewFileListMenu(
+							B_TRANSLATE("Open" B_UTF8_ELLIPSIS),
+							NULL, NULL, be_app, 9, true, NULL, kAppSignature),
+							new BMessage(MW_OPEN_MESSAGEFILE));
+	openItem->SetShortcut('O', 0);
 
 	//define menu layout
 	BLayoutBuilder::Menu<>(fTopMenuBar)
 		.AddMenu(B_TRANSLATE("File"))
-			.AddItem(B_TRANSLATE("Open"), MW_OPEN_MESSAGEFILE, 'O')
+			.AddItem(openItem)
 			.AddItem(B_TRANSLATE("Save"), MW_SAVE_MESSAGEFILE, 'S')
 			.AddItem(B_TRANSLATE("Reload"), MW_RELOAD_FROM_FILE, 'R')
 			.AddSeparator()
@@ -61,7 +72,6 @@ MainWindow::MainWindow(BRect geometry)
 	.Layout();
 
 	fUnsaved = false;
-
 }
 
 
@@ -76,34 +86,11 @@ MainWindow::~MainWindow()
 void
 MainWindow::MessageReceived(BMessage *msg)
 {
-
-	const char *notsaved_alert_text =
-		B_TRANSLATE(
-		"The message data was changed but not saved. Do you really want to open another file?"
-		);
-	const char *notsaved_alert_cancel = B_TRANSLATE("Cancel");
-	const char *notsaved_alert_continue = B_TRANSLATE("Open file");
-
 	if(msg->WasDropped())
 	{
-		if(fUnsaved)
-		{
-			if(continue_action(notsaved_alert_text,
-							   notsaved_alert_cancel,
-							   notsaved_alert_continue))
-			{
-				msg->what = MW_REF_MESSAGEFILE;
-			}
-			else
-			{
-				msg->what = MW_DO_NOTHING;
-			}
-
-		}
-		else
-		{
-			msg->what = MW_REF_MESSAGEFILE;
-		}
+		msg->what = B_REFS_RECEIVED;
+		be_app->PostMessage(msg);
+		return;
 	}
 
 	switch(msg->what)
@@ -118,14 +105,11 @@ MainWindow::MessageReceived(BMessage *msg)
 		// Open file menu was selected
 		case MW_OPEN_MESSAGEFILE:
 		{
-			if (fUnsaved)
+			if(!ContinueAction(kNotsaved_alert_text,
+								kNotsaved_alert_cancel,
+								kNotsaved_alert_continue))
 			{
-				if(!continue_action(notsaved_alert_text,
-									notsaved_alert_cancel,
-									notsaved_alert_continue))
-				{
-					break;
-				}
+				break;
 			}
 
 			fOpenFilePanel->Show();
@@ -137,24 +121,6 @@ MainWindow::MessageReceived(BMessage *msg)
 		{
 
 			be_app->PostMessage(msg);
-			break;
-		}
-
-		//message file was supplied via file dialog or drag&drop
-		case MW_REF_MESSAGEFILE:
-		{
-			//get filename from file ref
-			entry_ref ref;
-			msg->FindRef("refs", &ref);
-			BEntry target_file(&ref, true);
-			BPath target_path(&target_file);
-
-			SetTitle(target_path.Path());
-
-			BMessage inspect_message(MW_INSPECTMESSAGEFILE);
-			inspect_message.AddRef("msgfile",&ref);
-			be_app->PostMessage(&inspect_message);
-
 			break;
 		}
 
@@ -174,6 +140,9 @@ MainWindow::MessageReceived(BMessage *msg)
 				BMessage *data_message = static_cast<BMessage*>(data_msg_pointer);
 				fMessageInfoView->SetDataMessage(data_message);
 				fTopMenuBar->FindItem(MW_RELOAD_FROM_FILE)->SetEnabled(true);
+
+				if (fUnsaved)
+					switch_unsaved_state(false);
 			}
 			else
 			{
@@ -242,7 +211,7 @@ MainWindow::MessageReceived(BMessage *msg)
 		//message file was changed
 		case MW_CONFIRM_RELOAD:
 		{
-			if (continue_action(
+			if (ContinueAction(
 				B_TRANSLATE("The message file has changed. Do you want to reload it?"),
 				B_TRANSLATE("Cancel"),
 				B_TRANSLATE("Reload")))
@@ -257,16 +226,14 @@ MainWindow::MessageReceived(BMessage *msg)
 		// notify App() to reload the message from file
 		case MW_RELOAD_FROM_FILE:
 		{
-			if (fUnsaved)
+			if (!ContinueAction(
+				B_TRANSLATE("The message data was changed but not saved. Do you really want to reload?"),
+				B_TRANSLATE("Cancel"),
+				B_TRANSLATE("Reload")))
 			{
-				if (!continue_action(
-					B_TRANSLATE("The message data was changed but not saved. Do you really want to reload?"),
-					B_TRANSLATE("Cancel"),
-					B_TRANSLATE("Reload")))
-				{
-					break;
-				}
+				break;
 			}
+
 			be_app->PostMessage(msg);
 
 			break;
@@ -299,15 +266,12 @@ bool
 MainWindow::QuitRequested()
 {
 
-	if (fUnsaved)
+	if (!ContinueAction(
+		B_TRANSLATE("The message data was changed but not saved. Do you really want to quit?"),
+		B_TRANSLATE("Cancel"),
+		B_TRANSLATE("Quit")))
 	{
-		if (!continue_action(
-			B_TRANSLATE("The message data was changed but not saved. Do you really want to quit?"),
-			B_TRANSLATE("Cancel"),
-			B_TRANSLATE("Quit")))
-		{
-			return false;
-		}
+		return false;
 	}
 
 	be_app->PostMessage(B_QUIT_REQUESTED);
@@ -317,10 +281,13 @@ MainWindow::QuitRequested()
 
 
 bool
-MainWindow::continue_action(const char *alert_text,
+MainWindow::ContinueAction(const char *alert_text,
 							const char *button_label_cancel,
 							const char *button_label_continue)
 {
+	if (!fUnsaved)
+		return true;
+
 	BAlert *not_saved_alert = new BAlert(
 		"",
 		alert_text,
