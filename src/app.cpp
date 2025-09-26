@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 Andi Machovec <andi.machovec@gmail.com>
+ * Copyright 2019-2025 Andi Machovec <andi.machovec@gmail.com>
  * All rights reserved. Distributed under the terms of the MIT license.
  *
  */
@@ -319,7 +319,10 @@ App::AboutRequested()
 				<< "al-popa\n"
 				<< "itvanya\n"
 				<< "butyoutried\n"
-				<< "viktroniko\n";
+				<< "viktroniko\n"
+				<< "Netyuui da Silva\n"
+				<< "stotish\n"
+				<< "theokeist\n";
 
 	BString extra_info;
 	extra_info.Append(code_contributors);
