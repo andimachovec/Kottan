@@ -1,0 +1,47 @@
+1	Ukrainian	application/x-vnd.BlueSky-Kottan	1173102517
+About	MainWindow		Про
+Cancel	MainWindow		Відміна
+File	MainWindow		Файл
+Help	MainWindow		Допомога
+Open	MainWindow		Відкрити
+Open file	MainWindow		Відкрити файл
+Quit	MainWindow		Вийти
+Reload	MainWindow		Перезавантажити
+Save	MainWindow		Зберегти
+The message data was changed but not saved. Do you really want to open another file?	MainWindow		Дані повідомлення було змінено, але не збережено. Ви дійсно хочете відкрити інший файл?
+The message data was changed but not saved. Do you really want to quit?	MainWindow		Дані повідомлення змінено, але не збережено. Ви справді хочете вийти?
+The message data was changed but not saved. Do you really want to reload?	MainWindow		Дані повідомлення змінено, але не збережено. Ви справді хочете перезавантажити?
+The message file has changed. Do you want to reload it?	MainWindow		Файл повідомлення змінився. Перезавантажити його?
+Alpha:	EditView		Альфа:
+Blue:	EditView		Синій
+Bottom:	EditView		Вниз:
+false	EditView		хибно
+Green:	EditView		Зелений:
+Height:	EditView		Висота:
+Left:	EditView		Зліва:
+not editable	EditView		не редагується
+Red:	EditView		Червоний:
+Right:	EditView		Справа:
+Top:	EditView		Верх:
+true	EditView		вірно
+Width:	EditView		Ширина:
+An editor for archived BMessages	App		Редактор для архівованих BMessages
+Code contributions by:	App		Внесок у код від:
+Error opening the message file!	App		Помилка відкриття файлу повідомлення!
+Error reading the message from the file!	App		Помилка читання повідомлення з файлу!
+Icon design by:	App		Дизайн іконок від:
+Translations by:	App		Переклади:
+Cancel	EditWindow		Відміна
+Edit	EditWindow		Редагувати
+Save	EditWindow		Зберегти
+Close	DataWindow		Закрити
+data cannot be displayed	DataWindow		дані не можуть бути відображені
+false	DataWindow		хибно
+Index	DataWindow		Індекс
+Message data	DataWindow		Дані повідомлення
+true	DataWindow		вірно
+Value	DataWindow		Значення
+Index	MessageView		Індекс
+Name	MessageView		Ім'я
+Number of items	MessageView		Кількість елементів
+Type	MessageView		Тип
