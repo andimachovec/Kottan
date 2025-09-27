@@ -40,7 +40,7 @@ MainWindow::MainWindow(BRect geometry)
 									new BMessage(B_REFS_RECEIVED));
 
 	BMenuItem* openItem = new BMenuItem(BRecentFilesList::NewFileListMenu(
-							B_TRANSLATE("Open" B_UTF8_ELLIPSIS),
+							B_TRANSLATE("Open"),
 							NULL, NULL, be_app, 9, true, NULL, kAppSignature),
 							new BMessage(MW_OPEN_MESSAGEFILE));
 	openItem->SetShortcut('O', 0);
