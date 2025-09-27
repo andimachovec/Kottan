@@ -128,7 +128,9 @@ MainWindow::MessageReceived(BMessage *msg)
 		case MW_OPEN_REPLY:
 		{
 			bool open_success;
+			BString window_title;
 			msg->FindBool("success", &open_success);
+			msg->FindString("filename", &window_title);
 
 			fMessageInfoView->Clear();
 
@@ -143,9 +145,16 @@ MainWindow::MessageReceived(BMessage *msg)
 
 				if (fUnsaved)
 					switch_unsaved_state(false);
+
+				window_title.Prepend(": ");
+				window_title.Prepend(kAppName);
+
+				SetTitle(window_title);
 			}
 			else
 			{
+				SetTitle(kAppName);
+
 				const char *error_text;
 				msg->FindString("error_text", &error_text);
 				BAlert *message_open_alert = new BAlert("Kottan",
