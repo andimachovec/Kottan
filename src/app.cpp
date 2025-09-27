@@ -92,6 +92,8 @@ App::MessageReceived(BMessage *msg)
 
 			BMessage open_reply_msg(MW_OPEN_REPLY);
 			open_reply_msg.AddBool("success", message_read_success);
+			BPath path(&fMessageFileRef);
+			open_reply_msg.AddString("filename", path.Path());
 
 			if (message_read_success)
 			{
