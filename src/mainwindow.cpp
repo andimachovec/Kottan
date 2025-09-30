@@ -38,6 +38,12 @@ MainWindow::MainWindow(BRect geometry)
 									B_FILE_NODE,
 									false,
 									new BMessage(B_REFS_RECEIVED));
+	fSaveFilePanel = new BFilePanel(B_SAVE_PANEL,
+									new BMessenger(be_app),
+									NULL,
+									B_FILE_NODE,
+									false,
+									new BMessage(MW_SAVEAS_MESSAGEFILE));
 
 	BMenuItem* openItem = new BMenuItem(BRecentFilesList::NewFileListMenu(
 							B_TRANSLATE("Open"),
@@ -50,6 +56,7 @@ MainWindow::MainWindow(BRect geometry)
 		.AddMenu(B_TRANSLATE("File"))
 			.AddItem(openItem)
 			.AddItem(B_TRANSLATE("Save"), MW_SAVE_MESSAGEFILE, 'S')
+			.AddItem(B_TRANSLATE("Save as" B_UTF8_ELLIPSIS), MW_SAVEAS_MESSAGEFILE, 'S', B_SHIFT_KEY)
 			.AddItem(B_TRANSLATE("Reload"), MW_RELOAD_FROM_FILE, 'R')
 			.AddSeparator()
 			.AddItem(B_TRANSLATE("Quit"), B_QUIT_REQUESTED, 'Q')
@@ -60,6 +67,7 @@ MainWindow::MainWindow(BRect geometry)
 	.End();
 
 	fTopMenuBar->FindItem(MW_SAVE_MESSAGEFILE)->SetEnabled(false);
+	fTopMenuBar->FindItem(MW_SAVEAS_MESSAGEFILE)->SetEnabled(false);
 	fTopMenuBar->FindItem(MW_RELOAD_FROM_FILE)->SetEnabled(false);
 
 	//define main layout
@@ -79,6 +87,7 @@ MainWindow::~MainWindow()
 {
 
 	delete fOpenFilePanel;
+	delete fSaveFilePanel;
 
 }
 
@@ -124,32 +133,35 @@ MainWindow::MessageReceived(BMessage *msg)
 			break;
 		}
 
+
+		// Save file menu was selected
+		case MW_SAVEAS_MESSAGEFILE:
+		{
+			fSaveFilePanel->Show();
+			break;
+		}
+
 		//get back the data message from the app object
 		case MW_OPEN_REPLY:
 		{
 			bool open_success;
-			BString window_title;
 			msg->FindBool("success", &open_success);
-			msg->FindString("filename", &window_title);
 
 			fMessageInfoView->Clear();
+			fTopMenuBar->FindItem(MW_SAVEAS_MESSAGEFILE)->SetEnabled(open_success);
 
 			if (open_success)
 			{
 				void *data_msg_pointer;
 				msg->FindPointer("data_msg_pointer", &data_msg_pointer);
-
 				BMessage *data_message = static_cast<BMessage*>(data_msg_pointer);
 				fMessageInfoView->SetDataMessage(data_message);
+
 				fTopMenuBar->FindItem(MW_RELOAD_FROM_FILE)->SetEnabled(true);
+				update_savepanel_and_title(msg);
 
 				if (fUnsaved)
 					switch_unsaved_state(false);
-
-				window_title.Prepend(": ");
-				window_title.Prepend(kAppName);
-
-				SetTitle(window_title);
 			}
 			else
 			{
@@ -214,6 +226,8 @@ MainWindow::MessageReceived(BMessage *msg)
 		case MW_WAS_SAVED:
 		{
 			switch_unsaved_state(false);
+			update_savepanel_and_title(msg);
+
 			break;
 		}
 
@@ -345,4 +359,26 @@ MainWindow::switch_unsaved_state(bool unsaved_state)
 		}
 	}
 
+}
+
+
+void
+MainWindow::update_savepanel_and_title(BMessage* msg)
+{
+	entry_ref ref;
+	BString window_title;
+
+	if (msg->FindRef("fileref", &ref) == B_OK)
+	{
+		BPath path(&ref);
+		window_title.Prepend(path.Path());
+		window_title.Prepend(": ");
+
+		fSaveFilePanel->SetSaveText(path.Leaf());
+		path.GetParent(&path);
+		fSaveFilePanel->SetPanelDirectory(path.Path());
+	}
+	window_title.Prepend(kAppName);
+
+	SetTitle(window_title);
 }

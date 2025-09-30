@@ -20,6 +20,7 @@ enum
 	MW_MENU_ABOUT ='mw00',
 	MW_OPEN_MESSAGEFILE,
 	MW_SAVE_MESSAGEFILE,
+	MW_SAVEAS_MESSAGEFILE,
 	MW_ENTERED_MESSAGEFILE,
 	MW_INSPECTMESSAGEFILE,
 	MW_OPEN_REPLY,
@@ -53,10 +54,11 @@ public:
 						 const char *button_label_continue);
 private:
 	void switch_unsaved_state(bool unsaved_state);
-
+	void update_savepanel_and_title(BMessage *msg);
 	BMenuBar			*fTopMenuBar;
 	MessageView			*fMessageInfoView;
 	BFilePanel			*fOpenFilePanel;
+	BFilePanel			*fSaveFilePanel;
 	bool				fUnsaved;
 };
 
