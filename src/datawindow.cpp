@@ -120,6 +120,21 @@ DataWindow::display_data()
 
 		switch (fFieldType)
 		{
+			case B_MIME_TYPE:
+			{
+				if (fFieldName.StartsWith("text/"))
+				{
+					const void* dataValue;
+					ssize_t bytes;
+					fDataMessage->FindData(fFieldName, B_MIME_TYPE, i, &dataValue, &bytes);
+					message_item_data = (char*)dataValue;
+				}
+				else
+				{
+						message_item_data = B_TRANSLATE("data cannot be displayed");
+				}
+				break;
+			}
 			case B_STRING_TYPE:
 				message_item_data=BString(fDataMessage->GetString(fFieldName, i, ""));
 				break;
