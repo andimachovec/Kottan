@@ -92,12 +92,11 @@ App::MessageReceived(BMessage *msg)
 
 			BMessage open_reply_msg(MW_OPEN_REPLY);
 			open_reply_msg.AddBool("success", message_read_success);
-			BPath path(&fMessageFileRef);
-			open_reply_msg.AddString("filename", path.Path());
 
 			if (message_read_success)
 			{
 				open_reply_msg.AddPointer("data_msg_pointer", fDataMessage);
+				open_reply_msg.AddRef("fileref", &fMessageFileRef);
 
 				// start watching the file for changes
 				BEntry entry(&fMessageFileRef);
@@ -211,11 +210,30 @@ App::MessageReceived(BMessage *msg)
 
 
 		// save message data to file
+		case MW_SAVEAS_MESSAGEFILE:
+		{
+			entry_ref ref;
+			const char* name;
+			if (msg->FindRef("directory", &ref) == B_OK && msg->FindString("name", &name) == B_OK)
+			{
+				BDirectory directory(&ref);
+				BPath path(&directory, name);
+				BEntry entry(path.Path());
+				entry.GetRef(&fMessageFileRef);
+			}
+			else
+				break;
+			// intentional fall-thru
+		}
+
 		case MW_SAVE_MESSAGEFILE:
 		{
-			fMessageFile->SetTo(&fMessageFileRef, B_WRITE_ONLY|B_ERASE_FILE);
+			fMessageFile->SetTo(&fMessageFileRef, B_WRITE_ONLY|B_CREATE_FILE|B_ERASE_FILE);
 			fDataMessage->Flatten(fMessageFile);
-			fMainWindow->PostMessage(MW_WAS_SAVED);
+
+			BMessage was_saved_msg(MW_WAS_SAVED);
+			was_saved_msg.AddRef("fileref", &fMessageFileRef);
+			fMainWindow->PostMessage(&was_saved_msg);
 
 			break;
 		}
