@@ -1,3 +1,6 @@
+Please note:
+This repository has been migrated to https://codeberg.org/andimachovec/Kottan and is therefore archived here. 
+
 # Kottan
 
 A viewer and editor for archived BMessage objects for the Haiku operating system 
